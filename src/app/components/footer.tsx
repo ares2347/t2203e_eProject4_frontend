@@ -10,9 +10,7 @@ const Footer = () => {
 
                         <div className="footer-brand">
 
-                            <a href="#" className="logo">
-                                <img src="./assets/images/logo.svg" alt="Tourly logo" />
-                            </a>
+
 
                             <p className="footer-text">
                                 Urna ratione ante harum provident, eleifend, vulputate molestiae proin fringilla, praesentium magna conubia
