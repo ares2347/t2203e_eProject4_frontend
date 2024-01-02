@@ -16,7 +16,7 @@ export function UserListMock() {
         {
             fullName: "User Mock 3",
             email: "user3@mock.com",
-            phoneNumber: "0123345678",
+            phoneNumber: "0324134242",
             userId: "user_mock_3",
             createAt: new Date(),
             createBy: "admin_123",
@@ -36,18 +36,6 @@ export function UserListMock() {
             isDeleted: false
         }
     ];
-    const currentUser: UserModel = {
-        fullName: "User Mock 1",
-        email: "user1@mock.com",
-        phoneNumber: "012345678",
-        userId: "user_mock_1",
-        createAt: new Date(),
-        createBy: "admin_123",
-        updatedAt: new Date(),
-        updatedBy: "user_mock_1",
-        isDeleted: false
-    };
-
     return mockUserList;
 }
 

@@ -1,6 +1,5 @@
 import Header from "./components/header";
 import Footer from "./components/footer";
-import MainPage from "./components/mainpage";
 
 
 export default function RootLayout({
