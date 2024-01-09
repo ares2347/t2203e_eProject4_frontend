@@ -1,0 +1,3 @@
+interface TiketModel extends IBaseModel {
+   
+}
