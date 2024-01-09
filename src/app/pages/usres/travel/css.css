@@ -222,7 +222,8 @@
     ._3yoIm {
         display: inline-block;
         margin: 0 4px 0 0;
-        vertical-align: middle; color: rgb(254, 196, 45);
+        vertical-align: middle;
+        color: rgb(254, 196, 45);
     }
 
     ._3yoIm svg {
@@ -314,9 +315,11 @@
             display: none;
         }
     }
-    .icon{
+
+    .icon {
         margin-left: 45px;
     }
+
     .GeySM {
         line-height: 20px;
         color: hsl(0, 0%, 60%);
@@ -489,7 +492,7 @@
         background-size: 900%;
         overflow: hidden;
         transform: translate3d(0, 0, 0);
-        padding-top:50.847457627118644%
+        padding-top: 50.847457627118644%
     }
 
     ._2_3rp::before {
