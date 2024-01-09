@@ -5,9 +5,9 @@ import Travel from './pages/usres/travel/components/formTravel'
 export default function Home() {
   return (
     <div>
-      <MainPage />
-      {/* <Travel /> */}
-      {/* <Sucsses/> */}
+      {/* <MainPage /> */}
+      <Travel />
+      {/* <Sucsses /> */}
     </div>
   )
 }

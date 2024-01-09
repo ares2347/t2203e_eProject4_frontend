@@ -10,12 +10,12 @@ const Header = () => {
                 <div className="header-top">
                     <div className="container">
 
-                        <a href="tel:+01123456790" className="helpline-box">
+                        <a href="/" className="helpline-box">
 
                             <div className="wrapper">
-                                <p className="helpline-title">For Further Inquires :</p>
+                                <p className="helpline-title">Contact:</p>
 
-                                <p className="helpline-number">+01 (123) 4567 90</p>
+                                <p className="helpline-number">0312834923</p>
                             </div>
 
                         </a>
