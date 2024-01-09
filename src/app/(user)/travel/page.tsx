@@ -12,57 +12,55 @@ import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined
 import { TripService } from '@/service/trip/tripService';
 const steps = ['Lựa chọn chỗ ngồi', 'Điểm đón trả khách', 'Điền thông tin'];
 
-const Travel = () => {
-
+const Travel = async () => {
 
     const tripService = new TripService();
-    const tripList = tripService.getAllTrip();
+    const tripList = (await tripService.getAllTripConfig(0, 10)).data ?? [];
 
+    // const [activeStep, setActiveStep] = React.useState(0);
+    // const [skipped, setSkipped] = React.useState(new Set<number>());
 
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [skipped, setSkipped] = React.useState(new Set<number>());
+    // const isStepOptional = (step: number) => {
+    //     return step === 1;
+    // };
 
-    const isStepOptional = (step: number) => {
-        return step === 1;
-    };
+    // const isStepSkipped = (step: number) => {
+    //     return skipped.has(step);
+    // };
 
-    const isStepSkipped = (step: number) => {
-        return skipped.has(step);
-    };
+    // const handleNext = () => {
+    //     let newSkipped = skipped;
+    //     if (isStepSkipped(activeStep)) {
+    //         newSkipped = new Set(newSkipped.values());
+    //         newSkipped.delete(activeStep);
+    //     }
 
-    const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-        }
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //     setSkipped(newSkipped);
+    // };
 
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
-    };
+    // const handleBack = () => {
+    //     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    // };
 
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
+    // const handleSkip = () => {
+    //     if (!isStepOptional(activeStep)) {
+    //         // You probably want to guard against something like this,
+    //         // it should never occur unless someone's actively trying to break something.
+    //         throw new Error("You can't skip a step that isn't optional.");
+    //     }
 
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
-            throw new Error("You can't skip a step that isn't optional.");
-        }
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    //     setSkipped((prevSkipped) => {
+    //         const newSkipped = new Set(prevSkipped.values());
+    //         newSkipped.add(activeStep);
+    //         return newSkipped;
+    //     });
+    // };
 
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
-    };
-
-    const handleReset = () => {
-        setActiveStep(0);
-    };
+    // const handleReset = () => {
+    //     setActiveStep(0);
+    // };
     return (
         <ul className="_2tY3C yOn4a" data-test-selector="item-cards-layout-list">
             <li className="_1cn3x "><span role="group">
@@ -93,7 +91,7 @@ const Travel = () => {
                             <div className="U157g">
                                 <div className="vfsyA">
                                     <div className="_25ygu">
-                                        <h3 className="_2WWZB"><a className="_2Pk9X" >{tripList[0].brandName}</a>
+                                        <h3 className="_2WWZB"><a className="_2Pk9X" >{tripList[0]?.brandName}</a>
                                         </h3>
 
                                         <div className="JHf2a"><a className="R8zaM">Chính Sách </a></div>
@@ -101,13 +99,13 @@ const Travel = () => {
                                 </div>
                                 <div className="_1VJk4">
                                     <div className="_4zAGT">
-                                        <div className="GeySM"><p className="_2g_QW">Seat: {tripList[0].seatAmount}</p> </div>
+                                        <div className="GeySM"><p className="_2g_QW">Seat: {tripList[0]?.seatAmount}</p> </div>
                                     </div>
                                     <ul className="_3bM8k">
                                         <li > </li>
-                                        <li className="Ck5w-">{tripList[0].departFrom} :  {tripList[0].departAt}</li>
+                                        <li className="Ck5w-">{tripList[0]?.departFrom} :  {tripList[0]?.departAt}</li>
                                         <div className="icon"><ArrowDownwardOutlinedIcon /></div>
-                                        <li className="Ck5w-">{tripList[0].arriveTo}   :  {tripList[0].arriveAt}</li>
+                                        <li className="Ck5w-">{tripList[0]?.arriveTo}   :  {tripList[0]?.arriveAt}</li>
                                     </ul>
 
                                     <b>KHÔNG CẦN THANH TOÁN TRƯỚC</b>
@@ -119,9 +117,9 @@ const Travel = () => {
                                 <section className="_3dJU8">
                                 </section>
                                 <section className="_7H2LP">
-                                    <div className="-DeRq">{tripList[0].price}K VND</div>
+                                    <div className="-DeRq">{tripList[0]?.price}K VND</div>
 
-                                    <div className="GeySM"><span className="_2g_QW">Số chỗ còn lại:</span> <span className="_3TIJT"> {tripList[0].vehicleType}</span></div>
+                                    <div className="GeySM"><span className="_2g_QW">Số chỗ còn lại:</span> <span className="_3TIJT"> {tripList[0]?.vehicleType}</span></div>
                                 </section>
                                 <section className="VRlLl"><a className="_3tfm8 _3ePxY" role="button" target="_blank"
                                     rel="noopener noreferrer">BOOK NOW <ArrowDropDownIcon /> </a></section>
@@ -131,7 +129,7 @@ const Travel = () => {
                 </div>
             </span>
             </li>
-            <Box sx={{ width: '100%' }}>
+            {/* <Box sx={{ width: '100%' }}>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label, index) => {
                         const stepProps: { completed?: boolean } = {};
@@ -188,7 +186,7 @@ const Travel = () => {
                         </Box>
                     </React.Fragment>
                 )}
-            </Box>
+            </Box> */}
         </ul>
 
     )
