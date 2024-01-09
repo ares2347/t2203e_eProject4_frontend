@@ -3,11 +3,11 @@ import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 
-import '../assets/css/style.css'
-import "../assets/images/popular-1.jpg"
-import "../assets/images/popular-2.jpg"
-import "../assets/images/popular-3.jpg"
-import SelectTicket from './selectTicket'
+import '@/assets/css/style.css'
+import "@/assets/images/popular-1.jpg"
+import "@/assets/images/popular-2.jpg"
+import "@/assets/images/popular-3.jpg"
+import SelectTicket from '@/components/ticket/selectTicket';
 
 const MainPage = () => {
     return (

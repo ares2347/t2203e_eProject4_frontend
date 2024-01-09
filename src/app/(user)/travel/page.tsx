@@ -6,10 +6,10 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { TripService } from '@/app/service/trip/tripService';
-import '../css.css'
+import './css.css';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
+import { TripService } from '@/service/trip/tripService';
 const steps = ['Lựa chọn chỗ ngồi', 'Điểm đón trả khách', 'Điền thông tin'];
 
 const Travel = () => {

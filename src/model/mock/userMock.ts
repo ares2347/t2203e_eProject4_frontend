@@ -1,5 +1,3 @@
-import { List } from "@mui/material";
-
 export function UserListMock() {
     const mockUserList: UserModel[] = [
         {

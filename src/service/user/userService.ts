@@ -1,4 +1,4 @@
-import {UserListMock, CurrentUserMock} from "@/app/model/mock/userMock";
+import { CurrentUserMock, UserListMock } from "@/model/mock/userMock";
 
 export class UserService implements IUserService{
     getAllUser = () => UserListMock();

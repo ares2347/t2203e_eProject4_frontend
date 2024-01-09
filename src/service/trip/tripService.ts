@@ -1,4 +1,4 @@
-import {TripListMock} from "@/app/model/mock/tripMock";
+import { TripListMock } from "@/model/mock/tripMock";
 
 export class TripService implements ITripService{
    getAllTrip = () => TripListMock();
