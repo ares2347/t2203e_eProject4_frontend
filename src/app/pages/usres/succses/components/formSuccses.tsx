@@ -53,12 +53,9 @@ const Sucsses = () => {
                 </li>
                 <li>
                     <div>Thời gian đặt:</div>
-                    <div>11-11-2020 22:22:30</div>
+                    <div>{`${ticketList[0].createAt.toLocaleDateString("en-GB")} ${ticketList[0].createAt.toLocaleTimeString()}`}</div>
                 </li>
-                <li>
-                    <div>Trạng thái:</div>
-                    <div>{ticketList[0].isDeleted}</div>
-                </li>
+
             </ul>
             <div className="frame">
                 <button className="custom-btn btn-16">Xem thông tin chi tiết</button>

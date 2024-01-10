@@ -12,6 +12,18 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
 import SelectTicket from '@/app/components/selectTicket';
 const steps = ['Lựa chọn chỗ ngồi', 'Điểm đón trả khách', 'Điền thông tin'];
+const test = [{
+    component: <SelectTicket />,
+    message: 'Test'
+},
+{
+    component: 'a',
+    message: "test 2",
+}, {
+    component: 'b',
+    message: 'test 3'
+}]
+
 
 const Travel = () => {
 
@@ -66,7 +78,7 @@ const Travel = () => {
     };
     return (
         <div>
-            <SelectTicket/>
+            <SelectTicket />
             <ul className="_2tY3C yOn4a" data-test-selector="item-cards-layout-list">
                 <li className="_1cn3x "><span role="group">
                     <div className="_2sT86 EurVi">
@@ -136,7 +148,7 @@ const Travel = () => {
                 </li>
                 <Box sx={{ width: '100%' }}>
                     <Stepper activeStep={activeStep}>
-                        {steps.map((label, index) => {
+                        {test.map((label, index) => {
                             const stepProps: { completed?: boolean } = {};
                             const labelProps: {
                                 optional?: React.ReactNode;
@@ -150,8 +162,8 @@ const Travel = () => {
                                 stepProps.completed = false;
                             }
                             return (
-                                <Step key={label} {...stepProps}>
-                                    <StepLabel {...labelProps}>{label}</StepLabel>
+                                <Step key={label.message} {...stepProps}>
+                                    <StepLabel {...labelProps}>{label.message}</StepLabel>
                                 </Step>
 
                             );
@@ -169,7 +181,6 @@ const Travel = () => {
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
-                            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                 <Button
                                     color="inherit"
@@ -189,6 +200,8 @@ const Travel = () => {
                                     {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                                 </Button>
                             </Box>
+                            {test[activeStep].component}
+                            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
                         </React.Fragment>
                     )}
                 </Box>
