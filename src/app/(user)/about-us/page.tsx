@@ -1,5 +1,13 @@
+import SelectTicket from "@/components/ticket/selectTicket"
+
 const AboutUs = () => {
-    return <span>This is about us.</span>
+    return(
+    <div>
+    <SelectTicket/>
+    <span>This is about us.</span>
+    </div>
+    )
+    
 }
 
 export default AboutUs;

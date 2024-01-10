@@ -1,5 +1,7 @@
 import '@/assets/css/style.css';
-
+import CallIcon from '@mui/icons-material/Call';
+import EmailIcon from '@mui/icons-material/Email';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 const Footer = () => {
     return (
         <div>
@@ -9,9 +11,6 @@ const Footer = () => {
                     <div className="container">
 
                         <div className="footer-brand">
-
-
-
                             <p className="footer-text">
                                 Urna ratione ante harum provident, eleifend, vulputate molestiae proin fringilla, praesentium magna conubia
                                 at
@@ -31,22 +30,22 @@ const Footer = () => {
                             <ul>
 
                                 <li className="contact-item">
-                                    {/* <ion-icon name="call-outline"></ion-icon> */}
+                                    <CallIcon />
                                     <i className="call-outline"></i>
 
-                                    <a href="tel:+01123456790" className="contact-link">+01 (123) 4567 90</a>
+                                    <a href="/" className="contact-link">0312834923</a>
                                 </li>
 
                                 <li className="contact-item">
-                                    {/* <ion-icon name="mail-outline"></ion-icon> */}
 
-                                    <a href="mailto:info.tourly.com" className="contact-link">info.tourly.com</a>
+                                    <EmailIcon />
+                                    <a href="/" className="contact-link">aaasd@gmail.com</a>
                                 </li>
 
                                 <li className="contact-item">
-                                    {/* <ion-icon name="location-outline"></ion-icon> */}
 
-                                    <address>3146 Koontz, California</address>
+                                    <LocationOnIcon />
+                                    <address>Số 8, Tôn Thất Thuyết</address>
                                 </li>
 
                             </ul>
