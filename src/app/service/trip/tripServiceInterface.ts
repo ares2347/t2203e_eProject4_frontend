@@ -1,3 +1,0 @@
-interface ITripService {
-    getAllTrip: () => TripModel[];
-}
