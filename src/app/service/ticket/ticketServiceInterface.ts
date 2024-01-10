@@ -1,3 +1,0 @@
-interface ITicketService {
-    getAllTicket: () => TicketModel[];
-}

@@ -1,7 +1,7 @@
 export function TripListMock() {
     const mockTripList: TripModel[] = [
         {
-            tripId: 1,
+            tripId: '1',
             brandName: "Toyota 1",
             vehicleType: "16 chỗ",
             tripType: "ads",
@@ -18,7 +18,7 @@ export function TripListMock() {
             isDeleted: false
         },
         {
-            tripId: 2,
+            tripId: '2',
             brandName: "Toyota 2",
             vehicleType: "9 chỗ",
             tripType: "qwe",

@@ -1,6 +1,12 @@
+
+import { TicketService } from '@/service/ticket/ticketService';
 import './css.css'
 
 const Sucsses = () => {
+
+    const ticketService = new TicketService();
+    const ticketList = ticketService.getAllTicket();
+
     return (
         <div className="order-status order-success">
             <div className="animation-ctn">
@@ -18,7 +24,7 @@ const Sucsses = () => {
                 <i className="far fa-check-circle"></i>
                 <h3>
                     ĐẶT VÉ THÀNH CÔNG
-                    <span>Order code: 0922222</span>
+                    <span>Order code:{ticketList[0].ticketID}</span>
                 </h3>
                 <small>
                     Cảm ơn bạn đã đăng kí và sủ dụng dịch vụ của chúng tôi,chúc bạn có một chuyến đi vui vẻ,hạnh phúc bên người thân của mình.
@@ -27,33 +33,30 @@ const Sucsses = () => {
             <ul>
                 <li>
                     <div>Tên khách hàng:</div>
-                    <div>John Doe</div>
+                    <div>{ticketList[0].customerName}</div>
                 </li>
 
                 <li>
-                    <div>Giới tình :</div>
-                    <div>Nam</div>
+                    <div>Giới tính :</div>
+                    <div>{ticketList[0].customerGender}</div>
                 </li>
                 <li>
                     <div>Tuổi:</div>
-                    <div>99</div>
+                    <div>{ticketList[0].customerAge}</div>
                 </li>
                 <li>
                     <div>Số điện thoại:</div>
-                    <div>019284172312323</div>
+                    <div>0{ticketList[0].customerPhone}</div>
                 </li>
                 <li>
                     <div>Giá tiền :</div>
-                    <div>$200</div>
+                    <div>{ticketList[0].total}$</div>
                 </li>
                 <li>
                     <div>Thời gian đặt:</div>
-                    <div>11-11-2020 22:22:30</div>
+                    <div>{`${ticketList[0].createAt?.toLocaleDateString("en-GB")} ${ticketList[0].createAt?.toLocaleTimeString()}`}</div>
                 </li>
-                <li>
-                    <div>trạng thái:</div>
-                    <div>hoàn thành</div>
-                </li>
+
             </ul>
             <div className="frame">
                 <button className="custom-btn btn-16">Xem thông tin chi tiết</button>

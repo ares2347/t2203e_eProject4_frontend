@@ -1,4 +1,5 @@
-import {TicketListMock} from "@/app/model/mock/ticketMock";
+import { TicketListMock } from "@/model/mock/ticketMock";
+
 
 export class TicketService implements ITicketService{
    getAllTicket = () => TicketListMock();

@@ -1,4 +1,4 @@
-import { HttpResponse } from "@/app/model/http/httpEnum";
+import { HttpResponse } from "@/model/http/httpEnum";
 
 export interface ITripService {
     getAllTrip: () => TripModel[];
