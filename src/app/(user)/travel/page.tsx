@@ -11,18 +11,19 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
 import { TripService } from '@/service/trip/tripService';
 import SelectTicket from '@/components/ticket/selectTicket';
+import Step1 from './step1';
 
 const steps = ['Lựa chọn chỗ ngồi', 'Điểm đón trả khách', 'Điền thông tin'];
 const test = [{
-    component: <SelectTicket />,
-    message: 'Test'
+    component: <Step1 />,
+    message: 'Lựa chọn chỗ ngồi'
 },
 {
-    component: 'a',
-    message: "test 2",
+    component: 'page 2',
+    message: "Điểm đón trả khách",
 }, {
-    component: 'b',
-    message: 'test 3'
+    component: 'page 3',
+    message: 'Điền thông tin'
 }]
 
 
@@ -74,9 +75,7 @@ const Travel = () => {
         });
     };
 
-    const handleReset = () => {
-        setActiveStep(0);
-    };
+
     return (
         <div>
             <SelectTicket />
@@ -135,7 +134,7 @@ const Travel = () => {
                                     <section className="_3dJU8">
                                     </section>
                                     <section className="_7H2LP">
-                                        <div className="-DeRq">{tripList[0].price}K VND</div>
+                                        <div className="-DeRq">{tripList[0].price} VND</div>
 
                                         <div className="GeySM"><span className="_2g_QW">Số chỗ còn lại:</span> <span className="_3TIJT"> {tripList[0].vehicleType}</span></div>
                                     </section>
@@ -173,15 +172,27 @@ const Travel = () => {
                     {activeStep === steps.length ? (
                         <React.Fragment>
                             <Typography sx={{ mt: 2, mb: 1 }}>
-                                All steps completed - you&apos;re finished
-                            </Typography>
+                                Cảm ơn bạn đã cung cấp thông tin                      
+                                      </Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                 <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleReset}>Reset</Button>
+                                <Button
+                                    color="inherit"
+                                    disabled={activeStep === 0}
+                                    onClick={handleBack}
+                                    sx={{ mr: 1 }}
+                                >
+                                    Trở Lại
+                                </Button>
+                                <a href='/success'>
+                                <Button >Xem Chi Tiết</Button>
+                                </a>
                             </Box>
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
+                            {test[activeStep].component}
+
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                 <Button
                                     color="inherit"
@@ -189,20 +200,18 @@ const Travel = () => {
                                     onClick={handleBack}
                                     sx={{ mr: 1 }}
                                 >
-                                    Back
+                                    Trở lại
                                 </Button>
                                 <Box sx={{ flex: '1 1 auto' }} />
                                 {isStepOptional(activeStep) && (
                                     <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                                        Skip
+                                        Bỏ qua
                                     </Button>
                                 )}
                                 <Button onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                    {activeStep === steps.length - 1 ? 'Bỏ qua' : 'Tiếp'}
                                 </Button>
                             </Box>
-                            {test[activeStep].component}
-                            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
                         </React.Fragment>
                     )}
                 </Box>

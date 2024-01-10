@@ -59,7 +59,9 @@ const Sucsses = () => {
 
             </ul>
             <div className="frame">
-                <button className="custom-btn btn-16">Xem thông tin chi tiết</button>
+                <a href='/home'>
+                    <button className="custom-btn btn-16">Tiếp Tục Đặt vé</button>
+                </a>
             </div>
         </div>
     )

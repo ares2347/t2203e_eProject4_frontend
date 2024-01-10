@@ -1,4 +1,6 @@
-import { Icon } from '@mui/material';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import '@/assets/css/style.css';
 const Header = () => {
     return (
@@ -21,12 +23,11 @@ const Header = () => {
                         </a>
 
                         <a className="logo">
-                            {/* <img src="../assets/images/logo.svg" alt="Tourly logo" /> */}
                         </a>
 
                         <div className="header-btn-group">
-                            <button className="search-btn" aria-label="Search">
-                                <p>Login</p>
+                            <button  className="search-btn" aria-label="Search">
+                                <a href="/login" className="btn btn-primary">Login</a>
                             </button>
 
                         </div>
@@ -41,19 +42,19 @@ const Header = () => {
 
                             <li>
                                 <a href="#" className="social-link">
-                                    {/* <ion-icon name="logo-facebook"></ion-icon> */}
+                                    <FacebookIcon />
                                 </a>
                             </li>
 
                             <li>
                                 <a href="#" className="social-link">
-                                    {/* <ion-icon name="logo-twitter"></ion-icon> */}
+                                    <LinkedInIcon />
                                 </a>
                             </li>
 
                             <li>
                                 <a href="#" className="social-link">
-                                    {/* <ion-icon name="logo-youtube"></ion-icon> */}
+                                    <YouTubeIcon />
                                 </a>
                             </li>
 
@@ -69,7 +70,7 @@ const Header = () => {
                                 </li>
 
                                 <li>
-                                    <a href="#" className="navbar-link" data-nav-link>about us</a>
+                                    <a href="/about-us" className="navbar-link" data-nav-link>about us</a>
                                 </li>
 
                                 <li>
@@ -92,7 +93,7 @@ const Header = () => {
 
                         </nav>
 
-                        <button className="btn btn-primary">Book Now</button>
+                        <button className="btn btn-primary">Sign-In</button>
 
                     </div>
                 </div>
@@ -101,27 +102,16 @@ const Header = () => {
             <section className="hero" id="home">
                 <div className="container">
 
-                    <h2 className="h1 hero-title">Journey to explore world</h2>
+                    <h2 className="h1 hero-title">Travel For Every Where</h2>
 
                     <p className="hero-text">
                         Ac mi duis mollis. Sapiente? Scelerisque quae, penatibus? Suscipit className corporis nostra rem quos
                         voluptatibus habitant?
                         Fames, vivamus minim nemo enim, gravida lobortis quasi, eum.
                     </p>
-
-                    <div className="btn-group">
-                        <button className="btn btn-primary">
-                            Learn More
-                        </button>
-                        <button className="btn btn-secondary">Book now</button>
-                    </div>
-
                 </div>
-
             </section>
-
         </div>
-
     )
 }
 export default Header;

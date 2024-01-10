@@ -2,8 +2,12 @@ import Link from 'next/link'
 import * as React from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-
+import StarIcon from '@mui/icons-material/Star';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import '@/assets/css/style.css'
+import PeopleIcon from '@mui/icons-material/People';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
 import "@/assets/images/popular-1.jpg"
 import "@/assets/images/popular-2.jpg"
 import "@/assets/images/popular-3.jpg"
@@ -38,11 +42,10 @@ const MainPage = () => {
                                 <div className="card-content">
 
                                     <div className="card-rating">
-                                        {/* <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon> */}
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+                                    
                                     </div>
 
                                     <p className="card-subtitle">
@@ -66,17 +69,16 @@ const MainPage = () => {
                             <div className="popular-card">
 
                                 <figure className="card-img2" >
-                                    {/* <img src="../assets/images/popular-2.jpg" alt="Burj khalifa, dubai" loading="lazy" /> */}
                                 </figure>
 
                                 <div className="card-content">
 
                                     <div className="card-rating">
-                                        {/* <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon> */}
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+<StarHalfIcon fontSize='small' />
                                     </div>
 
                                     <p className="card-subtitle">
@@ -100,17 +102,14 @@ const MainPage = () => {
                             <div className="popular-card">
 
                                 <figure className="card-img3" >
-                                    {/* <img src="../assets/images/popular-3.jpg" alt="Kyoto temple, japan" loading="lazy" /> */}
                                 </figure>
 
                                 <div className="card-content">
 
                                     <div className="card-rating">
-                                        {/* <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"3</ion-icon>
-                                        <ion-icon name="star"></ion-icon> */}
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+
                                     </div>
 
                                     <p className="card-subtitle">
@@ -155,7 +154,6 @@ const MainPage = () => {
                             <div className="package-card">
 
                                 <figure className="card-banner1">
-                                    {/* <img src="../assets/images/packege-1.jpg" alt="Experience The Great Holiday On Beach" loading="lazy" /> */}
                                 </figure>
 
                                 <div className="card-content">
@@ -171,24 +169,21 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="time"></ion-icon> */}
-
+<AccessTimeIcon fontSize='medium'/>
                                                 <p className="text">7D/6N</p>
                                             </div>
                                         </li>
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="people"></ion-icon> */}
-
+<PeopleIcon/>
                                                 <p className="text">pax: 10</p>
                                             </div>
                                         </li>
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="location"></ion-icon> */}
-
+<LocationOnIcon/>
                                                 <p className="text">Malaysia</p>
                                             </div>
                                         </li>
@@ -204,11 +199,9 @@ const MainPage = () => {
                                         <p className="reviews">(25 reviews)</p>
 
                                         <div className="card-rating">
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+
                                         </div>
 
                                     </div>
@@ -229,7 +222,6 @@ const MainPage = () => {
                             <div className="package-card">
 
                                 <figure className="card-banner2">
-                                    {/* <img src="../assets/images/packege-2.jpg" alt="Summer Holiday To The Oxolotan River" loading="lazy" /> */}
                                 </figure>
 
                                 <div className="card-content">
@@ -245,7 +237,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="time"></ion-icon> */}
+                                            <AccessTimeIcon fontSize='medium'/>
 
                                                 <p className="text">7D/6N</p>
                                             </div>
@@ -253,7 +245,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="people"></ion-icon> */}
+                                            <PeopleIcon/>
 
                                                 <p className="text">pax: 10</p>
                                             </div>
@@ -261,7 +253,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="location"></ion-icon> */}
+                                            <LocationOnIcon/>
 
                                                 <p className="text">Malaysia</p>
                                             </div>
@@ -278,11 +270,11 @@ const MainPage = () => {
                                         <p className="reviews">(20 reviews)</p>
 
                                         <div className="card-rating">
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+
                                         </div>
 
                                     </div>
@@ -303,7 +295,6 @@ const MainPage = () => {
                             <div className="package-card">
 
                                 <figure className="card-banner3">
-                                    {/* <img src="../assets/images/packege-3.jpg" alt="Santorini Island's Weekend Vacation" loading="lazy" /> */}
                                 </figure>
 
                                 <div className="card-content">
@@ -319,7 +310,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="time"></ion-icon> */}
+                                            <AccessTimeIcon fontSize='medium'/>
 
                                                 <p className="text">7D/6N</p>
                                             </div>
@@ -327,7 +318,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="people"></ion-icon> */}
+                                            <PeopleIcon/>
 
                                                 <p className="text">pax: 10</p>
                                             </div>
@@ -335,7 +326,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="location"></ion-icon> */}
+                                            <LocationOnIcon/>
 
                                                 <p className="text">Malaysia</p>
                                             </div>
@@ -351,7 +342,14 @@ const MainPage = () => {
 
                                         <p className="reviews">(40 reviews)</p>
 
+                                        <div className="card-rating">
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
 
+                                        </div>
                                     </div>
 
                                     <p className="price">
