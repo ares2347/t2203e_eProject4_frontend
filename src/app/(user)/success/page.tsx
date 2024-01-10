@@ -1,4 +1,4 @@
-import '../css.css'
+import './css.css'
 
 const Sucsses = () => {
     return (

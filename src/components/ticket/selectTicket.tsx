@@ -1,5 +1,5 @@
 'use client'
-import '../assets/css/style.css';
+import '@/assets/css/style.css';
 import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';

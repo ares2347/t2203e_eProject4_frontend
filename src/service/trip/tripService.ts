@@ -1,7 +1,7 @@
-import {TripListMock} from "@/app/model/mock/tripMock";
-import { httpGet } from "../http/httpService";
 import { HttpPaginationResponse, HttpResponse, SortEnum } from "@/app/model/http/httpEnum";
 import { ITripService } from "./tripServiceInterface";
+import { TripListMock } from "@/model/mock/tripMock";
+import { httpGet } from "@/app/service/http/httpService";
 export class TripService implements ITripService{
    private readonly tripUrl : string = "trip";
    getAllTrip = () => TripListMock();
