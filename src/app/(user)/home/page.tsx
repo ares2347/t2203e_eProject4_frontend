@@ -1,78 +1,33 @@
 import Link from 'next/link'
-import '../assets/css/style.css'
-import '../assets/images/popular-1.jpg'
-import '../assets/images/popular-2.jpg'
-import '../assets/images/popular-3.jpg'
+import * as React from 'react';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import StarIcon from '@mui/icons-material/Star';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import '@/assets/css/style.css'
+import PeopleIcon from '@mui/icons-material/People';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import StarHalfIcon from '@mui/icons-material/StarHalf';
+import "@/assets/images/popular-1.jpg"
+import "@/assets/images/popular-2.jpg"
+import "@/assets/images/popular-3.jpg"
+import SelectTicket from '@/components/ticket/selectTicket';
 
 const MainPage = () => {
     return (
         <div>
-            <section className="hero" id="home">
-                <div className="container">
-
-                    <h2 className="h1 hero-title">Journey to explore world</h2>
-
-                    <p className="hero-text">
-                        Ac mi duis mollis. Sapiente? Scelerisque quae, penatibus? Suscipit className corporis nostra rem quos
-                        voluptatibus habitant?
-                        Fames, vivamus minim nemo enim, gravida lobortis quasi, eum.
-                    </p>
-
-                    <div className="btn-group">
-                        <button>
-                            <Link className="btn btn-primary" href="/testpage">Learn More</Link>
-                        </button>
-                        <button className="btn btn-secondary">Book now</button>
-                    </div>
-
-                </div>
-            </section>
-            <section className="tour-search">
-                <div className="container">
-
-                    <form action="" className="tour-search-form">
-
-                        <div className="input-wrapper">
-                            <label className="input-label">Search Destination*</label>
-                            <input type="text" name="destination" id="destination" required placeholder="Enter Destination"
-                                className="input-field" />
-                        </div>
-
-                        <div className="input-wrapper">
-                            <label className="input-label">Pax Number*</label>
-
-                            <input type="number" name="people" id="people" required placeholder="No.of People" className="input-field" />
-                        </div>
-
-                        <div className="input-wrapper">
-                            <label className="input-label">Checkin Date**</label>
-
-                            <input type="date" name="checkin" id="checkin" required className="input-field" />
-                        </div>
-
-                        <div className="input-wrapper">
-                            <label className="input-label">Checkout Date*</label>
-
-                            <input type="date" name="checkout" id="checkout" required className="input-field" />
-                        </div>
-
-                        <button type="submit" className="btn btn-secondary">Inquire now</button>
-
-                    </form>
-
-                </div>
-            </section>
+            <SelectTicket />
             <section className="popular" id="destination">
                 <div className="container">
 
-                    <p className="section-subtitle">Uncover place</p>
+                    <p className="section-subtitle">Uncover the place</p>
 
-                    <h2 className="h2 section-title">Popular destination</h2>
+                    <h2 className="h2 section-title">A popular destination</h2>
 
                     <p className="section-text">
-                        Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum. Vestibulum cumque laudantium.
-                        Sit ornare
-                        mollitia tenetur, aptent.
+                    It seems to me that some people want to make this announcement, but only the first ones, and no one else. The appearance of the praisers.
+                        Let it be decorated
+                        elasticity is held, fit.
                     </p>
 
                     <ul className="popular-list">
@@ -80,19 +35,17 @@ const MainPage = () => {
                         <li>
                             <div className="popular-card">
 
-                                <figure className="card-img" >
-                                    <img src="../assets/images/popular-1.jpg" alt="San miguel, italy" loading="lazy" />
+                                <figure className="card-img1" >
 
                                 </figure>
 
                                 <div className="card-content">
 
                                     <div className="card-rating">
-                                        {/* <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon> */}
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+                                    
                                     </div>
 
                                     <p className="card-subtitle">
@@ -104,7 +57,7 @@ const MainPage = () => {
                                     </h3>
 
                                     <p className="card-text">
-                                        Fusce hic augue velit wisi ips quibusdam pariatur, iusto.
+                                    It seems to me that some of these people want to spread the word.
                                     </p>
 
                                 </div>
@@ -115,18 +68,17 @@ const MainPage = () => {
                         <li>
                             <div className="popular-card">
 
-                                <figure className="card-img" >
-                                    <img src="../assets/images/popular-2.jpg" alt="Burj khalifa, dubai" loading="lazy" />
+                                <figure className="card-img2" >
                                 </figure>
 
                                 <div className="card-content">
 
                                     <div className="card-rating">
-                                        {/* <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon>
-                                        // <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon> */}
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+<StarHalfIcon fontSize='small' />
                                     </div>
 
                                     <p className="card-subtitle">
@@ -138,7 +90,7 @@ const MainPage = () => {
                                     </h3>
 
                                     <p className="card-text">
-                                        Fusce hic augue velit wisi ips quibusdam pariatur, iusto.
+                                    It seems to me that some of these people want to spread the word.
                                     </p>
 
                                 </div>
@@ -149,18 +101,15 @@ const MainPage = () => {
                         <li>
                             <div className="popular-card">
 
-                                <figure className="card-img" >
-                                    <img src="../assets/images/popular-3.jpg" alt="Kyoto temple, japan" loading="lazy" />
+                                <figure className="card-img3" >
                                 </figure>
 
                                 <div className="card-content">
 
                                     <div className="card-rating">
-                                        {/* <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon>
-                                        <ion-icon name="star"></ion-icon> */}
+                                    <StarIcon fontSize='small'/>
+                                    <StarIcon fontSize='small'/>
+
                                     </div>
 
                                     <p className="card-subtitle">
@@ -172,7 +121,7 @@ const MainPage = () => {
                                     </h3>
 
                                     <p className="card-text">
-                                        Fusce hic augue velit wisi ips quibusdam pariatur, iusto.
+                                    It seems to me that some of these people want to spread the word.
                                     </p>
 
                                 </div>
@@ -194,9 +143,9 @@ const MainPage = () => {
                     <h2 className="h2 section-title">Checkout Our Packeges</h2>
 
                     <p className="section-text">
-                        Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum. Vestibulum cumque laudantium.
-                        Sit ornare
-                        mollitia tenetur, aptent.
+                    It seems to me that some people want to make this announcement, but only the first ones, and no one else. The appearance of the praisers.
+                        Let it be decorated
+                        elasticity is held, fit.
                     </p>
 
                     <ul className="package-list">
@@ -204,8 +153,7 @@ const MainPage = () => {
                         <li>
                             <div className="package-card">
 
-                                <figure className="card-banner">
-                                    <img src="../assets/images/packege-1.jpg" alt="Experience The Great Holiday On Beach" loading="lazy" />
+                                <figure className="card-banner1">
                                 </figure>
 
                                 <div className="card-content">
@@ -221,24 +169,21 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="time"></ion-icon> */}
-
+<AccessTimeIcon fontSize='medium'/>
                                                 <p className="text">7D/6N</p>
                                             </div>
                                         </li>
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="people"></ion-icon> */}
-
+<PeopleIcon/>
                                                 <p className="text">pax: 10</p>
                                             </div>
                                         </li>
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="location"></ion-icon> */}
-
+<LocationOnIcon/>
                                                 <p className="text">Malaysia</p>
                                             </div>
                                         </li>
@@ -254,11 +199,9 @@ const MainPage = () => {
                                         <p className="reviews">(25 reviews)</p>
 
                                         <div className="card-rating">
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+
                                         </div>
 
                                     </div>
@@ -278,8 +221,7 @@ const MainPage = () => {
                         <li>
                             <div className="package-card">
 
-                                <figure className="card-banner">
-                                    <img src="../assets/images/packege-2.jpg" alt="Summer Holiday To The Oxolotan River" loading="lazy" />
+                                <figure className="card-banner2">
                                 </figure>
 
                                 <div className="card-content">
@@ -295,7 +237,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="time"></ion-icon> */}
+                                            <AccessTimeIcon fontSize='medium'/>
 
                                                 <p className="text">7D/6N</p>
                                             </div>
@@ -303,7 +245,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="people"></ion-icon> */}
+                                            <PeopleIcon/>
 
                                                 <p className="text">pax: 10</p>
                                             </div>
@@ -311,7 +253,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="location"></ion-icon> */}
+                                            <LocationOnIcon/>
 
                                                 <p className="text">Malaysia</p>
                                             </div>
@@ -328,11 +270,11 @@ const MainPage = () => {
                                         <p className="reviews">(20 reviews)</p>
 
                                         <div className="card-rating">
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+
                                         </div>
 
                                     </div>
@@ -352,8 +294,7 @@ const MainPage = () => {
                         <li>
                             <div className="package-card">
 
-                                <figure className="card-banner">
-                                    <img src="../assets/images/packege-3.jpg" alt="Santorini Island's Weekend Vacation" loading="lazy" />
+                                <figure className="card-banner3">
                                 </figure>
 
                                 <div className="card-content">
@@ -369,7 +310,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="time"></ion-icon> */}
+                                            <AccessTimeIcon fontSize='medium'/>
 
                                                 <p className="text">7D/6N</p>
                                             </div>
@@ -377,7 +318,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="people"></ion-icon> */}
+                                            <PeopleIcon/>
 
                                                 <p className="text">pax: 10</p>
                                             </div>
@@ -385,7 +326,7 @@ const MainPage = () => {
 
                                         <li className="card-meta-item">
                                             <div className="meta-box">
-                                                {/* <ion-icon name="location"></ion-icon> */}
+                                            <LocationOnIcon/>
 
                                                 <p className="text">Malaysia</p>
                                             </div>
@@ -402,13 +343,13 @@ const MainPage = () => {
                                         <p className="reviews">(40 reviews)</p>
 
                                         <div className="card-rating">
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                            {/* <ion-icon name="star"></ion-icon> */}
-                                        </div>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
+                                        <StarIcon fontSize='small'/>
 
+                                        </div>
                                     </div>
 
                                     <p className="price">
@@ -437,44 +378,21 @@ const MainPage = () => {
                     <h2 className="h2 section-title">Photo's From Travellers</h2>
 
                     <p className="section-text">
-                        Fusce hic augue velit wisi quibusdam pariatur, iusto primis, nec nemo, rutrum. Vestibulum cumque laudantium.
-                        Sit ornare
-                        mollitia tenetur, aptent.
+                    It seems to me that some people want to make this announcement, but only the first ones, and no one else. The appearance of the praisers. Let it be ornamented with elasticity, fit.
                     </p>
 
-                    <ul className="gallery-list">
-
-                        <li className="gallery-item">
-                            <figure className="gallery-image">
-                                <img src="../assets/images/gallery-1.jpg" alt="Gallery image" />
-                            </figure>
-                        </li>
-
-                        <li className="gallery-item">
-                            <figure className="gallery-image">
-                                <img src="./assets/images/gallery-2.jpg" alt="Gallery image" />
-                            </figure>
-                        </li>
-
-                        <li className="gallery-item">
-                            <figure className="gallery-image">
-                                <img src="./assets/images/gallery-3.jpg" alt="Gallery image" />
-                            </figure>
-                        </li>
-
-                        <li className="gallery-item">
-                            <figure className="gallery-image">
-                                <img src="./assets/images/gallery-4.jpg" alt="Gallery image" />
-                            </figure>
-                        </li>
-
-                        <li className="gallery-item">
-                            <figure className="gallery-image">
-                                <img src="./assets/images/gallery-5.jpg" alt="Gallery image" />
-                            </figure>
-                        </li>
-
-                    </ul>
+                    <ImageList className="gallery-list" sx={{ width: 500, height: 450 }} variant="woven" cols={3} gap={8}>
+                        {itemData.map((item) => (
+                            <ImageListItem key={item.img}>
+                                <img
+                                    srcSet={`${item.img}?w=161&fit=crop&auto=format&dpr=2 2x`}
+                                    src={`${item.img}?w=161&fit=crop&auto=format`}
+                                    alt={item.title}
+                                    loading="lazy"
+                                />
+                            </ImageListItem>
+                        ))}
+                    </ImageList>
 
                 </div>
             </section>
@@ -501,4 +419,102 @@ const MainPage = () => {
 
     )
 }
+const itemData = [
+    {
+        img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+        title: 'Breakfast',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
+        title: 'Burger',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
+        title: 'Camera',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
+        title: 'Coffee',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
+        title: 'Hats',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
+        title: 'Honey',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
+        title: 'Basketball',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
+        title: 'Fern',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
+        title: 'Mushrooms',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
+        title: 'Tomato basil',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
+        title: 'Sea star',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
+        title: 'Bike',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1549388604-817d15aa0110',
+        title: 'Bed',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1563298723-dcfebaa392e3',
+        title: 'Kitchen',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1523413651479-597eb2da0ad6',
+        title: 'Sink',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1525097487452-6278ff080c31',
+        title: 'Books',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1574180045827-681f8a1a9622',
+        title: 'Chairs',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1597262975002-c5c3b14bbd62',
+        title: 'Candle',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1530731141654-5993c3016c77',
+        title: 'Laptop',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1481277542470-605612bd2d61',
+        title: 'Doors',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1517487881594-2787fef5ebf7',
+        title: 'Coffee',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1516455207990-7a41ce80f7ee',
+        title: 'Storage',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1519710164239-da123dc03ef4',
+        title: 'Coffee table',
+    },
+    {
+        img: 'https://images.unsplash.com/photo-1588436706487-9d55d73a39e3',
+        title: 'Blinds',
+    },
+];
 export default MainPage;
