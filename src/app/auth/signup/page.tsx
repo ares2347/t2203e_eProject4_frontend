@@ -7,8 +7,6 @@ import { useState } from "react";
 import Link from "next/link";
 import logo from "@/assets/images/logo-blue.svg"
 
-
-
 const SignUp = () => {
   const [isLoading, setLoading] = useState(false);
   const onClick = (event: any) => {
@@ -26,7 +24,6 @@ const SignUp = () => {
         borderRadius={4}
         sx={{ minHeight: "80vh", backgroundColor: "#ffffff" }}
       >
-
         <Grid item xs={6}>
           <Image src={logo} alt="Logo" height={95}/>
         </Grid>
