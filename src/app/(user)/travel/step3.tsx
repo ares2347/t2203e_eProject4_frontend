@@ -5,20 +5,20 @@ import { useDataContext } from "./DataContext";
 const Step3 = () => {
     const { data, updateData } = useDataContext();
 
-    const handle2Change = (e: { target: { value: any; }; }) => {
+    const handle2Change = (e: { target: { value: string; }; }) => {
         updateData({ step2Data: e.target.value });
     };
-    const handle3Change = (e: { target: { value: any; }; }) => {
+    const handle3Change = (e: { target: { value: string; }; }) => {
         updateData({ step3Data: e.target.value });
     };
-    const handle4Change = (e: { target: { value: any; }; }) => {
+    const handle4Change = (e: { target: { value: string; }; }) => {
         updateData({ step4Data: e.target.value });
     };
 
     return (
         <div>
 
-            <FormControl style={{
+            <FormControl  style={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',

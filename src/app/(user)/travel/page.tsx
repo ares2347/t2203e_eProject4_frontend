@@ -18,15 +18,12 @@ import Step1 from './step1';
 import Step3 from './step3';
 import { useDataContext } from './DataContext';
 
-const steps = ['Lựa chọn chỗ ngồi', 'Điểm đón trả khách', 'Điền thông tin'];
+const steps = ['Lựa chọn chỗ ngồi', 'Điền thông tin'];
 const formstep = [{
     component: <Step1 />,
     message: 'Lựa chọn chỗ ngồi'
 },
 {
-    component: 'page 2',
-    message: "Điểm đón trả khách",
-}, {
     component: <Step3 />,
     message: 'Điền thông tin'
 }]
