@@ -1,4 +1,5 @@
 'use client'
+
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
@@ -7,76 +8,64 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './css.css';
+import { DataProvider } from './DataContext';
+
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
 import { TripService } from '@/service/trip/tripService';
 import SelectTicket from '@/components/ticket/selectTicket';
 import Step1 from './step1';
+import Step3 from './step3';
+import { useDataContext } from './DataContext';
 
-const steps = ['Lựa chọn chỗ ngồi', 'Điểm đón trả khách', 'Điền thông tin'];
-const test = [{
+const steps = ['Lựa chọn chỗ ngồi', 'Điền thông tin'];
+const formstep = [{
     component: <Step1 />,
     message: 'Lựa chọn chỗ ngồi'
 },
 {
-    component: 'page 2',
-    message: "Điểm đón trả khách",
-}, {
-    component: 'page 3',
+    component: <Step3 />,
     message: 'Điền thông tin'
 }]
-
 
 const Travel = () => {
 
 
     const tripService = new TripService();
-    const tripList = tripService.getAllTrip();
+    const [tripList, setTripList] = React.useState<any>(tripService.getAllTrip());
+
+    React.useEffect(() => {
+        tripService.getAllTripConfig(0, 10)
+            .then(res => {
+                setTripList(res.data ?? []);
+            })
+    }, []);
+
 
 
     const [activeStep, setActiveStep] = React.useState(0);
-    const [skipped, setSkipped] = React.useState(new Set<number>());
 
     const isStepOptional = (step: number) => {
         return step === 1;
     };
 
-    const isStepSkipped = (step: number) => {
-        return skipped.has(step);
-    };
+
 
     const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-        }
+
 
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
     };
 
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
-            throw new Error("You can't skip a step that isn't optional.");
-        }
 
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
-    };
 
 
     return (
+
         <div>
             <SelectTicket />
             <ul className="_2tY3C yOn4a" data-test-selector="item-cards-layout-list">
@@ -108,7 +97,7 @@ const Travel = () => {
                                 <div className="U157g">
                                     <div className="vfsyA">
                                         <div className="_25ygu">
-                                            <h3 className="_2WWZB"><a className="_2Pk9X" >{tripList[0].brandName}</a>
+                                            <h3 className="_2WWZB"><a className="_2Pk9X" >{tripList[0]?.brandName}</a>
                                             </h3>
 
                                             <div className="JHf2a"><a className="R8zaM">Chính Sách </a></div>
@@ -116,13 +105,13 @@ const Travel = () => {
                                     </div>
                                     <div className="_1VJk4">
                                         <div className="_4zAGT">
-                                            <div className="GeySM"><p className="_2g_QW">Seat: {tripList[0].seatAmount}</p> </div>
+                                            <div className="GeySM"><p className="_2g_QW">Seat: {tripList[0]?.seatAmount}</p> </div>
                                         </div>
                                         <ul className="_3bM8k">
                                             <li > </li>
-                                            <li className="Ck5w-">{tripList[0].departFrom} :  {tripList[0].departAt}</li>
+                                            <li className="Ck5w-">{tripList[0]?.departFrom} :  {tripList[0]?.departAt}</li>
                                             <div className="icon"><ArrowDownwardOutlinedIcon /></div>
-                                            <li className="Ck5w-">{tripList[0].arriveTo}   :  {tripList[0].arriveAt}</li>
+                                            <li className="Ck5w-">{tripList[0]?.arriveTo}   :  {tripList[0]?.arriveAt}</li>
                                         </ul>
 
                                         <b>KHÔNG CẦN THANH TOÁN TRƯỚC</b>
@@ -134,9 +123,9 @@ const Travel = () => {
                                     <section className="_3dJU8">
                                     </section>
                                     <section className="_7H2LP">
-                                        <div className="-DeRq">{tripList[0].price} VND</div>
+                                        <div className="-DeRq">{tripList[0]?.price} VND</div>
 
-                                        <div className="GeySM"><span className="_2g_QW">Số chỗ còn lại:</span> <span className="_3TIJT"> {tripList[0].vehicleType}</span></div>
+                                        <div className="GeySM"><span className="_2g_QW">Số chỗ còn lại:</span> <span className="_3TIJT"> {tripList[0]?.vehicleType}</span></div>
                                     </section>
                                     <section className="VRlLl"><a className="_3tfm8 _3ePxY" role="button" target="_blank"
                                         rel="noopener noreferrer">BOOK NOW <ArrowDropDownIcon /> </a></section>
@@ -146,75 +135,71 @@ const Travel = () => {
                     </div>
                 </span>
                 </li>
-                <Box sx={{ width: '100%' }}>
-                    <Stepper activeStep={activeStep}>
-                        {test.map((label, index) => {
-                            const stepProps: { completed?: boolean } = {};
-                            const labelProps: {
-                                optional?: React.ReactNode;
-                            } = {};
-                            if (isStepOptional(index)) {
-                                labelProps.optional = (
-                                    <Typography variant="caption">Optional</Typography>
+                <DataProvider>
+                    <Box sx={{ width: '100%' }}>
+                        <Stepper activeStep={activeStep}>
+                            {formstep.map((label, index) => {
+                                const stepProps: { completed?: boolean } = {};
+                                const labelProps: {
+                                    optional?: React.ReactNode;
+                                } = {};
+                                if (isStepOptional(index)) {
+                                    labelProps.optional = (
+                                        <Typography variant="caption"></Typography>
+                                    );
+                                }
+
+                                return (
+                                    <Step key={label.message} {...stepProps}>
+                                        <StepLabel {...labelProps}>{label.message}</StepLabel>
+                                    </Step>
+
                                 );
-                            }
-                            if (isStepSkipped(index)) {
-                                stepProps.completed = false;
-                            }
-                            return (
-                                <Step key={label.message} {...stepProps}>
-                                    <StepLabel {...labelProps}>{label.message}</StepLabel>
-                                </Step>
-
-                            );
-                        })}
-                    </Stepper>
-                    {activeStep === steps.length ? (
-                        <React.Fragment>
-                            <Typography sx={{ mt: 2, mb: 1 }}>
-                                Cảm ơn bạn đã cung cấp thông tin                      
-                                      </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button
-                                    color="inherit"
-                                    disabled={activeStep === 0}
-                                    onClick={handleBack}
-                                    sx={{ mr: 1 }}
-                                >
-                                    Trở Lại
-                                </Button>
-                                <a href='/success'>
-                                <Button >Xem Chi Tiết</Button>
-                                </a>
-                            </Box>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            {test[activeStep].component}
-
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Button
-                                    color="inherit"
-                                    disabled={activeStep === 0}
-                                    onClick={handleBack}
-                                    sx={{ mr: 1 }}
-                                >
-                                    Trở lại
-                                </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                {isStepOptional(activeStep) && (
-                                    <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                                        Bỏ qua
+                            })}
+                        </Stepper>
+                        {activeStep === steps.length ? (
+                            <React.Fragment>
+                                <Typography sx={{ mt: 2, mb: 1 }}>
+                                    Cảm ơn bạn đã cung cấp thông tin
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+                                    <Button
+                                        color="inherit"
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        sx={{ mr: 1 }}
+                                    >
+                                        Trở Lại
                                     </Button>
-                                )}
-                                <Button onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Bỏ qua' : 'Tiếp'}
-                                </Button>
-                            </Box>
-                        </React.Fragment>
-                    )}
-                </Box>
+                                    <a href='/success'>
+                                        <Button >Xem Chi Tiết</Button>
+                                    </a>
+                                </Box>
+                            </React.Fragment>
+                        ) : (
+                            <React.Fragment>
+                                {formstep[activeStep].component}
+
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Button
+                                        color="inherit"
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        sx={{ mr: 1 }}
+                                    >
+                                        Trở lại
+                                    </Button>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+
+                                    <Button onClick={handleNext}>
+                                        Tiếp
+                                    </Button>
+                                </Box>
+                            </React.Fragment>
+                        )}
+                    </Box>
+                </DataProvider>
             </ul>
         </div>
     )

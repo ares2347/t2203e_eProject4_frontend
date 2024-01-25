@@ -26,8 +26,8 @@ const Header = () => {
                         </a>
 
                         <div className="header-btn-group">
-                            <button  className="search-btn" aria-label="Search">
-                                <a href="/login" className="btn btn-primary">Login</a>
+                            <button className="search-btn" aria-label="Search">
+                                <a href="/auth/login" className="btn btn-primary">Login</a>
                             </button>
 
                         </div>
@@ -66,7 +66,7 @@ const Header = () => {
                             <ul className="navbar-list">
 
                                 <li>
-                                    <a href="#home" className="navbar-link" data-nav-link>home</a>
+                                    <a href="/home" className="navbar-link" data-nav-link>home</a>
                                 </li>
 
                                 <li>
@@ -92,9 +92,9 @@ const Header = () => {
                             </ul>
 
                         </nav>
-
-                        <button className="btn btn-primary">Sign-In</button>
-
+                        <a href='/auth/signup' >
+                            <button className="btn btn-primary">Sign-Up</button>
+                        </a>
                     </div>
                 </div>
 
