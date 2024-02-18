@@ -1,4 +1,4 @@
-import { HttpResponse, HttpStatusEnum } from "@/app/model/http/httpEnum";
+import { HttpResponse, HttpStatusEnum } from "@/model/http/httpEnum";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 const baseUrl: string = process.env.REACT_APP_BASE_URL ?? "";
