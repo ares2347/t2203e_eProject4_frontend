@@ -1,11 +1,18 @@
 "use client";
 import {
+  Alert,
+  AlertTitle,
+  Button,
   Checkbox,
   Container,
   Divider,
   FormControlLabel,
   Grid,
+  IconButton,
   Link,
+  Slide,
+  SlideProps,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material";
@@ -14,24 +21,87 @@ import "./css.css";
 import { LoadingButton } from "@mui/lab";
 import { ChangeEvent, useState } from "react";
 import logo from "@/assets/images/logo-blue.svg";
-import { LoginFormModel } from "../AuthenticationModel";
-import { debounce } from "@/util/Helper";
-import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from "@mui/icons-material/Login";
+import { AuthService } from "@/service/auth/authService";
+import { HttpStatusEnum } from "@/model/http/httpEnum";
+import { useRouter } from "next/navigation";
+import CloseIcon from "@mui/icons-material/Close";
+import React from "react";
 
 const Login = () => {
   const [isLoading, setLoading] = useState(false);
-  const [formData, setFormData ] = useState<LoginFormModel>()
+  const [error, setError] = useState<string | null>();
+  const [isError, setIsError] = useState<boolean>(false);
+  const [formData, setFormData] = useState<LoginRequest>();
+  const authService = new AuthService();
+  const router = useRouter();
 
-  const onFormDataChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: string) => {
+  const onFormDataChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: string
+  ) => {
     setFormData({
-      identifier: field === "identifier" ? event.target.value : formData?.identifier,
-      password: field === "password" ? event.target.value : formData?.identifier
-    })
-  }
-  const onClick = (event: any) => {
-    setLoading(!isLoading);
-    console.log("🚀 ~ onClick ~ formData:", formData);
+      username:
+        field === "username"
+          ? event.target.value
+          : (formData?.username as string),
+      password:
+        field === "password"
+          ? event.target.value
+          : (formData?.password as string),
+    });
   };
+  const onClick = async (event: any) => {
+    setLoading(true);
+    if (formData) {
+      const loginResult = await authService.login(formData);
+      if (loginResult.code == HttpStatusEnum.Success.code) {
+        localStorage.setItem("token", loginResult.data?.accessToken as string);
+        localStorage.setItem(
+          "expired",
+          loginResult.data?.expired?.toISOString() as string
+        );
+        router.push("/");
+      } else {
+        setError(`${loginResult.code}: ${loginResult.message}`);
+        setIsError(true);
+      }
+    } else {
+      setIsError(true);
+      setError("Please fill all required field");
+    }
+    setLoading(false);
+  };
+
+  const onSnackbarClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setIsError(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={onSnackbarClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={onSnackbarClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+  
+  function SlideTransition(props: SlideProps) {
+    return <Slide {...props} direction="up" />;
+  }
   return (
     <Container maxWidth="sm">
       <Grid
@@ -72,7 +142,7 @@ const Login = () => {
             color="info"
             loading={isLoading}
             loadingPosition="start"
-            startIcon={<LoginIcon/>}
+            startIcon={<LoginIcon />}
             variant="contained"
             fullWidth
             size="large"
@@ -117,8 +187,8 @@ const Login = () => {
             placeholder="Phone/Email"
             label="Phone/Email"
             type="text"
-            value={formData?.identifier}
-            onChange={(e) => onFormDataChange(e, "identifier")}
+            value={formData?.username}
+            onChange={(e) => onFormDataChange(e, "username")}
           />
         </Grid>
         <Grid item width="80%" padding={2}>
@@ -176,7 +246,7 @@ const Login = () => {
           <LoadingButton
             loading={isLoading}
             loadingPosition="start"
-            startIcon={<LoginIcon/>}
+            startIcon={<LoginIcon />}
             variant="contained"
             fullWidth
             size="large"
@@ -199,6 +269,17 @@ const Login = () => {
           </Link>
         </Grid>
       </Grid>
+      <Snackbar
+        open={isError}
+        autoHideDuration={6000}
+        onClose={onSnackbarClose}
+        TransitionComponent={SlideTransition}
+      >
+        <Alert severity="error" variant="filled">
+          <AlertTitle sx={{fontWeight: 700}}>Error</AlertTitle>
+          {error}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

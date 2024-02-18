@@ -12,7 +12,7 @@ export class TripService implements ITripService{
          sort: SortEnum.ASC,
          page: page,
          size: size
-      })
+      });
       const response : HttpResponse<TripModel[]> = {
          code : queryResult.code,
          data : queryResult.data?.content?.map<TripModel>(x => ({
