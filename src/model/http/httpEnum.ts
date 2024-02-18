@@ -6,7 +6,7 @@ interface HttpStatusInterface {
 class HttpStatus{
     public InternalServerError: HttpStatusInterface = {code: 500, message: "Internal Server Error"};
     public BadRequest: HttpStatusInterface = {code: 400, message: "Bad Request"};
-    public Unauthorized: HttpStatusInterface = {code: 40, message: "Unauthorized"};
+    public Unauthorized: HttpStatusInterface = {code: 401, message: "Unauthorized"};
     public Success: HttpStatusInterface = {code: 200, message: "Success"};
 }
 
