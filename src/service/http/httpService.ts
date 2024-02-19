@@ -33,7 +33,7 @@ export async function httpGet<T>(
     .catch((err) => {
       console.error("🚀 ~ err:", err);
       let message;
-      switch (err.response.status) {
+      switch (err.response?.status) {
         case HttpStatusEnum.BadRequest.code:
           message = HttpStatusEnum.BadRequest.message;
           break;
@@ -51,8 +51,8 @@ export async function httpGet<T>(
           break;
       }
       const response: HttpResponse<T> = {
-        code: err.response.status ?? HttpStatusEnum.InternalServerError.code,
-        data: err.response.data,
+        code: err.response?.status ?? HttpStatusEnum.InternalServerError.code,
+        data: err.response?.data,
         message: message,
       };
       return response;
@@ -92,7 +92,7 @@ export async function httpPost<T>(
     .catch((err) => {
       console.error("🚀 ~ err:", err);
       let message;
-      switch (err.response.status) {
+      switch (err.response?.status) {
         case HttpStatusEnum.BadRequest.code:
           message = HttpStatusEnum.BadRequest.message;
           break;
@@ -110,8 +110,8 @@ export async function httpPost<T>(
           break;
       }
       const response: HttpResponse<T> = {
-        code: err.response.status ?? HttpStatusEnum.InternalServerError.code,
-        data: err.response.data,
+        code: err.response?.status ?? HttpStatusEnum.InternalServerError.code,
+        data: err.response?.data,
         message: message,
       };
       return response;
