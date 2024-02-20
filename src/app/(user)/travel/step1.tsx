@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useDataContext , DataProvider } from "./DataContext";
-import { useState } from 'react';
 import "./css.css";
 import ChairIcon from "@mui/icons-material/Chair";
 import ChairOutlinedIcon from "@mui/icons-material/ChairOutlined";
@@ -28,16 +27,15 @@ const Step1 = () => {
   //TODO: change initial value
   const [selectedSeats, setSelectedSeats] = React.useState<SeatStatus[]>(() => {
     const initalArr = new Array<SeatStatus>(48);
-    console.log(instance.ArrayIndex)
     for (var i = 0; i < initalArr.length; i++) {
       if(instance.ArrayIndex.includes(i)) initalArr[i] = SeatStatus.SELECTED;
       else initalArr[i] = SeatStatus.AVAILABLE;
     }
     return initalArr;
   });
-  console.log(selectedSeats)
   const toggleSeat = async (index: number) => {
-    instance.ArrayIndex.push(index);
+    if(!instance.ArrayIndex.includes(index)) instance.ArrayIndex.push(index);
+    else instance.ArrayIndex = instance.ArrayIndex.filter(item => item !== index);
     const newArr = selectedSeats.map((item, i) => {
       if (i === index) {
         if (item == SeatStatus.SELECTED) return SeatStatus.AVAILABLE;
