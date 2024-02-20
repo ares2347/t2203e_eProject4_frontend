@@ -7,20 +7,22 @@ const accessToken: string = "";
 //HTTP GET
 export async function httpGet<T>(
   endpoint?: string,
-  params?: any
+  params?: any,
+  isAuth: boolean = false
 ): Promise<HttpResponse<T>> {
   const url = `${baseUrl}/${endpoint ?? ""}`;
+  const accessToken = localStorage.getItem("token");
   const config: AxiosRequestConfig = {
     baseURL: url,
     params: params,
     headers: {
-      // Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
       Accept: "*/*",
     },
     method: "get",
   };
-
+  if (isAuth && config.headers)
+    config.headers.Authorization = `Bearer ${accessToken}`;
   return await axios<T>(config)
     .then((res) => {
       const response: HttpResponse<T> = {
@@ -33,7 +35,7 @@ export async function httpGet<T>(
     .catch((err) => {
       console.error("🚀 ~ err:", err);
       let message;
-      switch (err.response.status) {
+      switch (err.response?.status) {
         case HttpStatusEnum.BadRequest.code:
           message = HttpStatusEnum.BadRequest.message;
           break;
@@ -51,8 +53,8 @@ export async function httpGet<T>(
           break;
       }
       const response: HttpResponse<T> = {
-        code: err.response.status ?? HttpStatusEnum.InternalServerError.code,
-        data: err.response.data,
+        code: err.response?.status ?? HttpStatusEnum.InternalServerError.code,
+        data: err.response?.data,
         message: message,
       };
       return response;
@@ -92,7 +94,7 @@ export async function httpPost<T>(
     .catch((err) => {
       console.error("🚀 ~ err:", err);
       let message;
-      switch (err.response.status) {
+      switch (err.response?.status) {
         case HttpStatusEnum.BadRequest.code:
           message = HttpStatusEnum.BadRequest.message;
           break;
@@ -110,8 +112,8 @@ export async function httpPost<T>(
           break;
       }
       const response: HttpResponse<T> = {
-        code: err.response.status ?? HttpStatusEnum.InternalServerError.code,
-        data: err.response.data,
+        code: err.response?.status ?? HttpStatusEnum.InternalServerError.code,
+        data: err.response?.data,
         message: message,
       };
       return response;
