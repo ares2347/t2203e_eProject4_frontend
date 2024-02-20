@@ -19,7 +19,7 @@ const SelectTicket = () => {
             <section className="tour-search">
                 <div className="container">
 
-                    <form action="" className="tour-search-form">
+                    <form action="./travel" method='get' className="tour-search-form">
 
                         <div className="input-wrapper" style={{ backgroundColor: 'white', borderRadius: '100px' }}>
 
@@ -28,17 +28,17 @@ const SelectTicket = () => {
                                 <Select style={{ backgroundColor: 'white', borderRadius: '100px' }}
                                     labelId="go-label"
                                     id="from"
+                                    name="from"
                                     value={selectedOption1}
                                     onChange={handleSelect1Change}
                                 >
-                                    <MenuItem value="city1">Hà Nội</MenuItem>
-                                    <MenuItem value="city2">Hồ Chí Minh</MenuItem>
-                                    <MenuItem value="city3">Đà Nẵng</MenuItem>
-                                    <MenuItem value="city4">Bình Phước</MenuItem>
-                                    <MenuItem value="city5">Bình Dương</MenuItem>
-                                    <MenuItem value="city6">Vĩnh phúc</MenuItem>
-                                    <MenuItem value="city7">Vĩnh Long</MenuItem>
-
+                                    <MenuItem value="Hà Nội">Hà Nội</MenuItem>
+                                    <MenuItem value="Hồ Chí Minh">Hồ Chí Minh</MenuItem>
+                                    <MenuItem value="Đà Nẵng">Đà Nẵng</MenuItem>
+                                    <MenuItem value="Bình Phước">Bình Phước</MenuItem>
+                                    <MenuItem value="Bình Dương">Bình Dương</MenuItem>
+                                    <MenuItem value="Vĩnh phúc">Vĩnh phúc</MenuItem>
+                                    <MenuItem value="Vĩnh Long">Vĩnh Long</MenuItem>
                                 </Select>
                             </FormControl>
                         </div>
@@ -50,16 +50,17 @@ const SelectTicket = () => {
                                 <Select style={{ backgroundColor: 'white', borderRadius: '100px' }}
                                     labelId="to-label"
                                     id='to'
+                                    name="to"
                                     value={selectedOption2}
                                     onChange={handleSelect2Change}
                                 >
-                                    <MenuItem value="city1">Hà Nội</MenuItem>
-                                    <MenuItem value="city2">Hồ Chí Minh</MenuItem>
-                                    <MenuItem value="city3">Đà Nẵng</MenuItem>
-                                    <MenuItem value="city4">Bình Phước</MenuItem>
-                                    <MenuItem value="city5">Bình Dương</MenuItem>
-                                    <MenuItem value="city6">Vĩnh phúc</MenuItem>
-                                    <MenuItem value="city7">Vĩnh Long</MenuItem>
+                                    <MenuItem value="Hà Nội">Hà Nội</MenuItem>
+                                    <MenuItem value="Hồ Chí Minh">Hồ Chí Minh</MenuItem>
+                                    <MenuItem value="Đà Nẵng">Đà Nẵng</MenuItem>
+                                    <MenuItem value="Bình Phước">Bình Phước</MenuItem>
+                                    <MenuItem value="Bình Dương">Bình Dương</MenuItem>
+                                    <MenuItem value="Vĩnh phúc">Vĩnh phúc</MenuItem>
+                                    <MenuItem value="Vĩnh Long">Vĩnh Long</MenuItem>
                                 </Select>
                             </FormControl>
                         </div>

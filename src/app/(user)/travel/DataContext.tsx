@@ -1,6 +1,9 @@
 import React, { ReactNode, useContext, useState } from 'react';
 import { createContext } from 'react'
-const DataContext = createContext({});
+const DataContext = createContext({
+  data: {} as any,
+  updateData: ({}: any) => {}
+});
 interface MyComponentProps {
   children: ReactNode;
 }
