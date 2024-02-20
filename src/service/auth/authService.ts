@@ -17,7 +17,12 @@ export class AuthService implements IAuthService {
       `${this.authUrl}/login`
     );
     if (queryResult.code == HttpStatusEnum.Success.code) {
-      const userInfoRes = await httpGet<UserInfo>("user/info");
+      localStorage.setItem("token", queryResult.data?.accessToken as string);
+        localStorage.setItem(
+          "expired",
+          queryResult.data?.expired?.toISOString() as string
+        );
+      const userInfoRes = await httpGet<UserInfo>("user/info", null, true);
       if (userInfoRes.code == 200) {
         localStorage.setItem("userInfo", JSON.stringify(userInfoRes.data));
       } else {
