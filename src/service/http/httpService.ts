@@ -7,20 +7,22 @@ const accessToken: string = "";
 //HTTP GET
 export async function httpGet<T>(
   endpoint?: string,
-  params?: any
+  params?: any,
+  isAuth: boolean = false
 ): Promise<HttpResponse<T>> {
   const url = `${baseUrl}/${endpoint ?? ""}`;
+  const accessToken = localStorage.getItem("token");
   const config: AxiosRequestConfig = {
     baseURL: url,
     params: params,
     headers: {
-      // Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
       Accept: "*/*",
     },
     method: "get",
   };
-
+  if (isAuth && config.headers)
+    config.headers.Authorization = `Bearer ${accessToken}`;
   return await axios<T>(config)
     .then((res) => {
       const response: HttpResponse<T> = {

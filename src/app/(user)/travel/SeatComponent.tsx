@@ -48,6 +48,7 @@ const SeatComponent = (
           {props.label}
         </ChairIcon>
       )}
+      {props.label}
     </div>
   );
 };

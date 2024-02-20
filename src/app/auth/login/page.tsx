@@ -19,7 +19,7 @@ import {
 import Image from "next/image";
 import "./css.css";
 import { LoadingButton } from "@mui/lab";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import logo from "@/assets/images/logo-blue.svg";
 import LoginIcon from "@mui/icons-material/Login";
 import { AuthService } from "@/service/auth/authService";
@@ -36,6 +36,16 @@ const Login = () => {
   const authService = new AuthService();
   const router = useRouter();
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userInfoPayload = localStorage.getItem("userInfo")
+        ? JSON.parse(localStorage.getItem("userInfo") as string)
+        : null;
+      if(userInfoPayload)
+      router.push("/");
+    }
+  }, []);
+  
   const onFormDataChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: string
