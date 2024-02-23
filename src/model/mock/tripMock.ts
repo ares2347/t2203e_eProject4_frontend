@@ -9,7 +9,7 @@ export function TripListMock() {
             departAt: "8:30",
             arriveTo: "Phú Thọ",
             arriveAt: "10:30",
-            seatAmount: "16",
+            seatAmount: "10",
             price: 130,
             createAt: new Date(),
             createBy: "admin_123",
