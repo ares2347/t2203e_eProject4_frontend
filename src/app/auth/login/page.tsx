@@ -27,6 +27,7 @@ import { HttpStatusEnum } from "@/model/http/httpEnum";
 import { useRouter } from "next/navigation";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
+import { LoginRequest } from "../../../model/auth/AuthModel";
 
 const Login = () => {
   const [isLoading, setLoading] = useState(false);
@@ -41,11 +42,11 @@ const Login = () => {
       const userInfoPayload = localStorage.getItem("userInfo")
         ? JSON.parse(localStorage.getItem("userInfo") as string)
         : null;
-      if(userInfoPayload)
-      router.push("/");
+      if (userInfoPayload)
+        router.push("/");
     }
   }, []);
-  
+
   const onFormDataChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: string
@@ -73,7 +74,7 @@ const Login = () => {
         );
         router.push("/");
       } else {
-        setError(`${loginResult.code}: ${loginResult.message}`);
+        setError(`${loginResult.code}: faile`);
         setIsError(true);
       }
     } else {
@@ -108,7 +109,7 @@ const Login = () => {
       </IconButton>
     </React.Fragment>
   );
-  
+
   function SlideTransition(props: SlideProps) {
     return <Slide {...props} direction="up" />;
   }
@@ -286,7 +287,7 @@ const Login = () => {
         TransitionComponent={SlideTransition}
       >
         <Alert severity="error" variant="filled">
-          <AlertTitle sx={{fontWeight: 700}}>Error</AlertTitle>
+          <AlertTitle sx={{ fontWeight: 700 }}>Error</AlertTitle>
           {error}
         </Alert>
       </Snackbar>

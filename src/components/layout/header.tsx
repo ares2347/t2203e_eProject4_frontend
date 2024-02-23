@@ -1,12 +1,13 @@
 "use client";
-
-import FacebookIcon from "@mui/icons-material/Facebook";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'; import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import "@/assets/css/style.css";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { MouseEventHandler, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import React from 'react';
+import { UserInfo } from '../../model/auth/AuthModel';
 const Header = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const router = useRouter();
@@ -52,11 +53,7 @@ const Header = () => {
 
             <div className="header-btn-group">
               {userInfo ? (
-                <Typography
-                  children={`Good day, ${userInfo.fullName}`}
-                  fontWeight={600}
-                  fontSize={20}
-                />
+                <Button href='/inforuser'>< AccountCircleIcon /></Button>
               ) : (
                 <button className="search-btn" aria-label="Search">
                   <a href="/auth/login" className="btn btn-primary">
@@ -130,7 +127,7 @@ const Header = () => {
               </ul>
             </nav>
             {userInfo ? (
-                <button className="btn btn-primary" onClick={handleLogOut}>Log out</button>
+              <button className="btn btn-primary" onClick={handleLogOut}>Log out</button>
             ) : (
               <a href="/auth/signup">
                 {" "}
@@ -145,9 +142,11 @@ const Header = () => {
           <h2 className="h1 hero-title">Travel For Every Where</h2>
 
           <p className="hero-text">
-            Ac mi duis mollis. Sapiente? Scelerisque quae, penatibus? Suscipit
-            className corporis nostra rem quos voluptatibus habitant? Fames,
-            vivamus minim nemo enim, gravida lobortis quasi, eum.
+            Địa chỉ đăng ký kinh doanh: 8C Chữ Đồng Tử, Phường 7, Quận Tân Bình, Thành Phố Hồ Chí Minh, Việt Nam
+
+            Địa chỉ: Lầu 2, tòa nhà H3 Circo Hoàng Diệu, 384 Hoàng Diệu, Phường 6, Quận 4, Tp. Hồ Chí Minh, Việt Nam
+            Tầng 3, toà nhà 101 Láng Hạ, Đường 101 Láng Hạ, Phường Láng Hạ, Quận Đống Đa, Hà Nội, Việt Nam
+            Giấy chứng nhận ĐKKD số 0315133726 do Sở KH và ĐT TP. Hồ Chí Minh cấp lần đầu ngày 27/6/2018
           </p>
         </div>
       </section>

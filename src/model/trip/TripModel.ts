@@ -2,7 +2,6 @@ interface TripModel extends IBaseModel {
     tripId:string;
     brandName: string;
     vehicleType: string;
-    tripType?: string;
     departFrom: string;
     departAt: string;
     arriveAt: string;
