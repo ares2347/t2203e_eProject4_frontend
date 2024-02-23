@@ -4,7 +4,6 @@ import GppGoodIcon from '@mui/icons-material/GppGood';
 import { useDataContext } from "./DataContext";
 const Step3 = () => {
     const { data, updateData } = useDataContext();
-
     const handle2Change = (e: { target: { value: string; }; }) => {
         updateData({ step2Data: e.target.value });
     };

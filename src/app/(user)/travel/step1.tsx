@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useDataContext } from "./DataContext";
+import { useDataContext , DataProvider } from "./DataContext";
 import "./css.css";
 import ChairIcon from "@mui/icons-material/Chair";
 import ChairOutlinedIcon from "@mui/icons-material/ChairOutlined";
@@ -10,6 +10,10 @@ import { SeatStatus } from "@/model/ticket/TicketEnum";
 import { Grid } from "@mui/material";
 import { Label } from "@mui/icons-material";
 
+class DataModel{
+   ArrayIndex :number[] = []
+}
+export const instance = new DataModel();
 const Step1 = () => {
   const calculateTotalPrice = () => {
     const pricePerSeat = 100000;
@@ -20,17 +24,18 @@ const Step1 = () => {
   const handle1Change = (e: { target: { value: any } }) => {
     updateData({ step1Data: e.target.value });
   };
-
   //TODO: change initial value
   const [selectedSeats, setSelectedSeats] = React.useState<SeatStatus[]>(() => {
     const initalArr = new Array<SeatStatus>(48);
     for (var i = 0; i < initalArr.length; i++) {
-      initalArr[i] = SeatStatus.AVAILABLE;
+      if(instance.ArrayIndex.includes(i)) initalArr[i] = SeatStatus.SELECTED;
+      else initalArr[i] = SeatStatus.AVAILABLE;
     }
     return initalArr;
   });
-
-  const toggleSeat = (index: number) => {
+  const toggleSeat = async (index: number) => {
+    if(!instance.ArrayIndex.includes(index)) instance.ArrayIndex.push(index);
+    else instance.ArrayIndex = instance.ArrayIndex.filter(item => item !== index);
     const newArr = selectedSeats.map((item, i) => {
       if (i === index) {
         if (item == SeatStatus.SELECTED) return SeatStatus.AVAILABLE;
@@ -38,8 +43,7 @@ const Step1 = () => {
       }
       return item;
     });
-    setSelectedSeats(newArr);
-    console.log(selectedSeats);
+    await setSelectedSeats(newArr);
   };
   return (
     <Grid container spacing={2} justifyContent="space-around">
@@ -99,15 +103,11 @@ const Step1 = () => {
         direction="column"
         maxHeight="320px"
       >
-        {/* <div
-          value={data.step2Data || ""}
-          onChange={handle1Change}
-          className="seat-selection"
-        > */}
         {Array.from({ length: 32 }, (_, index) => (
           <Grid item xs={3} key={index}>
             <SeatComponent
               key={index}
+
               label={index + 1}
               onClick={() => toggleSeat(index)}
               status={selectedSeats[index]}
@@ -115,7 +115,6 @@ const Step1 = () => {
             />
           </Grid>
         ))}
-        {/* </div> */}
       </Grid>
       <Grid item xs={12}>
       <Typography children = {`Tổng giá: ${calculateTotalPrice().toLocaleString()} VND`} fontWeight={700} fontSize={24} textAlign="end"/>
