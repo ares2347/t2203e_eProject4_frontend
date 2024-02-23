@@ -81,11 +81,6 @@ const AccountPage = () => {
     const showContent = (id: string) => {
         setActiveContent(id);
     };
-
-    function showLargeImage(arg0: string): void {
-        throw new Error('Function not implemented.');
-    }
-
     function updateAccountInfo(): void {
         throw new Error('Function not implemented.');
     }
