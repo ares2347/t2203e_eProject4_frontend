@@ -100,7 +100,7 @@ const SelectTicket = () => {
             </div>
 
             <div className="input-wrapper">
-              <label className="input-label">Checkin Date**</label>
+              <label className="input-label">Checkin Date*</label>
               <input
                 type="date"
                 name="checkin"
