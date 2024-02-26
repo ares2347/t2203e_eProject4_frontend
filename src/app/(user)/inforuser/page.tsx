@@ -138,7 +138,12 @@ const AccountPage = () => {
                         </div>
                     </div>
                     <div className={`content ${activeContent === 'veCuaToi' ? 'active' : ''}`} id="veCuaToi">
-                        <Box sx={{ width: '100%' }}>
+                        
+
+
+                        {userInfo ? (
+                                <>
+                                <Box sx={{ width: '100%' }}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                                     <Tab label="Hiện Tại" {...a11yProps(0)} />
@@ -181,6 +186,12 @@ const AccountPage = () => {
                                 Item Three
                             </CustomTabPanel>
                         </Box>
+                                    </>
+                            ) : (
+                                <p>no data</p>
+                            )}
+
+
                     </div>
                     <div className={`content ${activeContent === 'quanLiThe' ? 'active' : ''}`} id="quanLiThe">
                         <h2>Quản lí thẻ</h2>
