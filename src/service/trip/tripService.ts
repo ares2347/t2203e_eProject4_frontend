@@ -3,31 +3,18 @@ import { ITripService } from "./tripServiceInterface";
 import { TripListMock } from "@/model/mock/tripMock";
 import { httpGet } from "@/service/http/httpService";
 export class TripService implements ITripService{
-   private readonly tripUrl : string = "trip";
+   private readonly tripUrl : string = "public/trip";
    getAllTrip = () => TripListMock();
 
-   public getAllTripConfig = async (page: number, size: number) : Promise<HttpResponse<TripModel[]>> => {
-      const queryResult = await httpGet<HttpPaginationResponse<TripConfigQueryModel>>(`${this.tripUrl}/list-config`, {
-         sortBy: "departAt",
+   public getAllTripAsync = async (departFrom: string, departAt: string, arriveTo: string | null, page: number, size: number) : Promise<HttpResponse<HttpPaginationResponse<TripModel>>> => {
+      return await httpGet<HttpPaginationResponse<TripModel>>(`${this.tripUrl}/config/list`, {
+         sortBy: "depart_at",
          sort: SortEnum.ASC,
          page: page,
-         size: size
+         size: size,
+         departFrom: departFrom,
+         departAt: departAt,
+         arriveTo: arriveTo
       });
-      const response : HttpResponse<TripModel[]> = {
-         code : queryResult.code,
-         data : queryResult.data?.content?.map<TripModel>(x => ({
-            tripId: x.tripConfigId,
-            brandName: x.vehicleConfig.brand,
-            vehicleType: x.vehicleConfig.vehicleType,
-            departFrom: x.departFrom,
-            departAt: x.departAt.toDateString(),
-            arriveAt: x.arriveAt.toDateString(),
-            arriveTo: x.arriveTo,
-            seatAmount: x.vehicleConfig.seatAmount,
-            price: x.ticketConfigs.reduce((acc, val) => {return `${acc}, ${val}`}, 0)
-         })) ?? new Array<TripModel>(),
-         message: queryResult.message
-      }
-      return response;
    }
 }

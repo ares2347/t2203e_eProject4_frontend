@@ -1,9 +1,9 @@
-interface HttpStatusInterface {
+export interface HttpStatusInterface {
     code: number;
     message: string;
 }
 
-class HttpStatus{
+export class HttpStatus{
     public InternalServerError: HttpStatusInterface = {code: 500, message: "Internal Server Error"};
     public BadRequest: HttpStatusInterface = {code: 400, message: "Bad Request"};
     public Unauthorized: HttpStatusInterface = {code: 401, message: "Unauthorized"};
@@ -20,7 +20,7 @@ export enum SortEnum {
 export interface HttpResponse<T> {
     code: number;
     message?: string | undefined;
-    data : T | null;
+    data : T | null | undefined;
 }
 
 export interface HttpPaginationResponse<T>{
