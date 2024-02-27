@@ -13,8 +13,10 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  Pagination,
   Radio,
   RadioGroup,
+  Stack,
   Step,
   StepLabel,
   Stepper,
@@ -45,26 +47,15 @@ const TripPage = () => {
   const tripService = new TripService();
   const searchParams = useSearchParams();
   const [tripList, setTripList] = React.useState<TripModel[]>();
+  const [totalPage, setTotalPage] = React.useState<number>(0);
   const [open, setOpen] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const [sort, setSort] = React.useState(0);
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [size, setSize] = React.useState(10);
 
   React.useEffect(() => {
-    const departFrom = searchParams.get("from") as string;
-    const departAt = format(
-      new Date(searchParams.get("checkin") as string),
-      "MM-dd-yyyy"
-    );
-    const arriveTo = searchParams.get("to");
-    tripService
-      .getAllTripAsync(departFrom, departAt, arriveTo, page, size)
-      .then((x) => {
-        setTripList(x.data?.content);
-        setPage(x.data?.pageable.pageNumber ?? 0);
-        setSize(x.data?.pageable.pageSize ?? 0);
-      });
+    queryTrips(page);
   }, []);
 
   const handleClickOpen = () => {
@@ -87,6 +78,25 @@ const TripPage = () => {
   const onSortSelect = (value: React.ChangeEvent<HTMLInputElement>) => {
     setSort(parseInt(value.currentTarget.value));
   };
+  const onPageChanges = (e: React.ChangeEvent<any>) => {
+    queryTrips(e.currentTarget.value);
+  }
+  const queryTrips = (page: number) => {
+    const departFrom = searchParams.get("from") as string;
+    const departAt = format(
+      new Date(searchParams.get("checkin") as string),
+      "MM-dd-yyyy"
+    );
+    const arriveTo = searchParams.get("to");
+    tripService
+      .getAllTripAsync(departFrom, departAt, arriveTo, page - 1, size)
+      .then((x) => {     
+        setTripList(x.data?.content);
+        setPage((x.data?.pageable.pageNumber ?? 0) + 1);
+        setSize(x.data?.pageable.pageSize ?? 0);
+        setTotalPage(x.data?.totalPages ?? 0);
+      });
+  }
 
   return (
     <div>
@@ -231,8 +241,7 @@ const TripPage = () => {
                             color="hsl(0, 0%, 30%)"
                             fontWeight={700}
                             fontSize={20}
-                            children={`${item.departFrom
-                            } :
+                            children={`${item.departFrom} :
                         ${item.departAt}`}
                           />
                         }
@@ -257,9 +266,7 @@ const TripPage = () => {
                             color="hsl(0, 0%, 30%)"
                             fontWeight={700}
                             fontSize={20}
-                            children={`${
-                              item.arriveTo
-                            } : 
+                            children={`${item.arriveTo} : 
                         ${item.arriveAt}`}
                           />
                         }
@@ -317,7 +324,8 @@ const TripPage = () => {
                       <Dialog
                         open={open}
                         onClose={handleClose}
-                        maxWidth="md"
+                        maxWidth="lg"
+                        PaperProps={{sx: {padding: 4}}}
                         fullWidth
                       >
                         <DataProvider>
@@ -402,6 +410,11 @@ const TripPage = () => {
                 </Grid>
               </Grid>
             ))}
+            <Grid item>
+              <Stack alignItems="center">
+                <Pagination count={totalPage} page={page + 1} color="primary" onChange={(e) => onPageChanges(e)}/>
+              </Stack>
+            </Grid>
           </Grid>
         </Grid>
       </Container>
