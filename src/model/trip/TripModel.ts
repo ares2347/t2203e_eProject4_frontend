@@ -1,14 +1,20 @@
 interface TripModel extends IBaseModel {
     tripId: string;
+    tripConfigId: string;
     brandName: string;
-    vehicleType: string;
-    departFrom: string;
-    triptype: string;
+    tripStatus: string;
+    departDate: Date;
+    seatRemains: number;
+    driverEmail: string;
+    driverPhone: string;
+    driverName: string;
     departAt: string;
-    arriveAt: string;
+    departFrom: string;
     arriveTo: string;
-    seatAmount: string;
+    arriveAt: string;
     price: number;
+    vehicleType: string;
+    
 }
 
 interface TripConfigQueryModel extends IBaseModel {
@@ -22,3 +28,4 @@ interface TripConfigQueryModel extends IBaseModel {
     trips: Array<any>;
     ticketConfigs: Array<any>;
 }
+
