@@ -1,7 +1,8 @@
 import { HttpResponse, HttpStatusEnum } from "@/model/http/httpEnum";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
-const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL ?? "";
+const baseUrl: string = "http://localhost:8080/api/";
+// const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL ?? "";
 const accessToken: string = "";
 
 //HTTP GET

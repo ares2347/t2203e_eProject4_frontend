@@ -66,12 +66,14 @@ const Login = () => {
     setLoading(true);
     if (formData) {
       const loginResult = await authService.login(formData);
+      console.log("loginResult.code: "+ formData.password +" , "+ formData.username);
       if (loginResult.code == HttpStatusEnum.Success.code) {
         localStorage.setItem("token", loginResult.data?.accessToken as string);
         localStorage.setItem(
           "expired",
           loginResult.data?.expired?.toISOString() as string
         );
+        console.log("da log duoc vao trong ham")
         router.push("/");
       } else {
         setError(`${loginResult.code}: faile`);
