@@ -43,9 +43,7 @@ const Step3 = () => {
           gap={2}
         >
           <Typography
-            color="primary"
-            level="title-md"
-            variant="soft"
+
             textAlign={"center"}
           >
             Vui Lòng Điền Thông Tin

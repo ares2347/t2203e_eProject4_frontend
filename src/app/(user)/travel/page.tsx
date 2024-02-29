@@ -13,8 +13,10 @@ import {
   FormControlLabel,
   FormLabel,
   Grid,
+  Pagination,
   Radio,
   RadioGroup,
+  Stack,
   Step,
   StepLabel,
   Stepper,
@@ -24,16 +26,22 @@ import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SellIcon from "@mui/icons-material/Sell";
 import Step1 from "./step1";
+import Step2 from "./step2";
+
 import Step3 from "./step3";
 import { DataProvider } from "../travel/DataContext";
 import { HttpPaginationResponse, HttpResponse } from "@/model/http/httpEnum";
 import { format } from "date-fns";
 
-const steps = ["Lựa chọn chỗ ngồi", "Điền thông tin"];
+const steps = ["Lựa chọn chỗ ngồi", "Điểm Đón Trả","Điền thông tin"];
 const formstep = [
   {
     component: <Step1 />,
     message: "Lựa chọn chỗ ngồi",
+  },
+  {
+    component: <Step2 />,
+    message: "Điểm Đón Trả",
   },
   {
     component: <Step3 />,
@@ -45,26 +53,15 @@ const TripPage = () => {
   const tripService = new TripService();
   const searchParams = useSearchParams();
   const [tripList, setTripList] = React.useState<TripModel[]>();
+  const [totalPage, setTotalPage] = React.useState<number>(0);
   const [open, setOpen] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(0);
   const [sort, setSort] = React.useState(0);
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [size, setSize] = React.useState(10);
 
   React.useEffect(() => {
-    const departFrom = searchParams.get("from") as string;
-    const departAt = format(
-      new Date(searchParams.get("checkin") as string),
-      "MM-dd-yyyy"
-    );
-    const arriveTo = searchParams.get("to");
-    tripService
-      .getAllTripAsync(departFrom, departAt, arriveTo, page, size)
-      .then((x) => {
-        setTripList(x.data?.content);
-        setPage(x.data?.pageable.pageNumber ?? 0);
-        setSize(x.data?.pageable.pageSize ?? 0);
-      });
+    queryTrips(page);
   }, []);
 
   const handleClickOpen = () => {
@@ -87,6 +84,25 @@ const TripPage = () => {
   const onSortSelect = (value: React.ChangeEvent<HTMLInputElement>) => {
     setSort(parseInt(value.currentTarget.value));
   };
+  const onPageChanges = (e: React.ChangeEvent<any>) => {
+    queryTrips(e.currentTarget.value);
+  }
+  const queryTrips = (page: number) => {
+    const departFrom = searchParams.get("from") as string;
+    const departAt = format(
+      new Date(searchParams.get("checkin") as string),
+      "MM-dd-yyyy"
+    );
+    const arriveTo = searchParams.get("to");
+    tripService
+      .getAllTripAsync(departFrom, departAt, arriveTo, page - 1, size)
+      .then((x) => {     
+        setTripList(x.data?.content);
+        setPage((x.data?.pageable.pageNumber ?? 0) + 1);
+        setSize(x.data?.pageable.pageSize ?? 0);
+        setTotalPage(x.data?.totalPages ?? 0);
+      });
+  }
 
   return (
     <div>
@@ -231,25 +247,13 @@ const TripPage = () => {
                             color="hsl(0, 0%, 30%)"
                             fontWeight={700}
                             fontSize={20}
-                            children={`${item.departFrom
-                            } :
+                            children={`${item.departFrom} :
                         ${item.departAt}`}
                           />
                         }
                         xs={1}
                       />
-                      <Grid
-                        item
-                        children={
-                          <Typography
-                            color="hsl(0, 0%, 30%)"
-                            fontWeight={500}
-                            fontSize={14}
-                            children={`1.30`}
-                          />
-                        }
-                        xs={1}
-                      />
+                    
                       <Grid
                         item
                         children={
@@ -257,9 +261,7 @@ const TripPage = () => {
                             color="hsl(0, 0%, 30%)"
                             fontWeight={700}
                             fontSize={20}
-                            children={`${
-                              item.arriveTo
-                            } : 
+                            children={`${item.arriveTo} : 
                         ${item.arriveAt}`}
                           />
                         }
@@ -317,7 +319,8 @@ const TripPage = () => {
                       <Dialog
                         open={open}
                         onClose={handleClose}
-                        maxWidth="md"
+                        maxWidth="lg"
+                        PaperProps={{sx: {padding: 4}}}
                         fullWidth
                       >
                         <DataProvider>
@@ -402,6 +405,11 @@ const TripPage = () => {
                 </Grid>
               </Grid>
             ))}
+            <Grid item>
+              <Stack alignItems="center">
+                <Pagination count={totalPage} page={page + 1} color="primary" onChange={(e) => onPageChanges(e)}/>
+              </Stack>
+            </Grid>
           </Grid>
         </Grid>
       </Container>
