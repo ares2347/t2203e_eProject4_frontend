@@ -1,3 +1,4 @@
+import { LoginRequest, LoginResponse, SignupRequest, SignupResponse } from "@/model/auth/AuthModel";
 import { HttpResponse } from "@/model/http/httpEnum";
 
 export interface IAuthService{ 
