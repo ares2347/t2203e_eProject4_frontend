@@ -119,7 +119,6 @@ const SelectTicket = () => {
                 type="date"
                 name="checkout"
                 id="checkout"
-                required
                 className="input-field"
                 value={checkout}
                 onChange={handleSetCheckout}

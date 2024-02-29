@@ -26,16 +26,22 @@ import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SellIcon from "@mui/icons-material/Sell";
 import Step1 from "./step1";
+import Step2 from "./step2";
+
 import Step3 from "./step3";
 import { DataProvider } from "../travel/DataContext";
 import { HttpPaginationResponse, HttpResponse } from "@/model/http/httpEnum";
 import { format } from "date-fns";
 
-const steps = ["Lựa chọn chỗ ngồi", "Điền thông tin"];
+const steps = ["Lựa chọn chỗ ngồi", "Điểm Đón Trả","Điền thông tin"];
 const formstep = [
   {
     component: <Step1 />,
     message: "Lựa chọn chỗ ngồi",
+  },
+  {
+    component: <Step2 />,
+    message: "Điểm Đón Trả",
   },
   {
     component: <Step3 />,
@@ -247,18 +253,7 @@ const TripPage = () => {
                         }
                         xs={1}
                       />
-                      <Grid
-                        item
-                        children={
-                          <Typography
-                            color="hsl(0, 0%, 30%)"
-                            fontWeight={500}
-                            fontSize={14}
-                            children={`1.30`}
-                          />
-                        }
-                        xs={1}
-                      />
+                    
                       <Grid
                         item
                         children={
