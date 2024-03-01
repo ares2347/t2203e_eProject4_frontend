@@ -136,9 +136,9 @@ const AccountPage = () => {
                         <Box sx={{ width: '100%' }}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                                    <Tab label="Hiện Tại" {...a11yProps(0)} />
-                                    <Tab label="Đã Đi" {...a11yProps(1)} />
-                                    <Tab label="Đã Huỷ" {...a11yProps(2)} />
+                                    <Tab label="Hiện Tại" {...a11yProps(1)} />
+                                    <Tab label="Đã Đi" {...a11yProps(0)} />
+                                    <Tab label="Đã Huỷ" {...a11yProps(1)} />
                                 </Tabs>
                             </Box>
                             <CustomTabPanel value={value} index={1}>
