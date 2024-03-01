@@ -11,6 +11,7 @@ export async function httpGet<T>(
   params?: any,
   isAuth: boolean = false
 ): Promise<HttpResponse<T>> {
+  console.log(baseUrl)
   const url = `${baseUrl}/${endpoint ?? ""}`;
   const accessToken = localStorage.getItem("token");
   const config: AxiosRequestConfig = {
@@ -67,6 +68,7 @@ export async function httpGet<T>(
 export async function httpPost<T>(body: any, endpoint?: string, params?: any): Promise<HttpResponse<T>> {
   const url = `${baseUrl}/${endpoint ?? ""}`;
   console.log("🚀 ~ url:", url);
+  console.log(baseUrl)
 
   const config: AxiosRequestConfig = {
     baseURL: url,

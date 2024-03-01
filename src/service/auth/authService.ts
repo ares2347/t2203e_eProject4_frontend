@@ -15,8 +15,8 @@ export class AuthService implements IAuthService {
       request,
       `${this.authUrl}/login`
     );
-    console.log(request, `${this.authUrl}/login`)
     if (queryResult.code == HttpStatusEnum.Success.code) {
+      console.log("Token: "+ queryResult.data?.accessToken);
       localStorage.setItem("token", queryResult.data?.accessToken as string);
         localStorage.setItem(
           "expired",
@@ -30,7 +30,8 @@ export class AuthService implements IAuthService {
         console.log(
           "🚀 ~ AuthService ~ userInfoRes.message:",
           userInfoRes.message
-        );
+          );
+          queryResult.code = 404;
       }
     }
     return queryResult;

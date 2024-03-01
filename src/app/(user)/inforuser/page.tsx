@@ -141,7 +141,7 @@ const AccountPage = () => {
                                     <Tab label="Đã Huỷ" {...a11yProps(2)} />
                                 </Tabs>
                             </Box>
-                            <CustomTabPanel value={value} index={0}>
+                            <CustomTabPanel value={value} index={1}>
                                 <Container maxWidth="lg">
                                     <Grid container>
                                         <Grid
@@ -305,7 +305,7 @@ const AccountPage = () => {
                                     </Grid>
                                 </Container>
                             </CustomTabPanel>
-                            <CustomTabPanel value={value} index={1}>
+                            <CustomTabPanel value={value} index={2}>
                                 <Container maxWidth="lg">
                                     <Grid container>
                                         <Grid
@@ -458,7 +458,7 @@ const AccountPage = () => {
                                         </Grid>
                                     </Grid>
                                 </Container>                            </CustomTabPanel>
-                            <CustomTabPanel value={value} index={2}>
+                            <CustomTabPanel value={value} index={3}>
                                 <Container maxWidth="lg">
                                     <Grid container>
                                         <Grid
