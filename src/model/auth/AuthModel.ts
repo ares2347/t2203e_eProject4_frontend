@@ -24,6 +24,11 @@ export interface UserInfo {
   email: string;
   phoneNumber: string;
   fullName: string;
-  
   roles: string[];
+}
+
+export enum RoleEnum{
+  ADMIN = 'ADMIN',
+  BRAND = 'BRAND',
+  USER = 'USER'
 }

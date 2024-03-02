@@ -53,7 +53,7 @@ const AccountPage = () => {
     const [tripList, setTripList] = React.useState<any>(tripService.getAllTrip());
 
     React.useEffect(() => {
-        tripService.getAllTripConfig(0, 10).then((res) => {
+        tripService.getAllTripAsync('', '' , null, 0, 10).then((res) => {
             setTripList(res.data ?? []);
         });
     }, []);
@@ -66,8 +66,8 @@ const AccountPage = () => {
     };
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const userInfoPayload = localStorage.getItem("userInfo")
-                ? JSON.parse(localStorage.getItem("userInfo") as string)
+            const userInfoPayload = sessionStorage.getItem("userInfo")
+                ? JSON.parse(sessionStorage.getItem("userInfo") as string)
                 : null;
             setUserInfo(userInfoPayload);
         } else {

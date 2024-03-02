@@ -13,8 +13,11 @@ import { Label } from "@mui/icons-material";
 class DataModel{
    ArrayIndex :number[] = []
 }
+interface StepProps {
+  seatAmount: number
+}
 export const instance = new DataModel();
-const Step1 = () => {
+const Step1 = (props: StepProps) => {
   const calculateTotalPrice = () => {
     const pricePerSeat = 100000;
     const totalPrice = selectedSeats.filter(x => x === SeatStatus.SELECTED).length * pricePerSeat;
@@ -26,7 +29,7 @@ const Step1 = () => {
   };
   //TODO: change initial value
   const [selectedSeats, setSelectedSeats] = React.useState<SeatStatus[]>(() => {
-    const initalArr = new Array<SeatStatus>(48);
+    const initalArr = new Array<SeatStatus>(props.seatAmount);
     for (var i = 0; i < initalArr.length; i++) {
       if(instance.ArrayIndex.includes(i)) initalArr[i] = SeatStatus.SELECTED;
       else initalArr[i] = SeatStatus.AVAILABLE;
@@ -103,7 +106,7 @@ const Step1 = () => {
         direction="column"
         maxHeight="320px"
       >
-        {Array.from({ length: 32 }, (_, index) => (
+        {Array.from({ length: props.seatAmount }, (_, index) => (
           <Grid item xs={3} key={index}>
             <SeatComponent
               key={index}
