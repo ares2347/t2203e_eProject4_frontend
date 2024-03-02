@@ -6,6 +6,7 @@ import {
 import { httpGet, httpPost } from "../http/httpService";
 import { IAuthService } from "./authServiceInterface";
 import { LoginRequest, LoginResponse, SignupRequest, SignupResponse, UserInfo } from "@/model/auth/AuthModel";
+import { setCookie, deleteCookie } from "cookies-next";
 
 export class AuthService implements IAuthService {
   private readonly authUrl: string = "auth";
@@ -16,16 +17,16 @@ export class AuthService implements IAuthService {
       `${this.authUrl}/login`
     );
     if (queryResult.code == HttpStatusEnum.Success.code) {
-      console.log("Token: "+ queryResult.data?.accessToken);
-      localStorage.setItem("token", queryResult.data?.accessToken as string);
-        localStorage.setItem(
+      sessionStorage.setItem("token", queryResult.data?.accessToken as string);
+      sessionStorage.setItem(
           "expired",
           queryResult.data?.expired?.toISOString() as string
         );
       const userInfoRes = await httpGet<UserInfo>("user/info", null, true);
       if (userInfoRes.code == 200) {
-        console.log(userInfoRes.data)
-        localStorage.setItem("userInfo", JSON.stringify(userInfoRes.data));
+        sessionStorage.setItem("userInfo", JSON.stringify(userInfoRes.data));
+        sessionStorage.setItem("roles", JSON.stringify(userInfoRes.data?.roles));
+        setCookie("roles", JSON.stringify(userInfoRes.data?.roles));
       } else {
         console.log(
           "🚀 ~ AuthService ~ userInfoRes.message:",
@@ -46,4 +47,16 @@ export class AuthService implements IAuthService {
     );
     return queryResult;
   };
+
+  public logout = () => {
+    sessionStorage.clear();
+    deleteCookie("roles");
+    
+  }
+
+  public getUserInfo = () => {
+    return sessionStorage.getItem("userInfo")
+    ? JSON.parse(sessionStorage.getItem("userInfo") as string)
+    : null;
+  }
 }

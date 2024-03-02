@@ -61,8 +61,8 @@ const AccountPage = () => {
     };
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const userInfoPayload = localStorage.getItem("userInfo")
-                ? JSON.parse(localStorage.getItem("userInfo") as string)
+            const userInfoPayload = sessionStorage.getItem("userInfo")
+                ? JSON.parse(sessionStorage.getItem("userInfo") as string)
                 : null;
             setUserInfo(userInfoPayload);
         } else {

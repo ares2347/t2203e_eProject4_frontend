@@ -8,30 +8,20 @@ import { MouseEventHandler, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import React from 'react';
 import { UserInfo } from '../../model/auth/AuthModel';
+import { AuthService } from '@/service/auth/authService';
 const Header = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const router = useRouter();
-
+  const authService = new AuthService();
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const userInfoPayload = localStorage.getItem("userInfo")
-        ? JSON.parse(localStorage.getItem("userInfo") as string)
-        : null;
-      setUserInfo(userInfoPayload);
-    } else {
-      setUserInfo(null);
-    }
-    console.log("aaa");
+    const userInfo = authService.getUserInfo();
+    setUserInfo(userInfo);
   }, []);
 
   function handleLogOut() {
-    if (typeof window !== "undefined") {
-      localStorage.clear();
-      setUserInfo(null);
-    } else {
-      setUserInfo(null);
-    }
-    router.push("/");
+    authService.logout();
+    setUserInfo(null);
+    router.push("/auth/login");
   }
 
   return (

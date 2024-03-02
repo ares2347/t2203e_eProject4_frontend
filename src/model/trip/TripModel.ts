@@ -14,7 +14,7 @@ interface TripModel extends IBaseModel {
     arriveAt: string;
     price: number;
     vehicleType: string;
-    
+    seatAmount: number;
 }
 
 interface TripConfigQueryModel extends IBaseModel {
@@ -24,8 +24,18 @@ interface TripConfigQueryModel extends IBaseModel {
     arriveTo: string;
     arriveAt: Date;
     stops: string;
-    vehicleConfig: any;
+    vehicleConfig: string;
     trips: Array<any>;
     ticketConfigs: Array<any>;
 }
 
+interface AddTripConfigRequest{
+    departFrom: string;
+    arriveTo: string;
+    departAt: string;
+    arriveAt: string;
+    stops: string;
+    vehicleId: string;
+    isRepeated: boolean;
+    price: number;
+}

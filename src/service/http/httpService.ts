@@ -3,7 +3,6 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 // const baseUrl: string = "http://localhost:8080/api/";
 const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL ?? "";
-const accessToken: string = "";
 
 //HTTP GET
 export async function httpGet<T>(
@@ -13,7 +12,7 @@ export async function httpGet<T>(
 ): Promise<HttpResponse<T>> {
   console.log(baseUrl)
   const url = `${baseUrl}/${endpoint ?? ""}`;
-  const accessToken = localStorage.getItem("token");
+  const accessToken = sessionStorage.getItem("token");
   const config: AxiosRequestConfig = {
     baseURL: url,
     params: params,
@@ -25,6 +24,8 @@ export async function httpGet<T>(
   };
   if (isAuth && config.headers)
     config.headers.Authorization = `Bearer ${accessToken}`;
+    console.log("🚀 ~ accessToken:", accessToken)
+
   return await axios<T>(config)
     .then((res) => {
       const response: HttpResponse<T> = {
@@ -65,11 +66,14 @@ export async function httpGet<T>(
 
 //HTTP POST
 
-export async function httpPost<T>(body: any, endpoint?: string, params?: any): Promise<HttpResponse<T>> {
+export async function httpPost<T>(
+  body: any,
+  endpoint?: string,
+  params?: any,
+  isAuth: boolean = false
+): Promise<HttpResponse<T>> {
   const url = `${baseUrl}/${endpoint ?? ""}`;
-  console.log("🚀 ~ url:", url);
-  console.log(baseUrl)
-
+  const accessToken = sessionStorage.getItem("token");
   const config: AxiosRequestConfig = {
     baseURL: url,
     params: params,
@@ -80,6 +84,8 @@ export async function httpPost<T>(body: any, endpoint?: string, params?: any): P
     },
     method: "post",
   };
+  if (isAuth && config.headers)
+  config.headers.Authorization = `Bearer ${accessToken}`;
 
   return await axios<T>(config)
     .then((res) => {
