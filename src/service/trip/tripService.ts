@@ -16,7 +16,7 @@ export class TripService implements ITripService{
          departFrom: departFrom,
          departAt: departAt,
          arriveTo: arriveTo
-      });
+      }, true);
    }
 
    addTripConfig = async (request: AddTripConfigRequest): Promise<HttpResponse<TripModel>> => {

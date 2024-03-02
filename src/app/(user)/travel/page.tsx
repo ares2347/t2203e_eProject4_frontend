@@ -51,10 +51,10 @@ const TripPage = () => {
   const [page, setPage] = React.useState(1);
   const [size, setSize] = React.useState(10);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
-  const getFromStep = (seatAmount: number) => {
+  const getFromStep = (seatAmount: number, price: number) => {
     return [
       {
-        component: <Step1 seatAmount={seatAmount} />,
+        component: <Step1 seatAmount={seatAmount} price={price} />,
         message: "Lựa chọn chỗ ngồi", 
       },
       {
@@ -363,10 +363,10 @@ const TripPage = () => {
                           PaperProps={{ sx: { padding: 4 } }}
                           fullWidth
                         >
-                          <DataProvider>
+                          <DataProvider initData={{tripId: item.tripId, tripConfigId: item.tripConfigId}}>
                             <Box sx={{ width: "100%" }}>
                               <Stepper activeStep={activeStep}>
-                                {getFromStep(item.seatAmount).map(
+                                {getFromStep(item.seatAmount, item.price).map(
                                   (label, index) => {
                                     const stepProps: { completed?: boolean } =
                                       {};
@@ -418,7 +418,7 @@ const TripPage = () => {
                               ) : (
                                 <React.Fragment>
                                   {
-                                    getFromStep(item.seatAmount)[activeStep]
+                                    getFromStep(item.seatAmount, item.price)[activeStep]
                                       .component
                                   }
 

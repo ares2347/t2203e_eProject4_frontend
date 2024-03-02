@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { LocalizationProvider, TimeField } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent } from "react";
 
@@ -32,15 +33,14 @@ const AddTrip = () => {
   const [arriveTo, setArriveTo] = React.useState<string>();
   const [departAt, setDepartAt] = React.useState<string>();
   const [arriveAt, setArriveAt] = React.useState<string>();
-  const [vehicleId, setVehicleId] = React.useState<string>();
-  const [isRepeated, setIsRepeated] = React.useState<boolean>();
-  const [price, setPrice] = React.useState<number>();
+  const [vehicleId, setVehicleId] = React.useState<string>("");
+  const [isRepeated, setIsRepeated] = React.useState<boolean>(false);
+  const [price, setPrice] = React.useState<number>(0);
   const [vehicleList, setVehicleList] = React.useState<VehicleModel[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     vehicleService.getAllVehicleConfigAsync().then((x) => {
-      console.log("🚀 ~ vehicleService.getAllVehicleConfigAsync ~ x:", x)
       setVehicleList(x.data ?? []);
       setIsLoading(false);
     });
@@ -49,7 +49,8 @@ const AddTrip = () => {
   const handleDepartFromChange = (e: SelectChangeEvent) => {
     setDepartFrom(e.target.value);
   };
-  const handleArriveToChange = (e: SelectChangeEvent) => {
+  const handleArriveToChange = (e: SelectChangeEvent) => 
+  {
     setArriveTo(e.target.value);
   };
   const handleDepartAtChange = (val: string | null) => {
@@ -70,9 +71,17 @@ const AddTrip = () => {
 
   const handleSubmit = () => {
     setIsLoading(true);
-    if (formData)
       tripService
-        .addTripConfig(formData)
+        .addTripConfig({
+          arriveAt: dayjs(arriveAt).format("HH:mm:ss"),
+          arriveTo: arriveTo ?? "",
+          departAt: dayjs(departAt).format("HH:mm:ss"),
+          departFrom: departFrom ?? "",
+          isRepeated: isRepeated,
+          price: price,
+          vehicleId: vehicleId,
+          stops: ""
+        })
         .then((x) => {
           if (x.code == HttpStatusEnum.Success.code) {
             router.push("/brand/trip");
@@ -163,6 +172,7 @@ const AddTrip = () => {
                 <TimeField
                   label="Giờ xuất phát"
                   value={departAt}
+                  format="HH:mm:ss"
                   onChange={(newValue) => handleDepartAtChange(newValue)}
                 />
               </LocalizationProvider>
@@ -195,6 +205,7 @@ const AddTrip = () => {
                   label="Giờ đến nơi"
                   value={arriveAt}
                   onChange={(newValue) => handleArriveAtChange(newValue)}
+                  format="HH:mm:ss"
                 />
               </LocalizationProvider>
             </Grid>
