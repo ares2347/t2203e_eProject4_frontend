@@ -20,3 +20,16 @@ interface TicketConfigModel extends IBaseModel {
   coach: string;
   ticketDescription: string;
 }
+
+interface BookTicketRequest {
+  tripId: string;
+  tripConfigId: string;
+  pickupPoint: string;
+  dropoffPoint: string;
+  customerName: string;
+  customerDob: string;
+  customerIc: string;
+  customerEmail: string;
+  customerPhone: string;
+  seat: string;
+}

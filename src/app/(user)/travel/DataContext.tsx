@@ -6,9 +6,10 @@ const DataContext = createContext({
 });
 interface MyComponentProps {
   children: ReactNode;
+  initData: any;
 }
-const DataProvider: React.FC<MyComponentProps> = ({ children }) => {
-  const [data, setData] = useState({});
+const DataProvider: React.FC<MyComponentProps> = ({ children, initData }) => {
+  const [data, setData] = useState({initData});
 
   const updateData = (newData: {}) => {
     setData((prevData) => ({ ...prevData, ...newData }));

@@ -14,19 +14,16 @@ class DataModel{
    ArrayIndex :number[] = []
 }
 interface StepProps {
-  seatAmount: number
+  seatAmount: number,
+  price: number
 }
 export const instance = new DataModel();
 const Step1 = (props: StepProps) => {
   const calculateTotalPrice = () => {
-    const pricePerSeat = 100000;
-    const totalPrice = selectedSeats.filter(x => x === SeatStatus.SELECTED).length * pricePerSeat;
+    const totalPrice = selectedSeats.filter(x => x === SeatStatus.SELECTED).length * props.price;
     return totalPrice;
   };
   const { data, updateData } = useDataContext();
-  const handle1Change = (e: { target: { value: any } }) => {
-    updateData({ step1Data: e.target.value });
-  };
   //TODO: change initial value
   const [selectedSeats, setSelectedSeats] = React.useState<SeatStatus[]>(() => {
     const initalArr = new Array<SeatStatus>(props.seatAmount);
@@ -46,7 +43,8 @@ const Step1 = (props: StepProps) => {
       }
       return item;
     });
-    await setSelectedSeats(newArr);
+    setSelectedSeats(newArr);
+    updateData({...data, selectedSeats: newArr.reduce((r: number[], v, i) => r.concat(v == SeatStatus.SELECTED ? i : []), [])});
   };
   return (
     <Grid container spacing={2} justifyContent="space-around">
