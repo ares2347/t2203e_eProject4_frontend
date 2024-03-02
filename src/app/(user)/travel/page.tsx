@@ -27,12 +27,15 @@ import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SellIcon from "@mui/icons-material/Sell";
 import Step1 from "./step1";
+import Step2 from "./step2";
+
 import Step3 from "./step3";
 import { DataProvider } from "../travel/DataContext";
 import { HttpPaginationResponse, HttpResponse } from "@/model/http/httpEnum";
 import { format } from "date-fns";
 
-const steps = ["Lựa chọn chỗ ngồi", "Điền thông tin"];
+const steps = ["Lựa chọn chỗ ngồi", "Điểm Đón Trả","Điền thông tin"];
+
 const VehicleType : {[key: string|number]: string} = {
   COACH: "Xe khách"
 }
@@ -52,7 +55,11 @@ const TripPage = () => {
     return [
       {
         component: <Step1 seatAmount={seatAmount} />,
-        message: "Lựa chọn chỗ ngồi",
+        message: "Lựa chọn chỗ ngồi", 
+      },
+      {
+        component: <Step2 />,
+        message: "Điểm Đón Trả",
       },
       {
         component: <Step3 />,

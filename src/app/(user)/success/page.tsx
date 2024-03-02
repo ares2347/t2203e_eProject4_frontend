@@ -49,6 +49,10 @@ const Sucsses = () => {
                     <div>0{ticketList[0].customerPhone}</div>
                 </li>
                 <li>
+                    <div>Số Chỗ Ngồi:</div>
+                    <div>10000</div>
+                </li>
+                <li>
                     <div>Giá tiền :</div>
                     <div>{ticketList[0].total}$</div>
                 </li>
