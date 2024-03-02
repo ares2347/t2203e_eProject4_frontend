@@ -38,7 +38,7 @@ export default function VehicleConfigList() {
   };
 
   const queryVehicleConfig = (page: number) => {
-    vehicleService.getAllVehicleConfigAsync(page - 1, rowsPerPage).then((x) => {
+    vehicleService.getAllVehicleListConfigAsync(page - 1, rowsPerPage).then((x) => {
       setVehicleConfigList(x.data?.content ?? []);
       setPage((x.data?.pageable?.pageNumber ?? 0) + 1);
       setRowsPerPage(x.data?.pageable?.pageSize ?? 0);
@@ -64,8 +64,8 @@ export default function VehicleConfigList() {
       </Grid>
     </Grid>
   ) : (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+    <Paper sx={{ overflow: "hidden" }}>
+      <TableContainer sx={{ paddingLeft: 5, maxHeight: 440 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
