@@ -1,9 +1,10 @@
 import { HttpPaginationResponse, HttpResponse, SortEnum } from "@/model/http/httpEnum";
 import { ITripService } from "./tripServiceInterface";
 import { TripListMock } from "@/model/mock/tripMock";
-import { httpGet } from "@/service/http/httpService";
+import { httpGet, httpPost } from "@/service/http/httpService";
 export class TripService implements ITripService{
    private readonly tripUrl : string = "public/trip";
+   private readonly brandTripUrl: string = "brand/trip"
    getAllTrip = () => TripListMock();
 
    public getAllTripAsync = async (departFrom: string, departAt: string, arriveTo: string | null, page: number, size: number) : Promise<HttpResponse<HttpPaginationResponse<TripModel>>> => {
@@ -16,5 +17,9 @@ export class TripService implements ITripService{
          departAt: departAt,
          arriveTo: arriveTo
       });
+   }
+
+   addTripConfig = async (request: AddTripConfigRequest): Promise<HttpResponse<TripModel>> => {
+      return await httpPost<TripModel>(request, `${this.brandTripUrl}/config`, null, true);
    }
 }

@@ -70,6 +70,7 @@ const AddTrip = () => {
         paddingY={2}
         noValidate
         autoComplete="off"
+        bgcolor="white"
       >
         <Typography
           children="Tạo phương tiện mới"

@@ -28,3 +28,14 @@ interface TripConfigQueryModel extends IBaseModel {
     trips: Array<any>;
     ticketConfigs: Array<any>;
 }
+
+interface AddTripConfigRequest{
+    departFrom: string;
+    arriveTo: string;
+    departAt: string;
+    arriveAt: string;
+    stops: string;
+    vehicleId: string;
+    isRepeated: boolean;
+    price: number;
+}
