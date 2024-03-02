@@ -6,7 +6,7 @@ import { ITicketService } from "./ticketServiceInterface";
 
 export class TicketService implements ITicketService{
 
-   readonly userUrl = "/user/ticket"
+   readonly userUrl = "user/ticket"
    getAllTicket = () => TicketListMock();
 
    bookTicketAsync = async (request: BookTicketRequest[]): Promise<HttpResponse<TicketModel[]>> => {

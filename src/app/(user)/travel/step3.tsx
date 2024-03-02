@@ -53,8 +53,8 @@ const Step3 = () => {
     ticketService.bookTicketAsync(
       data.selectedSeats.map((x: number) => {
         return {
-          tripId: "",
-          tripConfigId: "",
+          tripId: data.tripId ?? "",
+          tripConfigId: data.tripConfigId ??  "",
           pickupPoint: data.pickupPoint ?? "",
           dropoffPoint: data.dropoffPoint ?? "",
           customerName: data.customerName ?? "",
