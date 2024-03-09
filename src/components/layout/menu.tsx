@@ -14,16 +14,18 @@ import {
   ListItem,
   ListItemButton,
 } from "@mui/material";
+import routess from "@/router";
+import { useRoutes } from 'react-router-dom';
 import { useRouter } from "next/navigation";
 
-interface Routing {
+interface Routing{
   url: string;
   label: string;
   icon: React.ReactElement;
 }
 const routing: Array<Routing> = [
   {
-    url: "/brand/trip/add",
+    url: "/content/overview/Hero",
     label: "Add New Trip",
     icon: <Add />,
   },
@@ -46,11 +48,11 @@ const routing: Array<Routing> = [
 const Menu = () => {
   const router = useRouter();
   const drawerWidth = 240;
-
+  console.log(router)
   const handleClick = (url: string) => {
     router.push(url);
   };
-
+  //var ContentFill = useRoutes(routess);
   return (
     <Paper sx={{ width: 320, maxWidth: "100%" }}>
       <Drawer
