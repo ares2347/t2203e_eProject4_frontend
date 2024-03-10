@@ -1,18 +1,9 @@
 import { Alert, Container, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Typography } from "@mui/material"
 import CheckIcon from '@mui/icons-material/Check';
-import { useDataContext } from "./DataContext";
-import { ChangeEvent } from "react";
 
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const Step2 = () => {
-    const { data, updateData } = useDataContext();
-    const handleSelectPickupPoint = (event: ChangeEvent<HTMLInputElement>, value: string) => {
-        updateData({...data, pickupPoint: value})
-    }
-    const handleSelectDropoffPoint = (event: ChangeEvent<HTMLInputElement>, value: string) => {
-        updateData({...data, dropoffPoint: value})
-    }
     return (
         <div>
             <Container maxWidth='lg'>
@@ -52,7 +43,6 @@ const Step2 = () => {
                                         aria-labelledby="demo-radio-buttons-group-label"
                                         defaultValue="female"
                                         name="radio-buttons-group"
-                                        onChange={handleSelectPickupPoint}
                                     >
                                         <FormControlLabel value="Mỹ Đình" control={<Radio />} label={"Mỹ Đình"} /> 
                                         <FormControlLabel value="Giáp Bát" control={<Radio />} label="Giáp Bát" />
@@ -76,7 +66,6 @@ const Step2 = () => {
                                         aria-labelledby="demo-radio-buttons-group-label"
                                         defaultValue="female"
                                         name="radio-buttons-group"
-                                        onChange={handleSelectDropoffPoint}
                                     >
                                         <FormControlLabel value="Gò Vấp" control={<Radio />} label="Gò Vấp" />
                                         <FormControlLabel value="Thủ Đức" control={<Radio />} label="Thủ Đức" />

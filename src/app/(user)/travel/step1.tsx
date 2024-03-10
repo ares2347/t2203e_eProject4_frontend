@@ -13,20 +13,20 @@ import { Label } from "@mui/icons-material";
 class DataModel{
    ArrayIndex :number[] = []
 }
-interface StepProps {
-  seatAmount: number,
-  price: number
-}
 export const instance = new DataModel();
-const Step1 = (props: StepProps) => {
+const Step1 = () => {
   const calculateTotalPrice = () => {
-    const totalPrice = selectedSeats.filter(x => x === SeatStatus.SELECTED).length * props.price;
+    const pricePerSeat = 100000;
+    const totalPrice = selectedSeats.filter(x => x === SeatStatus.SELECTED).length * pricePerSeat;
     return totalPrice;
   };
   const { data, updateData } = useDataContext();
+  const handle1Change = (e: { target: { value: any } }) => {
+    updateData({ step1Data: e.target.value });
+  };
   //TODO: change initial value
   const [selectedSeats, setSelectedSeats] = React.useState<SeatStatus[]>(() => {
-    const initalArr = new Array<SeatStatus>(props.seatAmount);
+    const initalArr = new Array<SeatStatus>(48);
     for (var i = 0; i < initalArr.length; i++) {
       if(instance.ArrayIndex.includes(i)) initalArr[i] = SeatStatus.SELECTED;
       else initalArr[i] = SeatStatus.AVAILABLE;
@@ -43,8 +43,7 @@ const Step1 = (props: StepProps) => {
       }
       return item;
     });
-    setSelectedSeats(newArr);
-    updateData({...data, selectedSeats: newArr.reduce((r: number[], v, i) => r.concat(v == SeatStatus.SELECTED ? i : []), [])});
+    await setSelectedSeats(newArr);
   };
   return (
     <Grid container spacing={2} justifyContent="space-around">
@@ -104,7 +103,7 @@ const Step1 = (props: StepProps) => {
         direction="column"
         maxHeight="320px"
       >
-        {Array.from({ length: props.seatAmount }, (_, index) => (
+        {Array.from({ length: 32 }, (_, index) => (
           <Grid item xs={3} key={index}>
             <SeatComponent
               key={index}

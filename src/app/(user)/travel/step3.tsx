@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   FormControl,
   FormHelperText,
   Input,
@@ -11,63 +10,16 @@ import {
 import Typography from "@mui/joy/Typography";
 import GppGoodIcon from "@mui/icons-material/GppGood";
 import { useDataContext } from "./DataContext";
-import { ChangeEvent } from "react";
-import { LocalizationProvider, DatePicker } from "@mui/lab";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import { TicketService } from "@/service/ticket/ticketService";
-import { useRouter } from "next/router";
 const Step3 = () => {
   const { data, updateData } = useDataContext();
-  // const router = useRouter();
-  const ticketService = new TicketService();
-  const handleNameChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    updateData({ ...data, customerName: e.currentTarget.value });
+  const handle2Change = (e: { target: { value: string } }) => {
+    updateData({ step2Data: e.target.value });
   };
-  const handlePhoneChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    updateData({ ...data, customerPhone: e.currentTarget.value });
+  const handle3Change = (e: { target: { value: string } }) => {
+    updateData({ step3Data: e.target.value });
   };
-  const handleEmailChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    updateData({ ...data, customerEmail: e.currentTarget.value });
-  };
-  const handleDobChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    updateData({
-      ...data,
-      customerDob: dayjs(e.currentTarget.value).format("MM-dd-yyy"),
-    });
-  };
-  const handleIcChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    updateData({ ...data, customerIc: e.currentTarget.value });
-  };
-  const handleSubmit = () => {
-    ticketService.bookTicketAsync(
-      data.selectedSeats.map((x: number) => {
-        return {
-          tripId: data.tripId ?? "",
-          tripConfigId: data.tripConfigId ??  "",
-          pickupPoint: data.pickupPoint ?? "",
-          dropoffPoint: data.dropoffPoint ?? "",
-          customerName: data.customerName ?? "",
-          customerDob: data.customerDob ?? new Date().toLocaleDateString(),
-          customerIc: data.customerIc ?? "",
-          customerEmail: data.customerEmail ?? "",
-          customerPhone: data.customerPhone ?? "",
-          seat: (x + 1).toString(),
-        } as BookTicketRequest;
-      })).then(x => 
-        // router.push("/")
-        console.log(x)
-    );
+  const handle4Change = (e: { target: { value: string } }) => {
+    updateData({ step4Data: e.target.value });
   };
 
   return (
@@ -78,52 +30,42 @@ const Step3 = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "50vh",
-          width: "100%",
+          width: "100%"
         }}
       >
         <Stack
           component="form"
           sx={{
-            width: "80%",
+            width: "80%"
           }}
           noValidate
           autoComplete="off"
           gap={2}
         >
-          <Typography textAlign={"center"}>Vui Lòng Điền Thông Tin</Typography>
+          <Typography
+
+            textAlign={"center"}
+          >
+            Vui Lòng Điền Thông Tin
+          </Typography>
           <TextField
-            label="Họ và Tên"
-            value={data.customerName}
-            onChange={handleNameChange}
-            variant="outlined"
-          />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              label="Controlled picker"
-              value={dayjs(data.customerDob)}
-              onChange={handleDobChange}
-            />
-          </LocalizationProvider>
-          <TextField
-            label="Email"
-            value={data.customerEmail}
-            onChange={handleEmailChange}
+            label="Name"
+            value={data.step2Data || ""}
+            onChange={handle2Change}
             variant="outlined"
           />
           <TextField
-            label="Số điện thoại"
-            value={data.customerPhone}
-            onChange={handlePhoneChange}
+            label="Phone"
+            value={data.step3Data || ""}
+            onChange={handle3Change}
             variant="outlined"
-            type="tel"
           />
           <TextField
-            label="CMND/CCCD"
-            value={data.customerIc}
-            onChange={handleIcChange}
+            label="Address"
+            value={data.step4Data || ""}
+            onChange={handle4Change}
             variant="outlined"
           />
-          <Button children="Thanh toán" onClick={handleSubmit} />
         </Stack>
       </FormControl>
     </div>

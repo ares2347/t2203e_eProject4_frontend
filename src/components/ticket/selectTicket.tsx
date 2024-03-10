@@ -59,7 +59,6 @@ const SelectTicket = () => {
                   onChange={handleSelect1Change}
                 >
                   <MenuItem value="Hà Nội">Hà Nội</MenuItem>
-                  <MenuItem value="Hải Phòng">Hải Phòng</MenuItem>
                   <MenuItem value="Hồ Chí Minh">Hồ Chí Minh</MenuItem>
                   <MenuItem value="Đà Nẵng">Đà Nẵng</MenuItem>
                   <MenuItem value="Bình Phước">Bình Phước</MenuItem>
@@ -91,7 +90,6 @@ const SelectTicket = () => {
                 >
                   <MenuItem value="Hà Nội">Hà Nội</MenuItem>
                   <MenuItem value="Hồ Chí Minh">Hồ Chí Minh</MenuItem>
-                  <MenuItem value="Hải Phòng">Hải Phòng</MenuItem>
                   <MenuItem value="Đà Nẵng">Đà Nẵng</MenuItem>
                   <MenuItem value="Bình Phước">Bình Phước</MenuItem>
                   <MenuItem value="Bình Dương">Bình Dương</MenuItem>
