@@ -2,7 +2,6 @@ import { HttpResponse, HttpStatusEnum } from "@/model/http/httpEnum";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL ?? "";
-const accessToken: string = "";
 
 //HTTP GET
 export async function httpGet<T>(
@@ -11,7 +10,7 @@ export async function httpGet<T>(
   isAuth: boolean = false
 ): Promise<HttpResponse<T>> {
   const url = `${baseUrl}/${endpoint ?? ""}`;
-  const accessToken = localStorage.getItem("token");
+  const accessToken = sessionStorage.getItem("token");
   const config: AxiosRequestConfig = {
     baseURL: url,
     params: params,
@@ -23,6 +22,8 @@ export async function httpGet<T>(
   };
   if (isAuth && config.headers)
     config.headers.Authorization = `Bearer ${accessToken}`;
+    console.log("🚀 ~ accessToken:", accessToken)
+
   return await axios<T>(config)
     .then((res) => {
       const response: HttpResponse<T> = {
@@ -66,11 +67,11 @@ export async function httpGet<T>(
 export async function httpPost<T>(
   body: any,
   endpoint?: string,
-  params?: any
+  params?: any,
+  isAuth: boolean = false
 ): Promise<HttpResponse<T>> {
   const url = `${baseUrl}/${endpoint ?? ""}`;
-  console.log("🚀 ~ url:", url);
-
+  const accessToken = sessionStorage.getItem("token");
   const config: AxiosRequestConfig = {
     baseURL: url,
     params: params,
@@ -81,6 +82,8 @@ export async function httpPost<T>(
     },
     method: "post",
   };
+  if (isAuth && config.headers)
+  config.headers.Authorization = `Bearer ${accessToken}`;
 
   return await axios<T>(config)
     .then((res) => {

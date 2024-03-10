@@ -39,8 +39,8 @@ const Login = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const userInfoPayload = localStorage.getItem("userInfo")
-        ? JSON.parse(localStorage.getItem("userInfo") as string)
+      const userInfoPayload = sessionStorage.getItem("userInfo")
+        ? JSON.parse(sessionStorage.getItem("userInfo") as string)
         : null;
       if (userInfoPayload)
         router.push("/");
@@ -67,8 +67,8 @@ const Login = () => {
     if (formData) {
       const loginResult = await authService.login(formData);
       if (loginResult.code == HttpStatusEnum.Success.code) {
-        localStorage.setItem("token", loginResult.data?.accessToken as string);
-        localStorage.setItem(
+        sessionStorage.setItem("token", loginResult.data?.accessToken as string);
+        sessionStorage.setItem(
           "expired",
           loginResult.data?.expired?.toISOString() as string
         );
