@@ -1,0 +1,186 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+}
+
+.container-1 {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.left-panel {
+    width: 250px;
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 20px;
+}
+
+.left-panel h2 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.menu-item {
+    cursor: pointer;
+    padding: 10px 0;
+    border-bottom: 1px solid #fff;
+    transition: background-color 0.3s ease;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.right-panel {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #fff;
+}
+
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.content {
+    display: none;
+    flex-grow: 1;
+}
+
+.content.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.form-group button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2737c5;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Thành viên thường */
+.member-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+}
+
+.member-left {
+    grid-column: 1;
+}
+
+.member-images {
+    grid-column: 2;
+}
+
+.small-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+}
+
+.small-image {
+    cursor: pointer;
+}
+
+.large-image img {
+    width: 150%;
+    height: auto;
+}
+
+/* Quản lí thẻ */
+.card-section {
+    border: 2px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.card-section h2 {
+    margin-top: 0;
+}
+
+.add-card-button {
+    padding: 10px 20px;
+    background-color: #3c07e9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-card-button:hover {
+    background-color: #3c07e9;
+}
+
+.ticket-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.status-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.status-button:hover {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+}
+
+.status-button:focus {
+    outline: none;
+}
+
+
+.status-button.done {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.status-button.cancelled {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.status-button.pending {
+    background-color: #ffc107;
+    color: #000;
+}

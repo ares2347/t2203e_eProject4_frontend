@@ -1,6 +1,6 @@
-import { HttpResponse } from "@/model/http/httpEnum";
+import { HttpPaginationResponse, HttpResponse } from "@/model/http/httpEnum";
 
 export interface ITripService {
     getAllTrip: () => TripModel[];
-    getAllTripConfig: (page: number, size: number) => Promise<HttpResponse<TripModel[]>>;
+    getAllTripAsync: (departFrom: string, departAt: string, arriveTo: string, page: number, size: number) => Promise<HttpResponse<HttpPaginationResponse<TripModel>>>;
 }

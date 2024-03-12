@@ -1,224 +1,412 @@
-'use client'
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import './css.css';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
-import { TripService } from '@/service/trip/tripService';
-import SelectTicket from '@/components/ticket/selectTicket';
-import Step1 from './step1';
+"use client";
 
-const steps = ['Lựa chọn chỗ ngồi', 'Điểm đón trả khách', 'Điền thông tin'];
-const test = [{
+import SelectTicket from "@/components/ticket/selectTicket";
+import { TripService } from "@/service/trip/tripService";
+import { useSearchParams } from "next/navigation";
+import React from "react";
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+  Step,
+  StepLabel,
+  Stepper,
+  Typography,
+} from "@mui/material";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import SellIcon from "@mui/icons-material/Sell";
+import Step1 from "./step1";
+import Step3 from "./step3";
+import { DataProvider } from "../travel/DataContext";
+import { HttpPaginationResponse, HttpResponse } from "@/model/http/httpEnum";
+import { format } from "date-fns";
+
+const steps = ["Lựa chọn chỗ ngồi", "Điền thông tin"];
+const formstep = [
+  {
     component: <Step1 />,
-    message: 'Lựa chọn chỗ ngồi'
-},
-{
-    component: 'page 2',
-    message: "Điểm đón trả khách",
-}, {
-    component: 'page 3',
-    message: 'Điền thông tin'
-}]
+    message: "Lựa chọn chỗ ngồi",
+  },
+  {
+    component: <Step3 />,
+    message: "Điền thông tin",
+  },
+];
 
+const TripPage = () => {
+  const tripService = new TripService();
+  const searchParams = useSearchParams();
+  const [tripList, setTripList] = React.useState<TripModel[]>();
+  const [open, setOpen] = React.useState(false);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [sort, setSort] = React.useState(0);
+  const [page, setPage] = React.useState(0);
+  const [size, setSize] = React.useState(10);
 
-const Travel = () => {
+  React.useEffect(() => {
+    const departFrom = searchParams.get("from") as string;
+    const departAt = format(
+      new Date(searchParams.get("checkin") as string),
+      "MM-dd-yyyy"
+    );
+    const arriveTo = searchParams.get("to");
+    tripService
+      .getAllTripAsync(departFrom, departAt, arriveTo, page, size)
+      .then((x) => {
+        setTripList(x.data?.content);
+        setPage(x.data?.pageable.pageNumber ?? 0);
+        setSize(x.data?.pageable.pageSize ?? 0);
+      });
+  }, []);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    const tripService = new TripService();
-    const tripList = tripService.getAllTrip();
+  const handleClose = () => {
+    setOpen(false);
+  };
 
+  const isStepOptional = (step: number) => {
+    return step === 1;
+  };
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+  const onSortSelect = (value: React.ChangeEvent<HTMLInputElement>) => {
+    setSort(parseInt(value.currentTarget.value));
+  };
 
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [skipped, setSkipped] = React.useState(new Set<number>());
+  return (
+    <div>
+      <SelectTicket />
+      <Container maxWidth="lg">
+        <Grid container gap={1} wrap="nowrap">
+          <Grid item xs={3} marginY={2}>
+            <FormControl
+              sx={{
+                width: "100%",
+                boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+                paddingY: 2,
+                paddingX: 2,
+              }}
+            >
+              <FormLabel
+                id="demo-radio-buttons-group-label"
+                sx={{ fontWeight: 700 }}
+                children="Sắp xếp"
+              />
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                defaultValue={0}
+                name="sort"
+                onChange={(e) => onSortSelect(e)}
+              >
+                <FormControlLabel
+                  value={0}
+                  control={<Radio />}
+                  label="Mặc định"
+                />
+                <FormControlLabel
+                  value={1}
+                  control={<Radio />}
+                  label="Giờ đi sớm nhất"
+                />
+                <FormControlLabel
+                  value={2}
+                  control={<Radio />}
+                  label="Giờ đi muộn nhất"
+                />
+                <FormControlLabel
+                  value={3}
+                  control={<Radio />}
+                  label="Giá tăng dần"
+                />
+                <FormControlLabel
+                  value={4}
+                  control={<Radio />}
+                  label="Giá giảm dần"
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid
+            item
+            container
+            xs={9}
+            gap={2}
+            wrap="nowrap"
+            direction="column"
+            paddingX={2}
+            marginY={2}
+          >
+            {tripList?.map((item) => (
+              <Grid
+                item
+                container
+                xs={12}
+                gap={2}
+                wrap="nowrap"
+                boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+                paddingY={2}
+                paddingX={2}
+                alignItems="center"
+              >
+                {/* TODO: Replace this url */}
+                <Grid item xs={3}>
+                  <img
+                    src="https://vcdn-dulich.vnecdn.net/2022/06/16/World-Travel-1-2359-1655367719.jpg"
+                    width="100%"
+                  />
+                </Grid>
+                {/* TODO: Replace info */}
+                <Grid item container direction="column" xs={6} height="100%">
+                  <Typography
+                    color="hsl(0, 0%, 30%)"
+                    fontWeight={700}
+                    fontSize={18}
+                    children={`${item.brandName}`}
+                    paddingBottom={1}
+                  />
+                  <Typography
+                    color="hsl(0, 0%, 30%)"
+                    fontWeight={500}
+                    fontSize={14}
+                    children={`${item.vehicleType}`}
+                    paddingBottom={1}
+                  />
+                  <Grid
+                    container
+                    direction="row"
+                    columns={24}
+                    wrap="nowrap"
+                    gap={1}
+                  >
+                    <Grid
+                      item
+                      container
+                      direction="column"
+                      xs={1}
+                      wrap="nowrap"
+                      alignItems="center"
+                    >
+                      <Grid
+                        item
+                        children={
+                          <RadioButtonUncheckedIcon
+                            sx={{ fontSize: 18, alignSelf: "center" }}
+                          />
+                        }
+                        xs={1}
+                      />
+                      <Grid
+                        borderLeft="4px dotted hsl(0, 0%, 50%)"
+                        xs={10}
+                        item
+                        marginBottom={0.5}
+                      />
+                      <Grid
+                        item
+                        children={<LocationOnIcon sx={{ fontSize: 20 }} />}
+                        xs={1}
+                        alignSelf="center"
+                      />
+                    </Grid>
+                    <Grid item container direction="column" xs={23}>
+                      <Grid
+                        item
+                        children={
+                          <Typography
+                            color="hsl(0, 0%, 30%)"
+                            fontWeight={700}
+                            fontSize={20}
+                            children={`${item.departFrom
+                            } :
+                        ${item.departAt}`}
+                          />
+                        }
+                        xs={1}
+                      />
+                      <Grid
+                        item
+                        children={
+                          <Typography
+                            color="hsl(0, 0%, 30%)"
+                            fontWeight={500}
+                            fontSize={14}
+                            children={`1.30`}
+                          />
+                        }
+                        xs={1}
+                      />
+                      <Grid
+                        item
+                        children={
+                          <Typography
+                            color="hsl(0, 0%, 30%)"
+                            fontWeight={700}
+                            fontSize={20}
+                            children={`${
+                              item.arriveTo
+                            } : 
+                        ${item.arriveAt}`}
+                          />
+                        }
+                        xs={1}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Typography />
+                </Grid>
+                <Grid
+                  item
+                  container
+                  direction="column"
+                  xs={3}
+                  borderLeft="1px solid hsl(0, 0%, 60%)"
+                  height="100%"
+                  paddingX={2}
+                >
+                  <Grid
+                    item
+                    container
+                    xs={4}
+                    direction="row"
+                    alignItems="center"
+                    wrap="nowrap"
+                  >
+                    <SellIcon sx={{ fontSize: 18, color: "hsl(0, 0%, 30%)" }} />
+                    {/* TODO: Update data */}
+                    <Typography
+                      children={`${item.price}`}
+                      color="hsl(0, 0%, 30%)"
+                      fontWeight={700}
+                      fontSize={28}
+                    />
+                  </Grid>
+                  {/* TODO: Update data */}
+                  <Grid item xs={4}>
+                    <Typography
+                      children={`Số chỗ còn lại: ${item.seatRemains}`}
+                      color="hsl(0, 0%, 30%)"
+                      fontWeight={500}
+                      fontSize={16}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <React.Fragment>
+                      <Button
+                        children={<Typography>Đặt chỗ ngay</Typography>}
+                        fullWidth
+                        color="primary"
+                        variant="outlined"
+                        onClick={handleClickOpen}
+                      />
 
-    const isStepOptional = (step: number) => {
-        return step === 1;
-    };
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        maxWidth="md"
+                        fullWidth
+                      >
+                        <DataProvider>
+                          <Box sx={{ width: "100%" }}>
+                            <Stepper activeStep={activeStep}>
+                              {formstep.map((label, index) => {
+                                const stepProps: { completed?: boolean } = {};
+                                const labelProps: {
+                                  optional?: React.ReactNode;
+                                } = {};
+                                if (isStepOptional(index)) {
+                                  labelProps.optional = (
+                                    <Typography variant="caption"></Typography>
+                                  );
+                                }
 
-    const isStepSkipped = (step: number) => {
-        return skipped.has(step);
-    };
-
-    const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            // You probably want to guard against something like this,
-            // it should never occur unless someone's actively trying to break something.
-            throw new Error("You can't skip a step that isn't optional.");
-        }
-
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
-    };
-
-
-    return (
-        <div>
-            <SelectTicket />
-            <ul className="_2tY3C yOn4a" data-test-selector="item-cards-layout-list">
-                <li className="_1cn3x "><span role="group">
-                    <div className="_2sT86 EurVi">
-                        <article className="_3Oe1A">
-                            <section className="_25Upe">
-                                <section className="_2imXI">
-                                    <div className="_3XNMI"><a
-                                        href="https://themeforest.net/item/voevod-a-bespoke-woocommerce-theme/21276462"
-                                        aria-label="Voevod - WooCommerce Store">
-                                        <div className="_2_3rp " >
-                                            <div ><img className="_1xvs1"
-                                                src="https://themeforest.img.customer.envatousercontent.com/files/239948860/00_preview.png?auto=compress%2Cformat&amp;fit=crop&amp;crop=top&amp;w=590&amp;h=300&amp;s=96cd72e751efbeb74b3bcd0d617a0903"
-                                                title="Voevod - WooCommerce Store" alt="Voevod - WooCommerce Store"
-                                            /></div>
-                                        </div>
-                                    </a></div>
-                                    <section className="_1SQpT"><a
-                                        href="https://themeforest.net/item/voevod-a-bespoke-woocommerce-theme/21276462"
-                                        className="KFSGT" role="toolbar" title="Voevod - WooCommerce Store"></a>
-                                        <section className="_3cDcj">
-
-                                        </section>
-                                    </section>
-                                </section>
-                            </section>
-                            <section className="hypZf">
-                                <div className="U157g">
-                                    <div className="vfsyA">
-                                        <div className="_25ygu">
-                                            <h3 className="_2WWZB"><a className="_2Pk9X" >{tripList[0].brandName}</a>
-                                            </h3>
-
-                                            <div className="JHf2a"><a className="R8zaM">Chính Sách </a></div>
-                                        </div>
-                                    </div>
-                                    <div className="_1VJk4">
-                                        <div className="_4zAGT">
-                                            <div className="GeySM"><p className="_2g_QW">Seat: {tripList[0].seatAmount}</p> </div>
-                                        </div>
-                                        <ul className="_3bM8k">
-                                            <li > </li>
-                                            <li className="Ck5w-">{tripList[0].departFrom} :  {tripList[0].departAt}</li>
-                                            <div className="icon"><ArrowDownwardOutlinedIcon /></div>
-                                            <li className="Ck5w-">{tripList[0].arriveTo}   :  {tripList[0].arriveAt}</li>
-                                        </ul>
-
-                                        <b>KHÔNG CẦN THANH TOÁN TRƯỚC</b>
-                                    </div>
-                                </div>
-                            </section>
-                            <section className="_38ivw">
-                                <section className="_9q1LS">
-                                    <section className="_3dJU8">
-                                    </section>
-                                    <section className="_7H2LP">
-                                        <div className="-DeRq">{tripList[0].price} VND</div>
-
-                                        <div className="GeySM"><span className="_2g_QW">Số chỗ còn lại:</span> <span className="_3TIJT"> {tripList[0].vehicleType}</span></div>
-                                    </section>
-                                    <section className="VRlLl"><a className="_3tfm8 _3ePxY" role="button" target="_blank"
-                                        rel="noopener noreferrer">BOOK NOW <ArrowDropDownIcon /> </a></section>
-                                </section>
-                            </section>
-                        </article>
-                    </div>
-                </span>
-                </li>
-                <Box sx={{ width: '100%' }}>
-                    <Stepper activeStep={activeStep}>
-                        {test.map((label, index) => {
-                            const stepProps: { completed?: boolean } = {};
-                            const labelProps: {
-                                optional?: React.ReactNode;
-                            } = {};
-                            if (isStepOptional(index)) {
-                                labelProps.optional = (
-                                    <Typography variant="caption">Optional</Typography>
+                                return (
+                                  <Step key={label.message} {...stepProps}>
+                                    <StepLabel {...labelProps}>
+                                      {label.message}
+                                    </StepLabel>
+                                  </Step>
                                 );
-                            }
-                            if (isStepSkipped(index)) {
-                                stepProps.completed = false;
-                            }
-                            return (
-                                <Step key={label.message} {...stepProps}>
-                                    <StepLabel {...labelProps}>{label.message}</StepLabel>
-                                </Step>
-
-                            );
-                        })}
-                    </Stepper>
-                    {activeStep === steps.length ? (
-                        <React.Fragment>
-                            <Typography sx={{ mt: 2, mb: 1 }}>
-                                Cảm ơn bạn đã cung cấp thông tin                      
-                                      </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button
+                              })}
+                            </Stepper>
+                            {activeStep === steps.length ? (
+                              <React.Fragment>
+                                <Typography sx={{ mt: 2, mb: 1 }}>
+                                  Cảm ơn bạn đã cung cấp thông tin
+                                </Typography>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    pt: 2,
+                                  }}
+                                >
+                                  <Box sx={{ flex: "1 1 auto" }} />
+                                  <Button
                                     color="inherit"
                                     disabled={activeStep === 0}
                                     onClick={handleBack}
                                     sx={{ mr: 1 }}
-                                >
+                                  >
                                     Trở Lại
-                                </Button>
-                                <a href='/success'>
-                                <Button >Xem Chi Tiết</Button>
-                                </a>
-                            </Box>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            {test[activeStep].component}
+                                  </Button>
+                                  <a href="/success">
+                                    <Button>Xem Chi Tiết</Button>
+                                  </a>
+                                </Box>
+                              </React.Fragment>
+                            ) : (
+                              <React.Fragment>
+                                {formstep[activeStep].component}
 
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Button
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    pt: 2,
+                                  }}
+                                >
+                                  <Button
                                     color="inherit"
                                     disabled={activeStep === 0}
                                     onClick={handleBack}
                                     sx={{ mr: 1 }}
-                                >
+                                  >
                                     Trở lại
-                                </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                {isStepOptional(activeStep) && (
-                                    <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                                        Bỏ qua
-                                    </Button>
-                                )}
-                                <Button onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Bỏ qua' : 'Tiếp'}
-                                </Button>
-                            </Box>
-                        </React.Fragment>
-                    )}
-                </Box>
-            </ul>
-        </div>
-    )
-}
+                                  </Button>
+                                  <Box sx={{ flex: "1 1 auto" }} />
 
-export default Travel
+                                  <Button onClick={handleNext}>Tiếp</Button>
+                                </Box>
+                              </React.Fragment>
+                            )}
+                          </Box>
+                        </DataProvider>
+                      </Dialog>
+                    </React.Fragment>
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </Container>
+    </div>
+  );
+};
 
+export default TripPage;
