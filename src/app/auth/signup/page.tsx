@@ -19,6 +19,7 @@ import { HttpStatusEnum } from "@/model/http/httpEnum";
 import { AuthService } from "@/service/auth/authService";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useRouter } from "next/navigation";
+import { SignupRequest } from "@/model/auth/AuthModel";
 
 const SignUp = () => {
   const [isLoading, setLoading] = useState(false);
@@ -32,8 +33,8 @@ const SignUp = () => {
     if (formData) {
       const loginResult = await authService.signup(formData);
       if (loginResult.code == HttpStatusEnum.Success.code) {
-        localStorage.setItem("token", loginResult.data?.accessToken as string);
-        localStorage.setItem(
+        sessionStorage.setItem("token", loginResult.data?.accessToken as string);
+        sessionStorage.setItem(
           "expired",
           loginResult.data?.expired?.toISOString() as string
         );

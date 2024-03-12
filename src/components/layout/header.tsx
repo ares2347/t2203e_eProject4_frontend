@@ -8,31 +8,20 @@ import { MouseEventHandler, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import React from 'react';
 import { UserInfo } from '../../model/auth/AuthModel';
-
+import { AuthService } from '@/service/auth/authService';
 const Header = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const router = useRouter();
-
+  const authService = new AuthService();
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const userInfoPayload = localStorage.getItem("userInfo")
-        ? JSON.parse(localStorage.getItem("userInfo") as string)
-        : null;
-      setUserInfo(userInfoPayload);
-    } else {
-      setUserInfo(null);
-    }
-    console.log("aaa");
+    const userInfo = authService.getUserInfo();
+    setUserInfo(userInfo);
   }, []);
 
   function handleLogOut() {
-    if (typeof window !== "undefined") {
-      localStorage.clear();
-      setUserInfo(null);
-    } else {
-      setUserInfo(null);
-    }
-    router.push("/");
+    authService.logout();
+    setUserInfo(null);
+    router.push("/auth/login");
   }
 
   return (
@@ -44,7 +33,7 @@ const Header = () => {
           <div className="container">
             <a href="/" className="helpline-box">
               <div className="wrapper">
-                <p className="helpline-title">Liên hệ:</p>
+                <p className="helpline-title">Contact:</p>
 
                 <p className="helpline-number">0312834923</p>
               </div>
@@ -58,7 +47,7 @@ const Header = () => {
               ) : (
                 <button className="search-btn" aria-label="Search">
                   <a href="/auth/login" className="btn btn-primary">
-                    Đăng nhập
+                    Login
                   </a>
                 </button>
               )}
@@ -92,47 +81,47 @@ const Header = () => {
               <ul className="navbar-list">
                 <li>
                   <a href="/home" className="navbar-link" data-nav-link>
-                    Trang chủ
+                    home
                   </a>
                 </li>
 
                 <li>
                   <a href="/about-us" className="navbar-link" data-nav-link>
-                    Về chúng tôi
+                    about us
                   </a>
                 </li>
 
                 <li>
                   <a href="#destination" className="navbar-link" data-nav-link>
-                    Điểm đến
+                    destination
                   </a>
                 </li>
 
                 <li>
                   <a href="#package" className="navbar-link" data-nav-link>
-                    Gói
+                    packages
                   </a>
                 </li>
 
                 <li>
                   <a href="#gallery" className="navbar-link" data-nav-link>
-                    Phòng trưng bày
+                    gallery
                   </a>
                 </li>
 
                 <li>
                   <a href="#contact" className="navbar-link" data-nav-link>
-                    Liên hệ với chúng tôi
+                    contact us
                   </a>
                 </li>
               </ul>
             </nav>
             {userInfo ? (
-              <button className="btn btn-primary" onClick={handleLogOut}>Đăng xuất</button>
+              <button className="btn btn-primary" onClick={handleLogOut}>Log out</button>
             ) : (
               <a href="/auth/signup">
                 {" "}
-                <button className="btn btn-primary">Đăng ký</button>
+                <button className="btn btn-primary">Sign-Up</button>
               </a>
             )}
           </div>

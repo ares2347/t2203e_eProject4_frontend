@@ -8,7 +8,7 @@ import React from 'react';
 const AboutUs = () => {
     return (
         <div>
-     
+            <body>
                 <header className="masthead">
                     <div className="container position-relative">
                         <div className="row justify-content-center">
@@ -107,6 +107,7 @@ const AboutUs = () => {
                 <script src="js/scripts.js"></script>
 
                 <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+            </body>
         </div>
     )
 }
