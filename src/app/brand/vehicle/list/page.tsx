@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { VehicleService } from "@/service/vehicle/vehicleService";
-import { CircularProgress, Grid, Pagination, Stack } from "@mui/material";
+import { Button, CircularProgress, Grid, Pagination, Stack } from "@mui/material";
 
 export default function VehicleConfigList() {
   const vehicleService = new VehicleService();
@@ -73,6 +73,7 @@ export default function VehicleConfigList() {
               <TableCell>Tên phương tiện</TableCell>
               <TableCell>Loại phương tiện</TableCell>
               <TableCell>Số chỗ ngồi</TableCell>
+              <TableCell>Chỉnh Sửa</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -88,6 +89,7 @@ export default function VehicleConfigList() {
                   <TableCell>{row.vehicleName}</TableCell>
                   <TableCell>{row.vehicleType}</TableCell>
                   <TableCell>{row.seatAmount}</TableCell>
+                  <TableCell><Button variant="outlined" color="error">Huỷ</Button> <Button variant="outlined">Sửa</Button></TableCell>
                 </TableRow>
               );
             })}
