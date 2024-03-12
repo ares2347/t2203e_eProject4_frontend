@@ -49,8 +49,7 @@ const AddTrip = () => {
   const handleDepartFromChange = (e: SelectChangeEvent) => {
     setDepartFrom(e.target.value);
   };
-  const handleArriveToChange = (e: SelectChangeEvent) => 
-  {
+  const handleArriveToChange = (e: SelectChangeEvent) => {
     setArriveTo(e.target.value);
   };
   const handleDepartAtChange = (val: string | null) => {
@@ -62,7 +61,7 @@ const AddTrip = () => {
   const handleVehicleIdChange = (e: SelectChangeEvent) => {
     setVehicleId(e.target.value);
   };
-  const handleIsRepeatedChange = () => {};
+  const handleIsRepeatedChange = () => { };
   const handlePriceChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -71,23 +70,23 @@ const AddTrip = () => {
 
   const handleSubmit = () => {
     setIsLoading(true);
-      tripService
-        .addTripConfig({
-          arriveAt: dayjs(arriveAt).format("HH:mm:ss"),
-          arriveTo: arriveTo ?? "",
-          departAt: dayjs(departAt).format("HH:mm:ss"),
-          departFrom: departFrom ?? "",
-          isRepeated: isRepeated,
-          price: price,
-          vehicleId: vehicleId,
-          stops: ""
-        })
-        .then((x) => {
-          if (x.code == HttpStatusEnum.Success.code) {
-            router.push("/brand/trip");
-          }
-        })
-        .finally(() => setIsLoading(false));
+    tripService
+      .addTripConfig({
+        arriveAt: dayjs(arriveAt).format("HH:mm:ss"),
+        arriveTo: arriveTo ?? "",
+        departAt: dayjs(departAt).format("HH:mm:ss"),
+        departFrom: departFrom ?? "",
+        isRepeated: isRepeated,
+        price: price,
+        vehicleId: vehicleId,
+        stops: ""
+      })
+      .then((x) => {
+        if (x.code == HttpStatusEnum.Success.code) {
+          router.push("/brand/trip");
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -209,11 +208,24 @@ const AddTrip = () => {
                 />
               </LocalizationProvider>
             </Grid>
+            <Grid item xs={12}>
+              <Typography textAlign='center'>Thêm Tài Xế</Typography>
+              <Grid item width='100%' xs={6}>
+                <Typography textAlign='left'>Lái Xe</Typography>
+                <TextField sx={{ paddingRight: 10 }} id="drivername1" label="Tên" variant="outlined" />
+                <TextField id="driverphone1" label="Số Điện Thoại" variant="outlined" />
+              </Grid>
+              <Grid item xs={6}>
+                <Typography textAlign='left'>Phụ Xe</Typography>
+                <TextField sx={{ paddingRight: 10 }} id="drivername2" label="Tên" variant="outlined" />
+                <TextField id="driverphone2" label="Số Điện Thoại" variant="outlined" />
+              </Grid>
+            </Grid>
             <Grid item container width="100%" gap={2} wrap="nowrap">
               <Grid item xs={6}>
                 <TextField
                   required
-                  id="outlined-required"
+                  id="price"
                   label="Giá tiền"
                   fullWidth
                   type="number"
@@ -231,16 +243,16 @@ const AddTrip = () => {
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                       setIsRepeated(event.target.checked)
                     }
-                    // color={isRepeated ? "success" : "neutral"}
-                    // variant={isRepeated ? "solid" : "outlined"}
-                    // endDecorator={isRepeated ? "On" : "Off"}
-                    // slotProps={{
-                    //   endDecorator: {
-                    //     sx: {
-                    //       minWidth: 24,
-                    //     },
-                    //   },
-                    // }}
+                  // color={isRepeated ? "success" : "neutral"}
+                  // variant={isRepeated ? "solid" : "outlined"}
+                  // endDecorator={isRepeated ? "On" : "Off"}
+                  // slotProps={{
+                  //   endDecorator: {
+                  //     sx: {
+                  //       minWidth: 24,
+                  //     },
+                  //   },
+                  // }}
                   />
                 </FormControl>
               </Grid>
