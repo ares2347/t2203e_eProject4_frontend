@@ -21,10 +21,10 @@ const Footer = () => {
 
                         <div className="footer-contact">
 
-                            <h4 className="contact-title">Contact Us</h4>
+                            <h4 className="contact-title">Liên hệ với chúng tôi</h4>
 
                             <p className="contact-text">
-                                Feel free to contact and reach us !!
+                                Hãy liên hệ và liên hệ với chúng tôi!
                             </p>
 
                             <ul>
@@ -55,13 +55,13 @@ const Footer = () => {
                         <div className="footer-form">
 
                             <p className="form-text">
-                                Subscribe our newsletter for more update & news !!
+                                Đăng ký bản tin của chúng tôi để biết thêm thông tin cập nhật và tin tức !!
                             </p>
 
                             <form action="" className="form-wrapper">
                                 <input type="email" name="email" className="input-field" placeholder="Enter Your Email" required />
 
-                                <button type="submit" className="btn btn-secondary">Subscribe</button>
+                                <button type="submit" className="btn btn-secondary">Đăng ký</button>
                             </form>
 
                         </div>
@@ -73,17 +73,17 @@ const Footer = () => {
                     <div className="container">
 
                         <p className="copyright">
-                            &copy; 2022 <a href="">codewithsadee</a>. All rights reserved
+                            &copy; 2022 <a href="">codewithsadee</a> - Đã đăng ký bản quyền
                         </p>
 
                         <ul className="footer-bottom-list">
 
                             <li>
-                                <a href="#" className="footer-bottom-link">Privacy Policy</a>
+                                <a href="#" className="footer-bottom-link">Chính sách bảo mật</a>
                             </li>
 
                             <li>
-                                <a href="#" className="footer-bottom-link">Term & Condition</a>
+                                <a href="#" className="footer-bottom-link">Kỳ hạn và điều kiện</a>
                             </li>
 
                             <li>
