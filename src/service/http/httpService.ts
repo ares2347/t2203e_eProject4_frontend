@@ -14,7 +14,6 @@ export async function httpGet<T>(
   const config: AxiosRequestConfig = {
     baseURL: url,
     params: params,
-    data: body,
     headers: {
       "Content-Type": "application/json",
       Accept: "*/*",
