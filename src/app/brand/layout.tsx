@@ -1,15 +1,17 @@
 import Menu from "@/components/layout/menu";
-import { Grid } from "@mui/material";
+import { AppBar, Grid, Toolbar } from "@mui/material";
 
-interface LayoutProps{
-    children: React.ReactNode
+interface LayoutProps {
+  children: React.ReactNode
 }
 const Layout = (props: LayoutProps) => {
   return (
     <>
-      <Grid container wrap="nowrap">
-      <Grid item xs = {2}><Menu /></Grid>
-      <Grid item xs = {10}>{props.children}</Grid>
+      <Grid>
+        <Menu />
+        <Toolbar>
+          <Grid width='fullwidth'>{props.children}</Grid>
+        </Toolbar>
       </Grid>
     </>
   );

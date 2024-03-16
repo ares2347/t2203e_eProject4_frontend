@@ -24,11 +24,13 @@ export class AuthService implements IAuthService {
           "expired",
           queryResult.data?.expired?.toISOString() as string
         );
+        setCookie("token", queryResult.data?.accessToken as string);
       const userInfoRes = await httpGet<UserInfo>("user/info", null, true);
       if (userInfoRes.code == 200) {
         sessionStorage.setItem("userInfo", JSON.stringify(userInfoRes.data));
         sessionStorage.setItem("roles", JSON.stringify(userInfoRes.data?.roles));
         setCookie("roles", JSON.stringify(userInfoRes.data?.roles));
+
       } else {
         console.log(
           "🚀 ~ AuthService ~ userInfoRes.message:",
