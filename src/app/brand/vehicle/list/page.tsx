@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { VehicleService } from "@/service/vehicle/vehicleService";
-import { Button, CircularProgress, Grid, Pagination, Stack } from "@mui/material";
+import { Box, Button, CircularProgress, FormControl, Grid, InputLabel, MenuItem, Pagination, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
 
 export default function VehicleConfigList() {
   const vehicleService = new VehicleService();
@@ -46,33 +46,30 @@ export default function VehicleConfigList() {
       setIsLoading(false);
     });
   };
+  const [age, setAge] = React.useState('');
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setAge(event.target.value as string);
+  };
   return isLoading ? (
-    <Grid
-      container
-      xs={9}
-      gap={2}
-      wrap="nowrap"
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      paddingX={2}
-      marginY={2}
-    >
-      <Grid item>
-        <CircularProgress />
-      </Grid>
+
+    <Grid>
+      <CircularProgress />
     </Grid>
   ) : (
     <Paper sx={{ overflow: "hidden" }}>
-      <TableContainer sx={{ paddingLeft: 5, maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
+      <TableContainer sx={{ maxHeight: 440 }} >
+        <Table sx={{ width: 1200 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>STT</TableCell>
               <TableCell>Tên phương tiện</TableCell>
               <TableCell>Loại phương tiện</TableCell>
               <TableCell>Số chỗ ngồi</TableCell>
+              <TableCell>Biển Kiểm Soát</TableCell>
+              <TableCell>Bến Hiện Tại</TableCell>
+              <TableCell>Tài Xế</TableCell>
+              <TableCell>Trạng Thái</TableCell>
               <TableCell>Chỉnh Sửa</TableCell>
             </TableRow>
           </TableHead>
@@ -89,6 +86,31 @@ export default function VehicleConfigList() {
                   <TableCell>{row.vehicleName}</TableCell>
                   <TableCell>{row.vehicleType}</TableCell>
                   <TableCell>{row.seatAmount}</TableCell>
+                  <TableCell>12312312</TableCell>
+                  <TableCell>Hà Nội</TableCell>
+                  <TableCell>
+                    <TextField
+                      size="small"
+                      required
+                      id="Tai xe"
+                      defaultValue="Nguyễn Văn A"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Box sx={{ minWidth: 40 }}>
+                      <FormControl sx={{ minWidth: 120 }}>
+                        <Select
+                          size="small"
+                          value={age}
+                          onChange={handleChange}
+                        >
+                          <MenuItem value={10}>Chưa Chạy</MenuItem>
+                          <MenuItem value={20}>Đang Chạy</MenuItem>
+                          <MenuItem value={30}>Đã Chạy</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Box>
+                  </TableCell>
                   <TableCell><Button variant="outlined" color="error">Huỷ</Button> <Button variant="outlined">Sửa</Button></TableCell>
                 </TableRow>
               );

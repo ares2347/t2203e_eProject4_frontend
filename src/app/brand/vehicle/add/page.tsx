@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 const AddTrip = () => {
   const [vehicleType, setVehicleType] = React.useState<string>("");
@@ -58,21 +58,35 @@ const AddTrip = () => {
           }
         });
   };
+  const [images, setImages] = useState<FileList | null>(null);
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedImages = event.target.files;
+    if (selectedImages) {
+      setImages(selectedImages);
+    }
+  };
+  const handleUploadImages = () => {
+    if (images) {
+      for (let i = 0; i < images.length; i++) {
+        const image = images[i];
+        console.log("Uploading image:", image);
+        // Thực hiện xử lý tải ảnh lên server tại đây cho từng file ảnh
+      }
+    }
+  };
   return (
     <>
       <Box
         component="form"
-        sx={{
-          "& > :not(style)": { m: 1 },
-        }}
-        paddingX={4}
-        paddingY={2}
+        paddingX={3}
+        paddingY={3}
         noValidate
         autoComplete="off"
         bgcolor="white"
       >
         <Typography
+          textAlign='center'
           children="Tạo phương tiện mới"
           fontSize={28}
           fontWeight={600}
@@ -94,7 +108,7 @@ const AddTrip = () => {
             </Grid>
           </Grid>
         ) : (
-          <Grid container gap={2} direction="column">
+          <Grid item container width="100%" gap={2}>
             <Grid item xs={12}>
               <TextField
                 required
@@ -118,6 +132,15 @@ const AddTrip = () => {
                 />
               </Grid>
               <Grid item xs={6}>
+                <TextField
+                  required
+                  id="outlined-required"
+                  label="Biển Kiểm Soát"
+                  fullWidth
+                  type="number"
+                />
+              </Grid>
+              <Grid item xs={6}>
                 <FormControl sx={{ width: "100%" }}>
                   <InputLabel id="vehicleType">Loại phương tiện</InputLabel>
                   <Select
@@ -134,6 +157,46 @@ const AddTrip = () => {
                 </FormControl>
               </Grid>
             </Grid>
+            <Grid item xs={2}>
+              <FormControl sx={{ width: "100%" }}>
+                <InputLabel id="departFrom">Bến Hiện Tại</InputLabel>
+                <Select
+                  labelId="departFrom"
+                  id="departFromSelect"
+                  required
+                  label="Bến Hiện Tại"
+                >
+                  <MenuItem value="Hà Nội">Hà Nội</MenuItem>
+                  <MenuItem value="Hồ Chí Minh">Hồ Chí Minh</MenuItem>
+                  <MenuItem value="Hải Phòng">Hải Phòng</MenuItem>
+                  <MenuItem value="Đà Nẵng">Đà Nẵng</MenuItem>
+                  <MenuItem value="Bình Phước">Bình Phước</MenuItem>
+                  <MenuItem value="Bình Dương">Bình Dương</MenuItem>
+                  <MenuItem value="Vĩnh phúc">Vĩnh phúc</MenuItem>
+                  <MenuItem value="Vĩnh Long">Vĩnh Long</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <Typography
+                children={'Upload Ảnh'}
+              />
+              <input
+                accept="image/*"
+                id="contained-button-file"
+                multiple
+                type="file"
+                onChange={handleImageChange}
+              />
+              <Grid item>
+                {images && (
+                  <div>
+                    {Array.from(images).map((image, index) => (
+                      <img key={index} src={URL.createObjectURL(image)} alt={`Uploaded ${index}`} width='30%' />
+                    ))}
+                  </div>
+                )}
+              </Grid></Grid>
             <Grid item container alignItems="flex-end" direction="row">
               <Grid item flex={1} />
               <Button
