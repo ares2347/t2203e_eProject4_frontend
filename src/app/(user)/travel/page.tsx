@@ -160,10 +160,10 @@ const TripPage = () => {
     tripService
       .getAllTripAsync(departFrom, departAt, arriveTo, page - 1, size)
       .then((x) => {
-        setTripList(x.data?.content);
-        setPage((x.data?.pageable.pageNumber ?? 0) + 1);
-        setSize(x.data?.pageable.pageSize ?? 0);
-        setTotalPage(x.data?.totalPages ?? 0);
+        setTripList(x.data?.data);
+        setPage((x.data?.page ?? 0) + 1);
+        setSize(x.data?.size ?? 0);
+        setTotalPage(x.data?.totalPage ?? 0);
         setIsLoading(false);
       });
   };
