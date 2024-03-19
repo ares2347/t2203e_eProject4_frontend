@@ -3,8 +3,9 @@ import Head from 'next/head'
 import { Router } from 'next/router'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import { ReactNode } from 'react';
+
 // ** Loader Import
+import NProgress from 'nprogress'
 
 // ** Emotion Imports
 import { CacheProvider } from '@emotion/react'
@@ -40,13 +41,13 @@ const clientSideEmotionCache = createEmotionCache()
 // ** Pace Loader
 if (themeConfig.routingLoader) {
   Router.events.on('routeChangeStart', () => {
-    // NProgress.start()
+    NProgress.start()
   })
   Router.events.on('routeChangeError', () => {
-    // NProgress.done()
+    NProgress.done()
   })
   Router.events.on('routeChangeComplete', () => {
-    // NProgress.done()
+    NProgress.done()
   })
 }
 
@@ -55,7 +56,7 @@ const App = (props: ExtendedAppProps) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props
 
   // Variables
-  const getLayout = Component.getLayout ?? ((page :ReactNode) => <UserLayout>{page}</UserLayout>)
+  const getLayout = Component.getLayout ?? (page => <UserLayout>{page}</UserLayout>)
 
   return (
     <CacheProvider value={emotionCache}>
