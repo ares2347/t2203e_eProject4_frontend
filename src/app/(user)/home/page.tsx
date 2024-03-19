@@ -21,8 +21,9 @@ const MainPage = () => {
     const textStyle = {
     fontFamily: 'Roboto, sans-serif',
   };
-
+  
   return (
+    
     <div>
       <SelectTicket />
       <section className="popular" id="destination">

@@ -33,7 +33,7 @@ const Header = () => {
           <div className="container">
             <a href="/" className="helpline-box">
               <div className="wrapper">
-                <p className="helpline-title">Contact:</p>
+                <p className="helpline-title">Liên hệ:</p>
 
                 <p className="helpline-number">0312834923</p>
               </div>
@@ -47,7 +47,7 @@ const Header = () => {
               ) : (
                 <button className="search-btn" aria-label="Search">
                   <a href="/auth/login" className="btn btn-primary">
-                    Login
+                    Đăng nhập
                   </a>
                 </button>
               )}
@@ -81,47 +81,47 @@ const Header = () => {
               <ul className="navbar-list">
                 <li>
                   <a href="/home" className="navbar-link" data-nav-link>
-                    home
+                    Trang chủ
                   </a>
                 </li>
 
                 <li>
                   <a href="/about-us" className="navbar-link" data-nav-link>
-                    about us
+                    Về chúng tôi
                   </a>
                 </li>
 
                 <li>
                   <a href="#destination" className="navbar-link" data-nav-link>
-                    destination
+                    điểm đếm
                   </a>
                 </li>
 
                 <li>
                   <a href="#package" className="navbar-link" data-nav-link>
-                    packages
+                    Gói
                   </a>
                 </li>
 
                 <li>
                   <a href="#gallery" className="navbar-link" data-nav-link>
-                    gallery
+                    Phòng trưng bày
                   </a>
                 </li>
 
                 <li>
                   <a href="#contact" className="navbar-link" data-nav-link>
-                    contact us
+                    Liên hệ chúng tôi
                   </a>
                 </li>
               </ul>
             </nav>
             {userInfo ? (
-              <button className="btn btn-primary" onClick={handleLogOut}>Log out</button>
+              <button className="btn btn-primary" onClick={handleLogOut}>Đăng xuất</button>
             ) : (
               <a href="/auth/signup">
                 {" "}
-                <button className="btn btn-primary">Sign-Up</button>
+                <button className="btn btn-primary">Đăng ký</button>
               </a>
             )}
           </div>
@@ -129,7 +129,7 @@ const Header = () => {
       </header>
       <section className="hero" id="home">
         <div className="container">
-          <h2 className="h1 hero-title">Travel For Every Where</h2>
+          <h2 className="h1 hero-title">For Every Where</h2>
 
           <p className="hero-text">
             Địa chỉ đăng ký kinh doanh: 8C Chữ Đồng Tử, Phường 7, Quận Tân Bình, Thành Phố Hồ Chí Minh, Việt Nam
