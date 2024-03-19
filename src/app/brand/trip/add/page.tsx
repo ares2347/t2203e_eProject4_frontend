@@ -39,8 +39,8 @@ const AddTrip = () => {
   const [vehicleList, setVehicleList] = React.useState<VehicleModel[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   React.useEffect(() => {
-    vehicleService.getAllVehicleConfigAsync().then((x) => {
-      setVehicleList(x.data ?? []);
+    vehicleService.getAllVehicleListConfigAsync(0, 10).then((x) => {
+      setVehicleList(x.data?.data ?? []);
       setIsLoading(false);
     });
   }, []);
