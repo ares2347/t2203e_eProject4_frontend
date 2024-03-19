@@ -4,8 +4,14 @@ import { RoleEnum } from "./model/auth/AuthModel";
 
 export function middleware(request: NextRequest) {
   const currentRoles = request.cookies.get("roles")?.value;
+  const accessToken = request.cookies.get("token")?.value;
   const url = request.nextUrl.clone();
-
+  
+  if((request.nextUrl.pathname.startsWith("/admin") || request.nextUrl.pathname.startsWith("/brand")) && !accessToken){
+    url.pathname = "auth/login";
+    return NextResponse.redirect(url);
+  }
+  
   //role-base auth guard
   if (
     !currentRoles?.includes(RoleEnum.ADMIN) &&

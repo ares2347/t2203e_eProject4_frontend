@@ -1,5 +1,8 @@
 "use client";
+import { UserInfo } from "@/model/auth/AuthModel";
+import { AuthService } from "@/service/auth/authService";
 import { FormatListBulleted, Add } from "@mui/icons-material";
+import { List, ListItem, Box } from "@mui/joy";
 import {
   Paper,
   MenuList,
@@ -10,12 +13,11 @@ import {
   Divider,
   Toolbar,
   Drawer,
-  List,
-  ListItem,
   ListItemButton,
+  AppBar,
 } from "@mui/material";
-import { useRoutes } from 'react-router-dom';
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface Routing{
   url: string;
@@ -24,66 +26,70 @@ interface Routing{
 }
 const routing: Array<Routing> = [
   {
-    url: "/content/overview/Hero",
-    label: "Add New Trip",
+    url: "/brand/trip/add",
+    label: "Thêm chuyến",
     icon: <Add />,
   },
   {
     url: "/brand/trip/list",
-    label: "Trip List",
+    label: "Danh sách chuyến",
     icon: <FormatListBulleted />,
   },
   {
     url: "/brand/vehicle/add",
-    label: "Add New Vehicle",
+    label: "Thêm phương tiện",
     icon: <Add />,
   },
   {
     url: "/brand/vehicle/list",
-    label: "Vehicle List",
+    label: "Danh sách phương tiện",
+    icon: <FormatListBulleted />,
+  },
+  {
+    url: "/brand/driver/add",
+    label: "Thêm tài xế",
+    icon: <Add />,
+  },
+  {
+    url: "/brand/driver/list",
+    label: "Danh sách tài xế",
     icon: <FormatListBulleted />,
   },
 ];
 const Menu = () => {
   const router = useRouter();
+  const authService = new AuthService();
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const drawerWidth = 240;
-  console.log(router)
+  function handleLogOut() {
+    authService.logout();
+    setUserInfo(null);
+    router.push("/auth/login");
+  }
   const handleClick = (url: string) => {
     router.push(url);
   };
-  //var ContentFill = useRoutes(routess);
   return (
-    <Paper sx={{ width: 320, maxWidth: "100%" }}>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <Toolbar />
-        <Divider />
-        <List>
-          {routing.map((item, index) => (
-            <ListItem
-              key={item.label}
-              disablePadding
-              onClick={() => handleClick(item.url)}
+    <Box
+      component="nav" aria-label="My site" sx={{ flexGrow: 1 }}
+    >
+      <List role="menubar" orientation="horizontal">
+        {routing.map((item, index) => (
+          <ListItem
+            role="none"
+          >
+
+            <ListItemButton
+              role="menuitem"
+              component="a"
+              href={item.url}
             >
-              <ListItemButton>
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.label} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-    </Paper>
+              <ListItemText primary={item.label} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
   );
 };
 

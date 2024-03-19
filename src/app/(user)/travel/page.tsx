@@ -76,7 +76,9 @@ function a11yProps(index: number) {
 const steps = ["Lựa chọn chỗ ngồi", "Điểm Đón Trả", "Điền thông tin"];
 
 const VehicleType: { [key: string | number]: string } = {
-  COACH: "Xe khách"
+  COACH: "Xe khách",
+  CAR: "Xe Con",
+  LIMOSINE: "Xe Limosine"
 }
 
 const TripPage = () => {
@@ -369,6 +371,8 @@ const TripPage = () => {
                     xs={3}
                     borderLeft="1px solid hsl(0, 0%, 60%)"
                     height="100%"
+                    gap={1}
+                    wrap="nowrap"
                     paddingX={2}
                   >
                     <Grid
@@ -399,7 +403,7 @@ const TripPage = () => {
                         fontSize={16}
                       />
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={2}>
                       <Button
                         children={<Typography>Thông Tin</Typography>}
                         fullWidth
@@ -571,7 +575,7 @@ const TripPage = () => {
                         </Box>
                       </Dialog>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={2}>
                       <React.Fragment>
                         <Button
                           children={<Typography>Đặt chỗ ngay</Typography>}

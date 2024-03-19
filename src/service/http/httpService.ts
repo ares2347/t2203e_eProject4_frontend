@@ -1,5 +1,6 @@
 import { HttpResponse, HttpStatusEnum } from "@/model/http/httpEnum";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { getCookie, getCookies } from "cookies-next";
 
 // const baseUrl: string = "http://localhost:8080/api/";
 const baseUrl: string = process.env.NEXT_PUBLIC_BASE_URL ?? "";
@@ -12,7 +13,7 @@ export async function httpGet<T>(
 ): Promise<HttpResponse<T>> {
   console.log(baseUrl)
   const url = `${baseUrl}/${endpoint ?? ""}`;
-  const accessToken = sessionStorage.getItem("token");
+  const accessToken = getCookie("token");
   const config: AxiosRequestConfig = {
     baseURL: url,
     params: params,
@@ -73,7 +74,7 @@ export async function httpPost<T>(
   isAuth: boolean = false
 ): Promise<HttpResponse<T>> {
   const url = `${baseUrl}/${endpoint ?? ""}`;
-  const accessToken = sessionStorage.getItem("token");
+  const accessToken = getCookie("token");
   const config: AxiosRequestConfig = {
     baseURL: url,
     params: params,
