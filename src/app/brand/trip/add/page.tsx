@@ -39,8 +39,8 @@ const AddTrip = () => {
   const [vehicleList, setVehicleList] = React.useState<VehicleModel[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   React.useEffect(() => {
-    vehicleService.getAllVehicleConfigAsync().then((x) => {
-      setVehicleList(x.data ?? []);
+    vehicleService.getAllVehicleListConfigAsync(0, 10).then((x) => {
+      setVehicleList(x.data?.data ?? []);
       setIsLoading(false);
     });
   }, []);
@@ -88,8 +88,8 @@ const AddTrip = () => {
   const [inputList, setInputList] = useState<[{ [key: string]: string }]>([{ firstName: "", lastName: "" }]);
 
   // handle input change
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const { name, value } = e.target;
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+    const { name, value } = event.target;
     const list: [{ [key: string]: string }] = [...inputList];
     list[index][name] = value;
     setInputList(list);
@@ -107,6 +107,30 @@ const AddTrip = () => {
     const list: [{ [key: string]: string }] = [...inputList];
     list.concat({ firstName: "", lastName: "" });
     setInputList(list);
+  };
+
+  const [inputList2, setInputList2] = useState<[{ [key: string]: string }]>([{ firstName2: "", lastName2: "" }]);
+
+  // handle input change
+  const handleInputChange2 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+    const { name, value } = event.target;
+    const list2: [{ [key: string]: string }] = [...inputList2];
+    list2[index][name] = value;
+    setInputList2(list2);
+  };
+
+  // handle click event of the Remove button
+  const handleRemoveClick2 = (index: number) => {
+    const list2: [{ [key: string]: string }] = [...inputList2];
+    list2.splice(index, 1);
+    setInputList2(list2);
+  };
+
+  // handle click event of the Add button
+  const handleAddClick2 = () => {
+    const list2: [{ [key: string]: string }] = [...inputList2];
+    list2.concat({ firstName2: "", lastName2: "" });
+    setInputList2(list2);
   };
   return (
     <>
@@ -214,27 +238,26 @@ const AddTrip = () => {
               <Grid item xs={6}>
                 {inputList.map((x, i) => {
                   return (
-                    <div>
-                      <input
+                    <Grid>
+                      <TextField
                         name="firstName"
                         placeholder="Bến"
                         value={x.firstName}
                         onChange={e => handleInputChange(e, i)}
                       />
-                      <input
+                      <TextField
                         className="ml10"
                         name="lastName"
                         placeholder="Giá"
                         value={x.lastName}
                         onChange={e => handleInputChange(e, i)}
                       />
-                      <div className="btn-box">
-                        {inputList.length !== 1 && <button
-                          className="mr10"
-                          onClick={() => handleRemoveClick(i)}>Remove</button>}
-                        {inputList.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
-                      </div>
-                    </div>
+                      <Grid>
+                        {inputList.length !== 1 && <Button variant="contained"
+                          onClick={() => handleRemoveClick(i)}>Xoá</Button>}
+                        {inputList.length - 1 === i && <Button variant="contained" onClick={handleAddClick}>Thêm</Button>}
+                      </Grid>
+                    </Grid>
                   );
                 })}
               </Grid>
@@ -294,27 +317,25 @@ const AddTrip = () => {
               <Grid item xs={6}>
                 {inputList.map((x, i) => {
                   return (
-                    <div>
-                      <input
-                        name="firstName"
+                    <Grid>
+                      <TextField
+                        name="firstName2"
                         placeholder="Bến"
-                        value={x.firstName}
-                        onChange={e => handleInputChange(e, i)}
+                        value={x.firstName2}
+                        onChange={e => handleInputChange2(e, i)}
                       />
-                      <input
-                        className="ml10"
-                        name="lastName"
+                      <TextField
+                        name="lastName2"
                         placeholder="Giá"
-                        value={x.lastName}
-                        onChange={e => handleInputChange(e, i)}
+                        value={x.lastName2}
+                        onChange={e => handleInputChange2(e, i)}
                       />
-                      <div className="btn-box">
-                        {inputList.length !== 1 && <button
-                          className="mr10"
-                          onClick={() => handleRemoveClick(i)}>Remove</button>}
-                        {inputList.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
-                      </div>
-                    </div>
+                      <Grid>
+                        {inputList.length !== 1 && <Button variant="contained"
+                          onClick={() => handleRemoveClick2(i)}>Xoá</Button>}
+                        {inputList.length - 1 === i && <Button variant="contained" onClick={handleAddClick2}>Thêm</Button>}
+                      </Grid>
+                    </Grid>
                   );
                 })}
               </Grid>

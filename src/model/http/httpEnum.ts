@@ -24,30 +24,9 @@ export interface HttpResponse<T> {
 }
 
 export interface HttpPaginationResponse<T>{
-    content: Array<T>,
-    pageable: {
-        pageNumber: number,
-        pageSize: number,
-        sort: {
-            empty: boolean,
-            sorted: boolean,
-            unsorted: boolean
-        },
-        offset: number,
-        paged: boolean,
-        unpaged: boolean
-    },
-    last: boolean,
-    totalPages: number,
-    totalElements: number,
+    data: Array<T>,
+    page: number,
     size: number,
-    number: number,
-    sort: {
-        empty: boolean,
-        sorted: boolean,
-        unsorted: boolean
-    },
-    first: boolean,
-    numberOfElements: number,
-    empty: boolean
+    total: number,
+    totalPage: number,
 }
