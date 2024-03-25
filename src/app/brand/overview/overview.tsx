@@ -5,7 +5,7 @@ import CommuteIcon from '@mui/icons-material/Commute';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import PersonIcon from '@mui/icons-material/Person';
-const TestOverview = () => {
+const BrandOverview = () => {
     return (
         <Container maxWidth="lg" sx={{ textAlign: 'center' }} >
             <Grid
@@ -202,4 +202,4 @@ const TestOverview = () => {
             </Grid>
         </Container>)
 }
-export default TestOverview
+export default BrandOverview

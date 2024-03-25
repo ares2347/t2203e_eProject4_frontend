@@ -1,9 +1,7 @@
 'use client'
 import { Box, Container, Card } from '@mui/material';
-import { Helmet } from 'react-helmet-async';
-
 import { styled } from '@mui/material/styles';
-import TestOverview from './overview';
+import BrandOverview from './overview';
 const OverviewWrapper = styled(Box)(
   () => `
     overflow: auto;
@@ -17,7 +15,7 @@ const Overview = () => {
     <OverviewWrapper>
       <Container maxWidth="lg">
         <Card sx={{ p: 10, mb: 10, borderRadius: 12 }}>
-          <TestOverview />
+          <BrandOverview />
         </Card>
       </Container>
     </OverviewWrapper>
