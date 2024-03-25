@@ -6,8 +6,12 @@ export default function RootLayout({children,}: {
 }) {
   return (
     <html lang="en">
+      <head>
+        <title>Vé Xe Cực Rẻ</title>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body >
-        <Header />
+        <Header/>
         {children}
         <Footer />
       </body>

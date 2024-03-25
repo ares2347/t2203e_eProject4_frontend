@@ -153,8 +153,9 @@ const TripPage = () => {
       "MM-dd-yyyy"
     );
     const arriveTo = searchParams.get("to");
+    const vehicleType = searchParams.get("vehicle");
     tripService
-      .getAllTripAsync(departFrom, departAt, arriveTo, page - 1, size)
+      .getPublicTripAsync(departFrom, departAt, arriveTo, vehicleType ,page - 1, size)
       .then((x) => {
         setTripList(x.data?.data);
         setPage((x.data?.page ?? 0) + 1);

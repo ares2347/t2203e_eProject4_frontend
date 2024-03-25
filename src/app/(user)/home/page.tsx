@@ -24,6 +24,19 @@ const MainPage = () => {
 
   return (
     <div>
+      <section className="hero" id="home">
+        <div className="container">
+          <h2 className="h1 hero-title">Travel For Every Where</h2>
+
+          <p className="hero-text">
+            Địa chỉ đăng ký kinh doanh: 8C Chữ Đồng Tử, Phường 7, Quận Tân Bình, Thành Phố Hồ Chí Minh, Việt Nam
+
+            Địa chỉ: Lầu 2, tòa nhà H3 Circo Hoàng Diệu, 384 Hoàng Diệu, Phường 6, Quận 4, Tp. Hồ Chí Minh, Việt Nam
+            Tầng 3, toà nhà 101 Láng Hạ, Đường 101 Láng Hạ, Phường Láng Hạ, Quận Đống Đa, Hà Nội, Việt Nam
+            Giấy chứng nhận ĐKKD số 0315133726 do Sở KH và ĐT TP. Hồ Chí Minh cấp lần đầu ngày 27/6/2018
+          </p>
+        </div>
+      </section>
       <SelectTicket />
       <section className="popular" id="destination">
         <div className="container">
