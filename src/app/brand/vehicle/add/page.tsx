@@ -21,6 +21,8 @@ const AddTrip = () => {
   const [vehicleType, setVehicleType] = React.useState<string>("");
   const [vehicleName, setVehicleName] = React.useState<string>();
   const [seatAmount, setSeatAmount] = React.useState<number>();
+  const [licensePlate , SetLicensePlate] = React.useState<string>();
+  const [CurrentStation , SetCurrentStation] = React.useState<string>();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
   const vehicleService = new VehicleService();
@@ -28,6 +30,18 @@ const AddTrip = () => {
   const handleVehicleTypeChange = (event: SelectChangeEvent) => {
     setVehicleType(event.target.value as string);
   };
+
+
+  const HandelicensePlate = (event : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    SetLicensePlate(event.target.value as string || '')
+  };
+
+
+  const HandelValueStattion = 
+  (event: SelectChangeEvent)=>{
+    SetCurrentStation(event.target.value as string);
+  };
+
   const handleVehicleNameChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -42,12 +56,26 @@ const AddTrip = () => {
   const handleSubmit = () => {
     setIsLoading(true);
     if (seatAmount && vehicleName)
+    console.log({
+      vehicleType: vehicleType,
+      vehicleBrand: vehicleName,
+      licensePlate: licensePlate,
+      seatAmount: seatAmount,
+      currentStation: CurrentStation,
+      photoUrl: images
+    });
       vehicleService
         .addVehicleConfig({
-          seatAmount: seatAmount,
-          vehicleName: vehicleName,
+          // seatAmount: seatAmount,
+          // vehicleName: vehicleName,
+          // vehicleType: vehicleType,
+          // seatConfig: [],
           vehicleType: vehicleType,
-          seatConfig: [],
+          vehicleBrand: vehicleName,
+          licensePlate: licensePlate,
+          seatAmount: seatAmount,
+          currentStation: CurrentStation,
+          photoUrl: images
         })
         .then((res) => {
           if (res.code == 200) {
@@ -136,8 +164,10 @@ const AddTrip = () => {
                   required
                   id="outlined-required"
                   label="Biển Kiểm Soát"
+                  value={licensePlate}
+                  onChange={HandelicensePlate}
                   fullWidth
-                  type="number"
+                  type="text"
                 />
               </Grid>
               <Grid item xs={6}>
@@ -164,6 +194,8 @@ const AddTrip = () => {
                   labelId="departFrom"
                   id="departFromSelect"
                   required
+                  value={CurrentStation}
+                  onChange={HandelValueStattion}
                   label="Bến Hiện Tại"
                 >
                   <MenuItem value="Hà Nội">Hà Nội</MenuItem>

@@ -1,11 +1,10 @@
 interface AddVehicleConfigRequest {
-  vehicleType: string;
-  vehicleName: string;
-  seatAmount: number;
-  seatConfig: {
-    seat: "string";
-    coach: "string";
-  }[];
+  vehicleType: string,
+  vehicleBrand: string,
+  licensePlate: string,
+  seatAmount: number,
+  currentStation: string;
+  photoUrl: string
 }
 
 interface VehicleModel {
