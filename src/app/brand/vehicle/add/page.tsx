@@ -55,15 +55,12 @@ const AddTrip = () => {
 
   const handleSubmit = () => {
     setIsLoading(true);
-    if (seatAmount && vehicleName)
-    console.log({
-      vehicleType: vehicleType,
-      vehicleBrand: vehicleName,
-      licensePlate: licensePlate,
-      seatAmount: seatAmount,
-      currentStation: CurrentStation,
-      photoUrl: images
-    });
+    if(vehicleType == "" ||
+    vehicleName == "" ||
+    licensePlate == "" ||
+    seatAmount == 0 ||
+    CurrentStation == "" || 
+    imagesdata == "null") return;
       vehicleService
         .addVehicleConfig({
           // seatAmount: seatAmount,
@@ -71,11 +68,11 @@ const AddTrip = () => {
           // vehicleType: vehicleType,
           // seatConfig: [],
           vehicleType: vehicleType,
-          vehicleBrand: vehicleName,
-          licensePlate: licensePlate,
-          seatAmount: seatAmount,
-          currentStation: CurrentStation,
-          photoUrl: images
+          vehicleBrand: vehicleName || "",
+          licensePlate: licensePlate || "",
+          seatAmount: seatAmount || 0,
+          currentStation: CurrentStation || "",
+          photoUrl: imagesdata
         })
         .then((res) => {
           if (res.code == 200) {
@@ -87,12 +84,14 @@ const AddTrip = () => {
         });
   };
   const [images, setImages] = useState<FileList | null>(null);
-
+  const [imagesdata, setImagesData] = useState<string | "">(null);
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedImages = event.target.files;
+    const imageData = event.target.files[0].name
     if (selectedImages) {
       setImages(selectedImages);
     }
+    if(imageData!=undefined) setImagesData(imageData);
   };
   const handleUploadImages = () => {
     if (images) {

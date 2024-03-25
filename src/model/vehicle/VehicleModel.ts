@@ -1,4 +1,4 @@
-interface AddVehicleConfigRequest {
+export interface AddVehicleConfigRequest {
   vehicleType: string,
   vehicleBrand: string,
   licensePlate: string,
@@ -7,11 +7,15 @@ interface AddVehicleConfigRequest {
   photoUrl: string
 }
 
-interface VehicleModel {
+export interface VehicleModel {
   vehicleConfigId: string;
   vehicleType: string;
-  vehicleName: string;
+  vehicleBrand : string;
+  licensePlate :string;
   seatAmount: number;
+  currentStation : string;
+  vehicleStatus : string;
+  photoUrl :string
 }
 
 export const VehicleType: { [key: string | number]: string } = {

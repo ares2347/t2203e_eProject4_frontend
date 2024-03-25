@@ -1,6 +1,7 @@
 import { HttpResponse, HttpPaginationResponse } from "@/model/http/httpEnum";
 import { IVehicleService } from "./vehicleServiceInterface";
 import { httpPost, httpGet } from "../http/httpService";
+import { AddVehicleConfigRequest, VehicleModel } from "@/model/vehicle/VehicleModel";
 
 export class VehicleService implements IVehicleService{
     private readonly vehicleConfigUrl : string = "brand/vehicle";

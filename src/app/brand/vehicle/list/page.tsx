@@ -9,6 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { VehicleService } from "@/service/vehicle/vehicleService";
 import { Box, Button, CircularProgress, FormControl, Grid, InputLabel, MenuItem, Pagination, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
+import { VehicleModel } from "@/model/vehicle/VehicleModel";
 
 export default function VehicleConfigList() {
   const vehicleService = new VehicleService();
@@ -63,12 +64,12 @@ export default function VehicleConfigList() {
           <TableHead>
             <TableRow>
               <TableCell>STT</TableCell>
-              <TableCell>Tên phương tiện</TableCell>
+              <TableCell>Tên nhà xe</TableCell>
               <TableCell>Loại phương tiện</TableCell>
               <TableCell>Số chỗ ngồi</TableCell>
               <TableCell>Biển Kiểm Soát</TableCell>
               <TableCell>Bến Hiện Tại</TableCell>
-              <TableCell>Tài Xế</TableCell>
+              {/* <TableCell>Tài Xế</TableCell> */}
               <TableCell>Trạng Thái</TableCell>
               <TableCell>Chỉnh Sửa</TableCell>
             </TableRow>
@@ -83,19 +84,19 @@ export default function VehicleConfigList() {
                   key={row.vehicleConfigId}
                 >
                   <TableCell>{index + 1 + rowsPerPage * (page - 1)}</TableCell>
-                  <TableCell>{row.vehicleName}</TableCell>
+                  <TableCell>{row.licensePlate}</TableCell>
                   <TableCell>{row.vehicleType}</TableCell>
                   <TableCell>{row.seatAmount}</TableCell>
-                  <TableCell>12312312</TableCell>
-                  <TableCell>Hà Nội</TableCell>
-                  <TableCell>
+                  <TableCell>{row.licensePlate}</TableCell>
+                  <TableCell>{row.currentStation}</TableCell>
+                  {/* <TableCell>
                     <TextField
                       size="small"
                       required
                       id="Tai xe"
                       defaultValue="Nguyễn Văn A"
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Box sx={{ minWidth: 40 }}>
                       <FormControl sx={{ minWidth: 120 }}>
