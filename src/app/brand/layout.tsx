@@ -1,4 +1,4 @@
-import Menu from "@/components/layout/menu";
+import NavBrand from "@/components/sidebar/brand";
 import { AppBar, Grid, Toolbar } from "@mui/material";
 
 interface LayoutProps {
@@ -8,7 +8,7 @@ const Layout = (props: LayoutProps) => {
   return (
     <>
       <Grid>
-        <Menu />
+        <NavBrand />
         <Grid width='fullwidth'>{props.children}</Grid>
       </Grid>
     </>
