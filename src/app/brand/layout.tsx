@@ -9,9 +9,7 @@ const Layout = (props: LayoutProps) => {
     <>
       <Grid>
         <Menu />
-        <Toolbar>
-          <Grid width='fullwidth'>{props.children}</Grid>
-        </Toolbar>
+        <Grid width='fullwidth'>{props.children}</Grid>
       </Grid>
     </>
   );

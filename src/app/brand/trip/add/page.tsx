@@ -1,8 +1,10 @@
 "use client";
 
 import { HttpStatusEnum } from "@/model/http/httpEnum";
+import { VehicleType } from "@/model/vehicle/VehicleModel";
+import { ReferenceDataService } from "@/service/referencedata/referenceDataService";
 import { TripService } from "@/service/trip/tripService";
-import { VehicleService } from "@/service/vehicle/vehicleService";
+import { Add, Remove } from "@mui/icons-material";
 import {
   Box,
   Typography,
@@ -17,6 +19,7 @@ import {
   SelectChangeEvent,
   Switch,
   FormLabel,
+  IconButton,
 } from "@mui/material";
 import { LocalizationProvider, TimeField } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -24,114 +27,161 @@ import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 
+interface StationMappingItem {
+  station: string;
+  from: string;
+  price: number;
+}
 const AddTrip = () => {
-  const vehicleService = new VehicleService();
   const tripService = new TripService();
+  const referenceDataService = new ReferenceDataService();
   const router = useRouter();
+  const [cityList, setCityList] = React.useState<ReferenceDataModel[]>([]);
+  const [startStationList, setStartStationList] = React.useState<
+    ReferenceDataModel[]
+  >([]);
+  const [endStationList, setEndStationList] = React.useState<
+    ReferenceDataModel[]
+  >([]);
   const [formData, setFormData] = React.useState<AddTripConfigRequest>();
-  const [departFrom, setDepartFrom] = React.useState<string>();
-  const [arriveTo, setArriveTo] = React.useState<string>();
-  const [departAt, setDepartAt] = React.useState<string>();
-  const [arriveAt, setArriveAt] = React.useState<string>();
-  const [vehicleId, setVehicleId] = React.useState<string>("");
-  const [isRepeated, setIsRepeated] = React.useState<boolean>(false);
-  const [price, setPrice] = React.useState<number>(0);
-  const [vehicleList, setVehicleList] = React.useState<VehicleModel[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const vehicleList = ["COACH", "CAR", "LIMOUSINE"];
+
   React.useEffect(() => {
-    vehicleService.getAllVehicleListConfigAsync(0, 10).then((x) => {
-      setVehicleList(x.data?.data ?? []);
-      setIsLoading(false);
-    });
+    referenceDataService
+      .getReferenceDataByType("CITY")
+      .then((res) => {
+        setCityList(res.data ?? []);
+      })
+      .catch(() => {
+        setCityList([]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
-  const handleDepartFromChange = (e: SelectChangeEvent) => {
-    setDepartFrom(e.target.value);
-  };
-  const handleArriveToChange = (e: SelectChangeEvent) => {
-    setArriveTo(e.target.value);
-  };
-  const handleDepartAtChange = (val: string | null) => {
-    setDepartAt(val ?? "00:00:00");
-  };
-  const handleArriveAtChange = (val: string | null) => {
-    setArriveAt(val ?? "00:00:00");
-  };
-  const handleVehicleIdChange = (e: SelectChangeEvent) => {
-    setVehicleId(e.target.value);
-  };
-  const handleIsRepeatedChange = () => { };
-  const handlePriceChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setPrice(parseFloat(e.currentTarget.value));
-  };
   const handleSubmit = () => {
-    setIsLoading(true);
-    tripService
-      .addTripConfig({
-        arriveAt: dayjs(arriveAt).format("HH:mm:ss"),
-        arriveTo: arriveTo ?? "",
-        departAt: dayjs(departAt).format("HH:mm:ss"),
-        departFrom: departFrom ?? "",
-        isRepeated: isRepeated,
-        price: price,
-        vehicleId: vehicleId,
-        stops: ""
-      })
-      .then((x) => {
-        if (x.code == HttpStatusEnum.Success.code) {
-          router.push("/brand/trip");
-        }
-      })
-      .finally(() => setIsLoading(false));
+    if (formData) {
+      setIsLoading(true);
+      tripService
+        .addTripConfig(formData)
+        .then((x) => {
+          if (x.code == HttpStatusEnum.Success.code) {
+            router.push("/brand/trip");
+          }
+        })
+        .finally(() => setIsLoading(false));
+    }
   };
-  const [inputList, setInputList] = useState<[{ [key: string]: string }]>([{ firstName: "", lastName: "" }]);
+  const [inputStartList, setInputStartList] = useState<StationMappingItem[]>([
+    { station: "", from: "", price: 0 },
+  ]);
+  const [inputEndList, setInputEndList] = useState<StationMappingItem[]>([
+    { station: "", from: "", price: 0 },
+  ]);
 
   // handle input change
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
-    const { name, value } = event.target;
-    const list: [{ [key: string]: string }] = [...inputList];
-    list[index][name] = value;
-    setInputList(list);
+  const handleInputChange = (data: object, index: number) => {
+    inputStartList[index] = { ...inputStartList[index], ...data };
+    setInputStartList([...inputStartList]);
+    patchForm({ stationsMapping: [...inputStartList, ...inputEndList] });
   };
 
   // handle click event of the Remove button
   const handleRemoveClick = (index: number) => {
-    const list: [{ [key: string]: string }] = [...inputList];
-    list.splice(index, 1);
-    setInputList(list);
+    inputStartList.splice(index, 1);
+    setInputStartList([...inputStartList]);
   };
 
   // handle click event of the Add button
   const handleAddClick = () => {
-    const list: [{ [key: string]: string }] = [...inputList];
-    list.concat({ firstName: "", lastName: "" });
-    setInputList(list);
+    setInputStartList([...inputStartList, { station: "", from: "", price: 0 }]);
   };
 
-  const [inputList2, setInputList2] = useState<[{ [key: string]: string }]>([{ firstName2: "", lastName2: "" }]);
-
   // handle input change
-  const handleInputChange2 = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
-    const { name, value } = event.target;
-    const list2: [{ [key: string]: string }] = [...inputList2];
-    list2[index][name] = value;
-    setInputList2(list2);
+  const handleInputChange2 = (data: object, index: number) => {
+    inputEndList[index] = { ...inputEndList[index], ...data };
+    setInputEndList([...inputEndList]);
+    patchForm({ stationsMapping: [...inputStartList, ...inputEndList] });
   };
 
   // handle click event of the Remove button
   const handleRemoveClick2 = (index: number) => {
-    const list2: [{ [key: string]: string }] = [...inputList2];
-    list2.splice(index, 1);
-    setInputList2(list2);
+    inputEndList.splice(index, 1);
+    setInputEndList([...inputEndList]);
   };
 
   // handle click event of the Add button
   const handleAddClick2 = () => {
-    const list2: [{ [key: string]: string }] = [...inputList2];
-    list2.concat({ firstName2: "", lastName2: "" });
-    setInputList2(list2);
+    setInputEndList([...inputEndList, { station: "", from: "", price: 0 }]);
   };
+
+  const patchForm = (value: object) => {
+    setFormData({ ...formData, ...value });
+    if (Object.keys(value).includes("startCity")) {
+      setIsLoading(true);
+      referenceDataService
+        .getStationReferenceDataByCity(Object.values(value)[0])
+        .then((res) => {
+          setStartStationList(res.data ?? []);
+        })
+        .catch(() => {
+          setStartStationList([]);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+    if (Object.keys(value).includes("endCity")) {
+      setIsLoading(true);
+      referenceDataService
+        .getStationReferenceDataByCity("STATION", Object.values(value)[0])
+        .then((res) => {
+          setEndStationList(res.data ?? []);
+        })
+        .catch(() => {
+          setEndStationList([]);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+    console.log("🚀 ~ patchForm ~ formData:", formData);
+  };
+
+  const validateForm = (key: string) => {
+    switch (key) {
+      case "startCity":
+        return false;
+      case "startStation":
+        return false;
+      case "endCity":
+        return false;
+      case "endStation":
+        return false;
+      case "routeDuration":
+        return false;
+      case "earliestStartTimeFromStart":
+        return false;
+      case "latestStartTimeFromStart":
+        return false;
+      case "earliestStartTimeFromEnd":
+        return false;
+      case "latestStartTimeFromEnd":
+        return false;
+      case "gapDurationBetweenTrip":
+        return false;
+      case "gapDurationBetweenRoute":
+        return false;
+      case "stationsMapping":
+        return false;
+      case "vehicleType":
+        return false;
+      case "seatAmount":
+        return false;
+    }
+  };
+
   return (
     <>
       <Box
@@ -145,39 +195,13 @@ const AddTrip = () => {
         <Typography
           children="Tạo chuyến mới"
           fontSize={28}
-          textAlign='center'
+          textAlign="center"
           fontWeight={600}
         />
-        <Grid item container width="100%" gap={2} wrap="nowrap">
-          <FormControl sx={{ width: "100%" }}>
-            <InputLabel id="vehicleType">Loại phương tiện</InputLabel>
-            <Select
-              labelId="vehicleType"
-              id="vehicleTypeSelect"
-              required
-              value={formData?.vehicleId}
-              label="Loại phương tiện"
-              onChange={(e) => handleVehicleIdChange(e)}
-            >
-              {vehicleList.map((x) => (
-                <MenuItem value={x.vehicleConfigId}>
-                  {x.vehicleName}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <TextField
-            required
-            id="outlined-required"
-            label="Số chỗ ngồi"
-            fullWidth
-            type="number"
-          />
-
-        </Grid>
         {isLoading ? (
           <Grid
             container
+            item
             xs={9}
             gap={2}
             wrap="nowrap"
@@ -193,208 +217,370 @@ const AddTrip = () => {
           </Grid>
         ) : (
           <Grid container paddingY={3} spacing={3}>
-            <Grid item xs={6} wrap="nowrap" gap={2} direction="column">
-              <Typography textAlign='center'>Chuyến A</Typography>
-              <Grid item xs={2}>
+            <Grid item container width="100%" gap={2} wrap="nowrap">
+              <FormControl sx={{ width: "100%" }}>
+                <InputLabel id="vehicleType">Loại phương tiện</InputLabel>
+                <Select
+                  labelId="vehicleType"
+                  id="vehicleTypeSelect"
+                  required
+                  value={formData?.vehicleType}
+                  label="Loại phương tiện"
+                  onChange={(e) => patchForm({ vehicleType: e.target.value })}
+                >
+                  {vehicleList.map((x) => (
+                    <MenuItem value={x} key={x}>
+                      {VehicleType[x]}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                required
+                id="outlined-required"
+                label="Số chỗ ngồi"
+                fullWidth
+                type="number"
+                value={formData?.seatAmount}
+                onChange={(e) =>
+                  patchForm({ seatAmount: parseInt(e.target.value) })
+                }
+              />
+            </Grid>
+            <Grid item xs={6} wrap="nowrap" direction="column">
+              <Typography textAlign="center">Chuyến A</Typography>
+              <Grid item xs={2} py={1}>
                 <FormControl sx={{ width: "100%" }}>
                   <InputLabel id="departFrom">Thành Phố</InputLabel>
                   <Select
                     labelId="departFrom"
                     id="departFromSelect"
                     required
-                    value={formData?.departFrom}
+                    value={formData?.startCity}
                     label="Điểm xuất phát"
-                    onChange={(e) => handleDepartFromChange(e)}
+                    onChange={(e) => patchForm({ startCity: e.target.value })}
                   >
-                    <MenuItem value="Hà Nội">Hà Nội</MenuItem>
-                    <MenuItem value="Hồ Chí Minh">Hồ Chí Minh</MenuItem>
-                    <MenuItem value="Hải Phòng">Hải Phòng</MenuItem>
-                    <MenuItem value="Đà Nẵng">Đà Nẵng</MenuItem>
-                    <MenuItem value="Bình Phước">Bình Phước</MenuItem>
-                    <MenuItem value="Bình Dương">Bình Dương</MenuItem>
-                    <MenuItem value="Vĩnh phúc">Vĩnh phúc</MenuItem>
-                    <MenuItem value="Vĩnh Long">Vĩnh Long</MenuItem>
+                    {cityList.map((x) => (
+                      <MenuItem value={x.code} key={x.code}>
+                        {x.codeDescription}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item container xs={6} gap={1} py={1} wrap="nowrap">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimeField
-                    label="Giờ Chuyến Đầu"
-                    value={departAt}
-                    format="HH:mm:ss"
-                    onChange={(newValue) => handleDepartAtChange(newValue)}
-                  />
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimeField
-                    label="Giờ Chuyến Cuối"
-                    value={arriveAt}
-                    onChange={(newValue) => handleArriveAtChange(newValue)}
-                    format="HH:mm:ss"
-                  />
+                  <Grid item xs={6}>
+                    <TimeField
+                      label="Giờ Chuyến Đầu"
+                      value={dayjs(
+                        formData?.earliestStartTimeFromStart,
+                        "HH:mm:ss"
+                      )}
+                      format="HH:mm:ss"
+                      fullWidth
+                      onChange={(newValue) =>
+                        patchForm({
+                          earliestStartTimeFromStart:
+                            dayjs(newValue).format("HH:mm:ss"),
+                        })
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TimeField
+                      label="Giờ Chuyến Cuối"
+                      value={dayjs(
+                        formData?.latestStartTimeFromStart,
+                        "HH:mm:ss"
+                      )}
+                      fullWidth
+                      onChange={(newValue) =>
+                        patchForm({
+                          latestStartTimeFromStart:
+                            dayjs(newValue).format("HH:mm:ss"),
+                        })
+                      }
+                      format="HH:mm:ss"
+                    />
+                  </Grid>
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={6}>
-                {inputList.map((x, i) => {
-                  return (
-                    <Grid>
-                      <TextField
-                        name="firstName"
-                        placeholder="Bến"
-                        value={x.firstName}
-                        onChange={e => handleInputChange(e, i)}
-                      />
+              {inputStartList.map((x, i) => {
+                return (
+                  <Grid item container xs={6} py={1} gap={1} wrap="nowrap">
+                    <Grid item xs={6}>
+                      <FormControl sx={{ width: "100%" }}>
+                        <InputLabel id="departFrom">Bến</InputLabel>
+                        <Select
+                          labelId="departFrom"
+                          id="departFromSelect"
+                          required
+                          value={x.station}
+                          label="Bến"
+                          fullWidth
+                          disabled={
+                            formData?.startCity == "" ||
+                            formData?.startCity == undefined
+                          }
+                          onChange={(e) =>
+                            handleInputChange({ station: e.target.value }, i)
+                          }
+                        >
+                          {startStationList.map((x) => (
+                            <MenuItem value={x.code} key={x.code}>
+                              {x.codeDescription}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={4}>
                       <TextField
                         className="ml10"
                         name="lastName"
                         placeholder="Giá"
-                        value={x.lastName}
-                        onChange={e => handleInputChange(e, i)}
+                        value={x.price}
+                        type="number"
+                        disabled={
+                          formData?.startCity == "" ||
+                          formData?.startCity == undefined
+                        }
+                        onChange={(e) =>
+                          handleInputChange(
+                            { price: parseInt(e.target.value) },
+                            i
+                          )
+                        }
+                        fullWidth
                       />
-                      <Grid>
-                        {inputList.length !== 1 && <Button variant="contained"
-                          onClick={() => handleRemoveClick(i)}>Xoá</Button>}
-                        {inputList.length - 1 === i && <Button variant="contained" onClick={handleAddClick}>Thêm</Button>}
-                      </Grid>
                     </Grid>
-                  );
-                })}
-              </Grid>
-              <Grid>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimeField
-                    label="Thời Gian Chuyến Kế"
-                    value={arriveAt}
-                    onChange={(newValue) => handleArriveAtChange(newValue)}
-                    format="HH:mm:ss"
-                  />
-                </LocalizationProvider>
-              </Grid>
+                    <Grid item container xs={1} wrap="nowrap">
+                      {inputStartList.length !== 1 && (
+                        <Grid
+                          item
+                          children={
+                            <IconButton
+                              disabled={
+                                formData?.startCity == "" ||
+                                formData?.startCity == undefined
+                              }
+                              onClick={() => handleRemoveClick(i)}
+                              size="large"
+                              children={<Remove />}
+                            />
+                          }
+                        />
+                      )}
+                      {inputStartList.length - 1 === i && (
+                        <Grid
+                          item
+                          children={
+                            <IconButton
+                              disabled={
+                                formData?.startCity == "" ||
+                                formData?.startCity == undefined
+                              }
+                              onClick={handleAddClick}
+                              size="large"
+                              children={<Add />}
+                            />
+                          }
+                        />
+                      )}
+                    </Grid>
+                  </Grid>
+                );
+              })}
             </Grid>
             <Grid item xs={6} wrap="nowrap" gap={2} direction="column">
-              <Typography textAlign='center'>Chuyến B</Typography>
-              <Grid item xs={2}>
+              <Typography textAlign="center">Chuyến B</Typography>
+              <Grid item xs={2} py={1}>
                 <FormControl sx={{ width: "100%" }}>
                   <InputLabel id="departFrom">Thành Phố</InputLabel>
                   <Select
                     labelId="departFrom"
                     id="departFromSelect"
                     required
-                    value={formData?.departFrom}
+                    value={formData?.endCity}
                     label="Điểm xuất phát"
-                    onChange={(e) => handleDepartFromChange(e)}
+                    onChange={(e) => patchForm({ endCity: e.target.value })}
                   >
-                    <MenuItem value="Hà Nội">Hà Nội</MenuItem>
-                    <MenuItem value="Hồ Chí Minh">Hồ Chí Minh</MenuItem>
-                    <MenuItem value="Hải Phòng">Hải Phòng</MenuItem>
-                    <MenuItem value="Đà Nẵng">Đà Nẵng</MenuItem>
-                    <MenuItem value="Bình Phước">Bình Phước</MenuItem>
-                    <MenuItem value="Bình Dương">Bình Dương</MenuItem>
-                    <MenuItem value="Vĩnh phúc">Vĩnh phúc</MenuItem>
-                    <MenuItem value="Vĩnh Long">Vĩnh Long</MenuItem>
+                    {cityList.map((x) => (
+                      <MenuItem value={x.code} key={x.code}>
+                        {x.codeDescription}
+                      </MenuItem>
+                    ))}
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item container xs={6} gap={1} py={1} wrap="nowrap">
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimeField
-                    label="Giờ Chuyến Đầu"
-                    value={departAt}
-                    format="HH:mm:ss"
-                    onChange={(newValue) => handleDepartAtChange(newValue)}
-                  />
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimeField
-                    label="Giờ Chuyến Cuối"
-                    value={arriveAt}
-                    onChange={(newValue) => handleArriveAtChange(newValue)}
-                    format="HH:mm:ss"
-                  />
+                  <Grid item xs={6}>
+                    <TimeField
+                      label="Giờ Chuyến Đầu"
+                      value={dayjs(
+                        formData?.earliestStartTimeFromEnd,
+                        "HH:mm:ss"
+                      )}
+                      format="HH:mm:ss"
+                      onChange={(newValue) =>
+                        patchForm({
+                          earliestStartTimeFromEnd:
+                            dayjs(newValue).format("HH:mm:ss"),
+                        })
+                      }
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TimeField
+                      label="Giờ Chuyến Cuối"
+                      value={dayjs(
+                        formData?.latestStartTimeFromEnd,
+                        "HH:mm:ss"
+                      )}
+                      onChange={(newValue) =>
+                        patchForm({
+                          latestStartTimeFromEnd:
+                            dayjs(newValue).format("HH:mm:ss"),
+                        })
+                      }
+                      format="HH:mm:ss"
+                      fullWidth
+                    />
+                  </Grid>
                 </LocalizationProvider>
               </Grid>
-              <Grid item xs={6}>
-                {inputList.map((x, i) => {
-                  return (
-                    <Grid>
-                      <TextField
-                        name="firstName2"
-                        placeholder="Bến"
-                        value={x.firstName2}
-                        onChange={e => handleInputChange2(e, i)}
-                      />
+              {inputEndList.map((x, i) => {
+                return (
+                  <Grid item container xs={6} py={1} gap={1} wrap="nowrap">
+                    <Grid item xs={6}>
+                    <FormControl sx={{ width: "100%" }}>
+                        <InputLabel id="startStation">Bến</InputLabel>
+                        <Select
+                          labelId="startStation"
+                          id="startStationSelect"
+                          required
+                          value={x.station}
+                          label="Bến"
+                          fullWidth
+                          disabled={
+                            formData?.endCity == "" ||
+                            formData?.endCity == undefined
+                          }
+                          onChange={(e) =>
+                            handleInputChange2({ station: e.target.value }, i)
+                          }
+                        >
+                          {endStationList.map((x) => (
+                            <MenuItem value={x.code} key={x.code}>
+                              {x.codeDescription}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={4}>
                       <TextField
                         name="lastName2"
                         placeholder="Giá"
-                        value={x.lastName2}
-                        onChange={e => handleInputChange2(e, i)}
+                        value={x.price}
+                        fullWidth
+                        disabled={
+                          formData?.endCity == "" ||
+                          formData?.endCity == undefined
+                        }
+                        onChange={(e) =>
+                          handleInputChange2(
+                            { price: parseInt(e.target.value) },
+                            i
+                          )
+                        }
                       />
-                      <Grid>
-                        {inputList.length !== 1 && <Button variant="contained"
-                          onClick={() => handleRemoveClick2(i)}>Xoá</Button>}
-                        {inputList.length - 1 === i && <Button variant="contained" onClick={handleAddClick2}>Thêm</Button>}
-                      </Grid>
                     </Grid>
-                  );
-                })}
-              </Grid>
-              <Grid>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimeField
-                    label="Thời Gian Chuyến Kế"
-                    value={arriveAt}
-                    onChange={(newValue) => handleArriveAtChange(newValue)}
-                    format="HH:mm:ss"
-                  />
-                </LocalizationProvider>
-              </Grid>
+                    <Grid item container xs={1} wrap="nowrap">
+                      {inputEndList.length !== 1 && (
+                        <Grid
+                          item
+                          children={
+                            <IconButton
+                              onClick={() => handleRemoveClick2(i)}
+                              disabled={
+                                formData?.endCity == "" ||
+                                formData?.endCity == undefined
+                              }
+                              size="large"
+                              children={<Remove />}
+                            />
+                          }
+                        />
+                      )}
+                      {inputEndList.length - 1 === i && (
+                        <Grid
+                          item
+                          children={
+                            <IconButton
+                              onClick={handleAddClick2}
+                              disabled={
+                                formData?.endCity == "" ||
+                                formData?.endCity == undefined
+                              }
+                              size="large"
+                              children={<Add />}
+                            />
+                          }
+                        />
+                      )}
+                    </Grid>
+                  </Grid>
+                );
+              })}
             </Grid>
-            <Grid item container width="100%" gap={2} wrap="nowrap">
-              <Grid wrap="nowrap" gap={2} item xs={4}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Grid item xs={12} container gap={2} py={1} wrap="nowrap">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <Grid item xs={4}>
                   <TimeField
-                    label="Thời Gian Di Chuyển"
-                    value={arriveAt}
-                    onChange={(newValue) => handleArriveAtChange(newValue)}
-                    format="HH:mm:ss"
-                  />
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <TimeField
-                    label="Thời Gian Nghỉ"
-                    value={arriveAt}
-                    onChange={(newValue) => handleArriveAtChange(newValue)}
-                    format="HH:mm:ss"
-                  />
-                </LocalizationProvider>
-
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  required
-                  id="price"
-                  label="Giá tiền"
-                  fullWidth
-                  type="number"
-                  value={price}
-                  onChange={handlePriceChange}
-                />
-              </Grid>
-              {/* <Grid item xs={6}>
-                <FormControl>
-                  <div>
-                    <FormLabel>Lặp lại hàng ngày?</FormLabel>
-                  </div>
-                  <Switch
-                    checked={isRepeated}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                      setIsRepeated(event.target.checked)
+                    label="Thời Gian Di Chuyển Của Một Chuyến"
+                    value={dayjs(formData?.routeDuration, "HH:mm:ss")}
+                    onChange={(newValue) =>
+                      patchForm({
+                        routeDuration: dayjs(newValue).format("HH:mm:ss"),
+                      })
                     }
-
+                    format="HH:mm:ss"
+                    fullWidth
                   />
-                </FormControl>
-              </Grid> */}
+                </Grid>
+                <Grid item xs={4}>
+                  <TimeField
+                    label="Thời Gian Nghỉ Trước Khi Quay Về"
+                    value={dayjs(formData?.gapDurationBetweenTrip, "HH:mm:ss")}
+                    onChange={(newValue) =>
+                      patchForm({
+                        gapDurationBetweenTrip:
+                          dayjs(newValue).format("HH:mm:ss"),
+                      })
+                    }
+                    format="HH:mm:ss"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TimeField
+                    label="Thời Gian Lặp Lại Giữa Hai Chuyến"
+                    value={dayjs(formData?.gapDurationBetweenRoute, "HH:mm:ss")}
+                    onChange={(newValue) =>
+                      patchForm({
+                        gapDurationBetweenRoute:
+                          dayjs(newValue).format("HH:mm:ss"),
+                      })
+                    }
+                    format="HH:mm:ss"
+                    fullWidth
+                  />
+                </Grid>
+              </LocalizationProvider>
             </Grid>
             <Grid item container alignItems="flex-end" direction="row">
               <Grid item flex={1} />

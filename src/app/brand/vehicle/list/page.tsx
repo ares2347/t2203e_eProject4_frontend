@@ -40,10 +40,9 @@ export default function VehicleConfigList() {
   const queryVehicleConfig = (page: number) => {
     vehicleService.getAllVehicleListConfigAsync(page - 1, rowsPerPage).then((x) => {
       setVehicleConfigList(x.data?.data ?? []);
-      setPage((x.data?.pageable?.pageNumber ?? 0) + 1);
-      setRowsPerPage(x.data?.pageable?.pageSize ?? 0);
-      setTotalPage(x.data?.totalPages ?? 0);
-      console.log(x);
+      setPage((x.data?.page ?? 0) + 1);
+      setRowsPerPage(x.data?.page ?? 0);
+      setTotalPage(x.data?.totalPage ?? 0);
       setIsLoading(false);
     });
   };

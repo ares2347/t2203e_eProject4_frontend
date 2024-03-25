@@ -13,3 +13,10 @@ interface VehicleModel {
   vehicleName: string;
   seatAmount: number;
 }
+
+export const VehicleType: { [key: string | number]: string } = {
+  COACH: "Xe khách",
+  CAR: "Xe Con",
+  LIMOUSINE: "Xe Limosine"
+}
+

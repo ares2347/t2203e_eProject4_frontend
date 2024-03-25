@@ -41,6 +41,7 @@ import Step3 from "./step3";
 import { DataProvider } from "../travel/DataContext";
 import { HttpPaginationResponse, HttpResponse } from "@/model/http/httpEnum";
 import { format } from "date-fns";
+import { VehicleType } from "@/model/vehicle/VehicleModel";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -75,11 +76,6 @@ function a11yProps(index: number) {
 }
 const steps = ["Lựa chọn chỗ ngồi", "Điểm Đón Trả", "Điền thông tin"];
 
-const VehicleType: { [key: string | number]: string } = {
-  COACH: "Xe khách",
-  CAR: "Xe Con",
-  LIMOSINE: "Xe Limosine"
-}
 
 const TripPage = () => {
   const tripService = new TripService();
@@ -251,6 +247,7 @@ const TripPage = () => {
             >
               {tripList?.map((item) => (
                 <Grid
+                  key={item.tripId}
                   item
                   container
                   xs={12}

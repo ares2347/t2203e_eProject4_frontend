@@ -30,12 +30,18 @@ interface TripConfigQueryModel extends IBaseModel {
 }
 
 interface AddTripConfigRequest{
-    departFrom: string;
-    arriveTo: string;
-    departAt: string;
-    arriveAt: string;
-    stops: string;
-    vehicleId: string;
-    isRepeated: boolean;
-    price: number;
+    startCity?: string | undefined;
+    startStation?: string | undefined;
+    endCity?: string | undefined;
+    endStation?: string | undefined;
+    routeDuration?: string | undefined;
+    earliestStartTimeFromStart?: string | undefined;
+    latestStartTimeFromStart?: string | undefined;
+    earliestStartTimeFromEnd?: string | undefined;
+    latestStartTimeFromEnd?: string | undefined;
+    gapDurationBetweenTrip?: string | undefined;
+    gapDurationBetweenRoute?: string | undefined;
+    stationsMapping?: string | undefined;
+    vehicleType?: string | undefined;
+    seatAmount?: number | undefined;
 }
