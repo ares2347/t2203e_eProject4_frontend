@@ -135,7 +135,7 @@ const AddTrip = () => {
     if (Object.keys(value).includes("endCity")) {
       setIsLoading(true);
       referenceDataService
-        .getStationReferenceDataByCity("STATION", Object.values(value)[0])
+        .getStationReferenceDataByCity(Object.values(value)[0])
         .then((res) => {
           setEndStationList(res.data ?? []);
         })
@@ -342,6 +342,7 @@ const AddTrip = () => {
                         placeholder="Giá"
                         value={x.price}
                         type="number"
+                        InputProps={{ inputProps: { min: 0 } }}
                         disabled={
                           formData?.startCity == "" ||
                           formData?.startCity == undefined
@@ -486,6 +487,7 @@ const AddTrip = () => {
                         name="lastName2"
                         placeholder="Giá"
                         value={x.price}
+                        InputProps={{ inputProps: { min: 0 } }}
                         fullWidth
                         disabled={
                           formData?.endCity == "" ||

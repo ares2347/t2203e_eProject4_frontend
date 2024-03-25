@@ -1,22 +1,52 @@
 "use client";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'; import FacebookIcon from "@mui/icons-material/Facebook";
-import YouTubeIcon from "@mui/icons-material/YouTube";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Image from 'next/image';
 import "@/assets/css/style.css";
-import { Button, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { MouseEventHandler, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import React from 'react';
-import { UserInfo } from '../../model/auth/AuthModel';
-import { AuthService } from '@/service/auth/authService';
+import { usePathname, useRouter } from "next/navigation";
+import React from "react";
+import { UserInfo } from "../../model/auth/AuthModel";
+import { AuthService } from "@/service/auth/authService";
+import Logo from "@/assets/images/logo.svg";
+interface NavItem {
+  href: string;
+  label: string;
+  isAuth: boolean;
+}
+
 const Header = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const router = useRouter();
+  const pathname = usePathname();
   const authService = new AuthService();
   useEffect(() => {
     const userInfo = authService.getUserInfo();
     setUserInfo(userInfo);
   }, []);
+
+  const navItems: NavItem[] = [
+    {
+      href: "/home",
+      label: "Trang chủ",
+      isAuth: false,
+    },
+    {
+      href: "/about-us",
+      label: "Về chúng tôi",
+      isAuth: false,
+    },
+    {
+      href: "/contact-us",
+      label: "Liên hệ",
+      isAuth: false,
+    },
+    {
+      href: "/my-tickets",
+      label: "Vé của tôi",
+      isAuth: true,
+    },
+  ];
 
   function handleLogOut() {
     authService.logout();
@@ -24,9 +54,56 @@ const Header = () => {
     router.push("/auth/login");
   }
 
-  return (
-    <div>
-      <header className="header" data-header>
+  return (  
+    <Grid className="header" container wrap="nowrap" gap={1} alignItems="center" style={{position: pathname =="/home"? "absolute": "unset"}}>
+      <Grid item xs={3} pl={24}>
+        <Image src={Logo} alt="Vexecucre" height={100}/>
+      </Grid>
+      <Grid item container xs={6} alignItems="center" justifyContent="flex-end">
+        {navItems
+          .filter((x) => !x.isAuth || userInfo != null)
+          .map((x) => (
+            <Grid item key={x.href} sx={{ color: "white" }}>
+              <a href={x.href} className="btn">
+                {x.label}
+              </a>
+            </Grid>
+          ))}
+      </Grid>
+      <Grid item xs={3}>
+        {userInfo ? (
+          <Grid container alignItems="center">
+            <Grid item>
+              <Button href="/inforuser">
+                <AccountCircleIcon sx={{ fontSize: 32, color: "white" }} />
+              </Button>
+            </Grid>
+            <Grid item>
+              <button className="btn" onClick={handleLogOut}>
+                Log out
+              </button>
+            </Grid>
+          </Grid>
+        ) : (
+          <Grid container>
+            <Grid item>
+              <button className="search-btn" aria-label="Search">
+                <a href="/auth/login" className="btn">
+                  Login
+                </a>
+              </button>
+            </Grid>
+            <Grid item>
+              <a href="/auth/signup">
+                {" "}
+                <button className="btn">Sign-Up</button>
+              </a>
+            </Grid>
+          </Grid>
+        )}
+      </Grid>
+
+      {/* <header className="header" data-header>
         <div className="overlay" data-overlay></div>
 
         <div className="header-top">
@@ -116,31 +193,10 @@ const Header = () => {
                 </li>
               </ul>
             </nav>
-            {userInfo ? (
-              <button className="btn btn-primary" onClick={handleLogOut}>Log out</button>
-            ) : (
-              <a href="/auth/signup">
-                {" "}
-                <button className="btn btn-primary">Sign-Up</button>
-              </a>
-            )}
           </div>
         </div>
-      </header>
-      <section className="hero" id="home">
-        <div className="container">
-          <h2 className="h1 hero-title">Travel For Every Where</h2>
-
-          <p className="hero-text">
-            Địa chỉ đăng ký kinh doanh: 8C Chữ Đồng Tử, Phường 7, Quận Tân Bình, Thành Phố Hồ Chí Minh, Việt Nam
-
-            Địa chỉ: Lầu 2, tòa nhà H3 Circo Hoàng Diệu, 384 Hoàng Diệu, Phường 6, Quận 4, Tp. Hồ Chí Minh, Việt Nam
-            Tầng 3, toà nhà 101 Láng Hạ, Đường 101 Láng Hạ, Phường Láng Hạ, Quận Đống Đa, Hà Nội, Việt Nam
-            Giấy chứng nhận ĐKKD số 0315133726 do Sở KH và ĐT TP. Hồ Chí Minh cấp lần đầu ngày 27/6/2018
-          </p>
-        </div>
-      </section>
-    </div>
+      </header> */}
+    </Grid>
   );
 };
 export default Header;
