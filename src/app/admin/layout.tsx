@@ -1,4 +1,4 @@
-import NavAdmin from "@/components/sidebar/brand";
+import NavAdmin from "@/components/sidebar/admin";
 import { Grid } from "@mui/material";
 
 interface LayoutProps {
