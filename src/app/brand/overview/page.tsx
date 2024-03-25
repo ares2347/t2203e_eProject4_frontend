@@ -1,49 +1,26 @@
 'use client'
-import { HelmetProvider } from 'react-helmet-async';
-import PageHeader from './PageHeader';
-import PageTitleWrapper from '@/components/PageTitleWrapper';
-import { Container, Grid } from '@mui/material';
-import Footer from '@/components/Footer';
+import { Box, Container, Card } from '@mui/material';
+import { Helmet } from 'react-helmet-async';
 
-import AccountBalance from './AccountBalance';
-import Wallets from './Wallets';
-import AccountSecurity from './AccountSecurity';
-import WatchList from './WatchList';
-
-function DashboardCrypto() {
+import { styled } from '@mui/material/styles';
+import TestOverview from './overview';
+const OverviewWrapper = styled(Box)(
+  () => `
+    overflow: auto;
+    flex: 1;
+    overflow-x: hidden;
+    align-items: center;
+`
+);
+const Overview = () => {
   return (
-    <>
-      <HelmetProvider>
-        <title>Crypto Dashboard</title>
-      </HelmetProvider>
-      <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper>
+    <OverviewWrapper>
       <Container maxWidth="lg">
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
-          spacing={4}
-        >
-          <Grid item xs={12}>
-            <AccountBalance />
-          </Grid>
-          <Grid item lg={8} xs={12}>
-            <Wallets />
-          </Grid>
-          <Grid item lg={4} xs={12}>
-            <AccountSecurity />
-          </Grid>
-          <Grid item xs={12}>
-            <WatchList />
-          </Grid>
-        </Grid>
+        <Card sx={{ p: 10, mb: 10, borderRadius: 12 }}>
+          <TestOverview />
+        </Card>
       </Container>
-      <Footer />
-    </>
-  );
+    </OverviewWrapper>
+  )
 }
-
-export default DashboardCrypto;
+export default Overview

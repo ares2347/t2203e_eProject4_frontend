@@ -1,4 +1,5 @@
 "use client";
+import "@/assets/css/style.css";
 import { UserInfo } from "@/model/auth/AuthModel";
 import { AuthService } from "@/service/auth/authService";
 import { FormatListBulleted, Add } from "@mui/icons-material";
@@ -15,6 +16,7 @@ import {
   Drawer,
   ListItemButton,
   AppBar,
+  Grid,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -56,7 +58,7 @@ const routing: Array<Routing> = [
     icon: <FormatListBulleted />,
   },
 ];
-const Menu = () => {
+const NavBrand = () => {
   const router = useRouter();
   const authService = new AuthService();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -89,9 +91,19 @@ const Menu = () => {
             </ListItemButton>
           </ListItem>
         ))}
+        <Grid container justifyContent="flex-end" alignItems="flex-start">
+          {userInfo ? (
+            <button className="btn btn-primary">Login</button>
+          ) : (
+            <a href="/auth/login">
+              {" "}
+              <button className="btn btn-primary" onClick={handleLogOut}>Log out</button>
+            </a>
+          )}
+        </Grid>
       </List>
     </Box>
   );
 };
 
-export default Menu;
+export default NavBrand;
