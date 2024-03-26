@@ -42,6 +42,7 @@ import { DataProvider } from "../travel/DataContext";
 import { HttpPaginationResponse, HttpResponse } from "@/model/http/httpEnum";
 import { format } from "date-fns";
 import { VehicleType } from "@/model/vehicle/VehicleModel";
+import { TripModel } from "@/model/trip/TripModel";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -272,7 +273,7 @@ const TripPage = () => {
                       color="hsl(0, 0%, 30%)"
                       fontWeight={700}
                       fontSize={18}
-                      children={`${item.brandName}`}
+                      children={`${item.brand?.brandName}`}
                       paddingBottom={1}
                     />
                     <Typography
@@ -327,8 +328,8 @@ const TripPage = () => {
                               color="hsl(0, 0%, 30%)"
                               fontWeight={700}
                               fontSize={20}
-                              children={`${item.departFrom} :
-                        ${item.departAt.slice(0, -3)}`}
+                              children={`${item.startCity} :
+                        ${item.startTime.slice(0, -3)}`}
                             />
                           }
                           xs={1}
@@ -352,8 +353,7 @@ const TripPage = () => {
                               color="hsl(0, 0%, 30%)"
                               fontWeight={700}
                               fontSize={20}
-                              children={`${item.arriveTo} : 
-                        ${item.arriveAt.slice(0, -3)}`}
+                              children={`${item.endCity}`}
                             />
                           }
                           xs={1}
@@ -386,7 +386,7 @@ const TripPage = () => {
                       />
                       {/* TODO: Update data */}
                       <Typography
-                        children={` VND ${item.price.toLocaleString()}`}
+                        children={` VND ${JSON.parse(item.stationsMapping)[0].price ?? 0}`}
                         color="hsl(0, 0%, 30%)"
                         fontWeight={700}
                         fontSize={20}
@@ -395,7 +395,7 @@ const TripPage = () => {
                     {/* TODO: Update data */}
                     <Grid item xs={1}>
                       <Typography
-                        children={`Số chỗ còn lại: ${item.seatRemains ?? 0}`}
+                        children={`Số chỗ còn lại: ${item.seatAmount - (item.tickets as any[]).length ?? 0}`}
                         color="hsl(0, 0%, 30%)"
                         fontWeight={500}
                         fontSize={16}
@@ -590,7 +590,7 @@ const TripPage = () => {
                           PaperProps={{ sx: { padding: 4 } }}
                           fullWidth
                         >
-                          <DataProvider initData={{ tripId: item.tripId, tripConfigId: item.tripConfigId }}>
+                          <DataProvider initData={{ tripId: item.tripId}}>
                             <Box sx={{ width: "100%" }}>
                               <Stepper activeStep={activeStep}>
                                 {getFromStep(item.seatAmount, item.price).map(

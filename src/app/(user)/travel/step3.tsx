@@ -54,15 +54,17 @@ const Step3 = () => {
       data.selectedSeats.map((x: number) => {
         return {
           tripId: data.tripId ?? "",
-          tripConfigId: data.tripConfigId ??  "",
-          pickupPoint: data.pickupPoint ?? "",
-          dropoffPoint: data.dropoffPoint ?? "",
-          customerName: data.customerName ?? "",
-          customerDob: data.customerDob ?? new Date().toLocaleDateString(),
-          customerIc: data.customerIc ?? "",
-          customerEmail: data.customerEmail ?? "",
-          customerPhone: data.customerPhone ?? "",
-          seat: (x + 1).toString(),
+          tickets: [{
+            pickupPoint: data.pickupPoint ?? "",
+            dropoffPoint: data.dropoffPoint ?? "",
+            customerName: data.customerName ?? "",
+            customerDob: data.customerDob ?? new Date().toLocaleDateString(),
+            customerIc: data.customerIc ?? "",
+            customerEmail: data.customerEmail ?? "",
+            customerPhone: data.customerPhone ?? "",
+            seat: (x + 1).toString(),
+            price: data.price ?? 0
+          }]          
         } as BookTicketRequest;
       })).then(x => 
         // router.push("/")

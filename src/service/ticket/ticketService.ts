@@ -10,6 +10,6 @@ export class TicketService implements ITicketService{
    getAllTicket = () => TicketListMock();
 
    bookTicketAsync = async (request: BookTicketRequest[]): Promise<HttpResponse<TicketModel[]>> => {
-      return await httpPost<TicketModel[]>(request, `${this.userUrl}/book`, null, true);
+      return await httpPost<TicketModel[]>(request, `${this.userUrl}/book-tickets`, null, true);
    }
 }

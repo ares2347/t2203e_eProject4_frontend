@@ -1,6 +1,7 @@
 "use client";
 
 import { HttpStatusEnum } from "@/model/http/httpEnum";
+import { AddTripConfigRequest } from "@/model/trip/TripModel";
 import { VehicleType } from "@/model/vehicle/VehicleModel";
 import { ReferenceDataService } from "@/service/referencedata/referenceDataService";
 import { TripService } from "@/service/trip/tripService";
@@ -20,6 +21,11 @@ import {
   Switch,
   FormLabel,
   IconButton,
+  Snackbar,
+  Alert,
+  AlertTitle,
+  Slide,
+  SlideProps,
 } from "@mui/material";
 import { LocalizationProvider, TimeField } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -45,6 +51,8 @@ const AddTrip = () => {
   >([]);
   const [formData, setFormData] = React.useState<AddTripConfigRequest>();
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const [error, setError] = useState<string | null>();
+  const [isError, setIsError] = useState<boolean>(false);
   const vehicleList = ["COACH", "CAR", "LIMOUSINE"];
 
   React.useEffect(() => {
@@ -63,11 +71,18 @@ const AddTrip = () => {
   const handleSubmit = () => {
     if (formData) {
       setIsLoading(true);
+      let body = formData;
+      body.stationsMapping = JSON.stringify(formData.stationsMapping);
+      body.startStation = inputStartList[0].station;
+      body.endStation = inputEndList[0].station;
       tripService
-        .addTripConfig(formData)
+        .addTripConfig(body)
         .then((x) => {
           if (x.code == HttpStatusEnum.Success.code) {
-            router.push("/brand/trip");
+            router.push("/brand/trip/list");
+          } else {
+            setIsError(true);
+            setError(x.data?.message);
           }
         })
         .finally(() => setIsLoading(false));
@@ -116,6 +131,20 @@ const AddTrip = () => {
     setInputEndList([...inputEndList, { station: "", from: "", price: 0 }]);
   };
 
+  const onSnackbarClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setIsError(false);
+    setError(null);
+  };
+
+  function SlideTransition(props: SlideProps) {
+    return <Slide {...props} direction="up" />;
+  }
   const patchForm = (value: object) => {
     setFormData({ ...formData, ...value });
     if (Object.keys(value).includes("startCity")) {
@@ -457,7 +486,7 @@ const AddTrip = () => {
                 return (
                   <Grid item container xs={6} py={1} gap={1} wrap="nowrap">
                     <Grid item xs={6}>
-                    <FormControl sx={{ width: "100%" }}>
+                      <FormControl sx={{ width: "100%" }}>
                         <InputLabel id="startStation">Bến</InputLabel>
                         <Select
                           labelId="startStation"
@@ -487,6 +516,7 @@ const AddTrip = () => {
                         name="lastName2"
                         placeholder="Giá"
                         value={x.price}
+                        type="number"
                         InputProps={{ inputProps: { min: 0 } }}
                         fullWidth
                         disabled={
@@ -595,6 +625,17 @@ const AddTrip = () => {
             </Grid>
           </Grid>
         )}
+        <Snackbar
+        open={isError}
+        autoHideDuration={6000}
+        onClose={onSnackbarClose}
+        TransitionComponent={SlideTransition}
+      >
+        <Alert severity="error" variant="filled">
+          <AlertTitle sx={{ fontWeight: 700 }}>Lỗi xảy ra</AlertTitle>
+          {error}
+        </Alert>
+      </Snackbar>
       </Box>
     </>
   );

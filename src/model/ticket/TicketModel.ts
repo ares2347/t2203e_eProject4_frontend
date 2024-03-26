@@ -23,13 +23,16 @@ interface TicketConfigModel extends IBaseModel {
 
 interface BookTicketRequest {
   tripId: string;
-  tripConfigId: string;
-  pickupPoint: string;
-  dropoffPoint: string;
+  tickets: BookTicketRequestDetail[]
+}
+interface BookTicketRequestDetail{
   customerName: string;
   customerDob: string;
   customerIc: string;
   customerEmail: string;
   customerPhone: string;
+  pickupPoint: string;
+  dropoffPoint: string;
   seat: string;
+  price: number;
 }

@@ -12,8 +12,9 @@ export interface TripModel extends IBaseModel {
   routeDuration: string;
   stationsMapping: string;
   vehicleType: string;
-  seatAmount: string;
+  seatAmount: number;
   vehicle: VehicleModel;
+  brand: any;
   tickets: any;
 }
 
