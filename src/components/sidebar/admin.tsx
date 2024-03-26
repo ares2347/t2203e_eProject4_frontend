@@ -1,8 +1,8 @@
 "use client";
-import "@/assets/css/style.css";
+import Overview from "@/app/admin/overview/page";
+import "./css.css";
 import { UserInfo } from "@/model/auth/AuthModel";
 import { AuthService } from "@/service/auth/authService";
-import { FormatListBulleted, Add } from "@mui/icons-material";
 import { List, ListItem, Box } from "@mui/joy";
 import {
     ListItemText,
@@ -10,44 +10,18 @@ import {
     Grid,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface Routing {
     url: string;
     label: string;
-    icon: React.ReactElement;
 }
 const routing: Array<Routing> = [
     {
-        url: "/brand/trip/add",
-        label: "Thêm chuyến",
-        icon: <Add />,
+        url: "/admin/usermanager/form",
+        label: "Quản Lý Nhân Viên",
     },
-    {
-        url: "/brand/trip/list",
-        label: "Danh sách chuyến",
-        icon: <FormatListBulleted />,
-    },
-    {
-        url: "/brand/vehicle/add",
-        label: "Thêm phương tiện",
-        icon: <Add />,
-    },
-    {
-        url: "/brand/vehicle/list",
-        label: "Danh sách phương tiện",
-        icon: <FormatListBulleted />,
-    },
-    {
-        url: "/brand/driver/add",
-        label: "Thêm tài xế",
-        icon: <Add />,
-    },
-    {
-        url: "/brand/driver/list",
-        label: "Danh sách tài xế",
-        icon: <FormatListBulleted />,
-    },
+
 ];
 const NavAdmin = () => {
     const router = useRouter();
@@ -61,38 +35,65 @@ const NavAdmin = () => {
     const handleClick = (url: string) => {
         router.push(url);
     };
-    return (
-        <Box
-            component="nav" aria-label="My site" sx={{ flexGrow: 1 }}
-        >
-            <List role="menubar" orientation="horizontal">
-                {routing.map((item, index) => (
-                    <ListItem
-                        role="none"
-                        key={index}
-                    >
+    const [toggleSidebar, setToggleSidebar] = useState(false);
 
-                        <ListItemButton
-                            role="menuitem"
-                            component="a"
-                            href={item.url}
-                        >
-                            <ListItemText primary={item.label} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-                <Grid container justifyContent="flex-end" alignItems="flex-start">
-                    {userInfo ? (
-                        <button className="btn btn-primary">Login</button>
-                    ) : (
-                        <a href="/auth/login">
-                            {" "}
-                            <button className="btn btn-primary" onClick={handleLogOut}>Log out</button>
-                        </a>
-                    )}
-                </Grid>
-            </List>
-        </Box>
+    const modeTextRef = useRef();
+
+    const toggle = () => {
+        setToggleSidebar(!toggleSidebar);
+    };
+
+    return (
+        <Grid>
+            <nav className={toggleSidebar ? "sidebar close" : "sidebar"}>
+                <header>
+                    <div className="image-text">
+                        <span className="image">
+                            <img src="logo.png" alt="" />
+                        </span>
+
+                        <div className="text logo-text">
+                            <span className="name">Codinglab</span>
+                            <span className="profession">Web developer</span>
+                        </div>
+                    </div>
+
+                    <i className="bx bx-chevron-right toggle" onClick={toggle}></i>
+                </header>
+
+                <div className="menu-bar">
+                    <div className="menu">
+                        <List role="menubar" >
+                            {routing.map((item, index) => (
+                                <ListItem
+                                    role="none"
+                                    key={index}
+                                >
+                                    <ListItemButton
+                                        role="menuitem"
+                                        component="a"
+                                        href={item.url}
+                                    >
+                                        <ListItemText primary={item.label} />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </div>
+                    <div>
+                        <li className="">
+                            <a>
+                                <i className="bx bx-log-out icon"></i>
+                                <span onClick={handleLogOut} className="text nav-text">Logout</span>
+                            </a>
+                        </li>
+                    </div>
+                </div>
+            </nav>
+            <section className="home">
+                <Overview />
+            </section>
+        </Grid>
     );
 };
 
