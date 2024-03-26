@@ -57,17 +57,17 @@ const AddTrip = () => {
     if (formData) {
       setIsLoading(true);
       handleUploadImages()
-      .then(uploadRes => {
-        const request = {...formData, photoUrl: JSON.stringify(uploadRes)}
-        vehicleService.addVehicleConfig(request).then((res) => {
-          if (res.code == 200) {
-            setIsLoading(false);
-            router.push("/brand/vehicle/list");
-          } else {
-            setIsLoading(false);
-          }
-        });
-      })
+        .then(uploadRes => {
+          const request = { ...formData, photoUrl: JSON.stringify(uploadRes) }
+          vehicleService.addVehicleConfig(request).then((res) => {
+            if (res.code == 200) {
+              setIsLoading(false);
+              router.push("/brand/vehicle/list");
+            } else {
+              setIsLoading(false);
+            }
+          });
+        })
     }
   };
   const [images, setImages] = useState<FileList | null>(null);
@@ -79,13 +79,13 @@ const AddTrip = () => {
     }
   };
   const handleUploadImages = async () => {
-    let imageUrls : string[] = [];
+    let imageUrls: string[] = [];
     if (images) {
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
         const resUrl = await httpPostFile<string>(image);
-        if(resUrl.code == HttpStatusEnum.Success.code && resUrl.data)
-        imageUrls = imageUrls.concat(resUrl.data);
+        if (resUrl.code == HttpStatusEnum.Success.code && resUrl.data)
+          imageUrls = imageUrls.concat(resUrl.data);
       }
     }
     return imageUrls;
