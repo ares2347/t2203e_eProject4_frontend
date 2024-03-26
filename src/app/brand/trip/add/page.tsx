@@ -626,16 +626,16 @@ const AddTrip = () => {
           </Grid>
         )}
         <Snackbar
-        open={isError}
-        autoHideDuration={6000}
-        onClose={onSnackbarClose}
-        TransitionComponent={SlideTransition}
-      >
-        <Alert severity="error" variant="filled">
-          <AlertTitle sx={{ fontWeight: 700 }}>Lỗi xảy ra</AlertTitle>
-          {error}
-        </Alert>
-      </Snackbar>
+          open={isError}
+          autoHideDuration={6000}
+          onClose={onSnackbarClose}
+          TransitionComponent={SlideTransition}
+        >
+          <Alert severity="error" variant="filled">
+            <AlertTitle sx={{ fontWeight: 700 }}>Lỗi xảy ra</AlertTitle>
+            {error}
+          </Alert>
+        </Snackbar>
       </Box>
     </>
   );

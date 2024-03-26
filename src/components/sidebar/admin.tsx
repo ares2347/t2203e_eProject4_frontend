@@ -44,7 +44,6 @@ const NavAdmin = () => {
     };
 
     return (
-        <Grid>
             <nav className={toggleSidebar ? "sidebar close" : "sidebar"}>
                 <header>
                     <div className="image-text">
@@ -90,10 +89,6 @@ const NavAdmin = () => {
                     </div>
                 </div>
             </nav>
-            <section className="home">
-                <Overview />
-            </section>
-        </Grid>
     );
 };
 
