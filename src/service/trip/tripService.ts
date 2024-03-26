@@ -2,6 +2,7 @@ import { HttpPaginationResponse, HttpResponse, SortEnum } from "@/model/http/htt
 import { ITripService } from "./tripServiceInterface";
 import { TripListMock } from "@/model/mock/tripMock";
 import { httpGet, httpPost } from "@/service/http/httpService";
+import { AddTripConfigRequest, TripModel } from "@/model/trip/TripModel";
 export class TripService implements ITripService {
    private readonly publicTripUrl: string = "public/trip";
    private readonly brandTripUrl: string = "brand/trip"

@@ -9,6 +9,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { VehicleService } from "@/service/vehicle/vehicleService";
 import { Box, Button, CircularProgress, FormControl, Grid, InputLabel, MenuItem, Pagination, Select, SelectChangeEvent, Stack, TextField } from "@mui/material";
+import { VehicleModel, VehicleType } from "@/model/vehicle/VehicleModel";
+import { ReferenceDataService } from "@/service/referencedata/referenceDataService";
 
 export default function VehicleConfigList() {
   const vehicleService = new VehicleService();
@@ -16,13 +18,25 @@ export default function VehicleConfigList() {
   const [page, setPage] = React.useState(1);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [totalPage, setTotalPage] = React.useState<number>(0);
-
+  const [cityList, setCityList] = React.useState<ReferenceDataModel[]>([]);
   const [vehicleConfigList, setVehicleConfigList] = React.useState<
     VehicleModel[]
   >([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const referenceDataService = new ReferenceDataService();
 
   React.useEffect(() => {
+    referenceDataService
+      .getReferenceDataByType("CITY")
+      .then((res) => {
+        setCityList(res.data ?? []);
+      })
+      .catch(() => {
+        setCityList([]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
     queryVehicleConfig(page);
   }, []);
 
@@ -58,8 +72,8 @@ export default function VehicleConfigList() {
     </Grid>
   ) : (
     <Paper sx={{ overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }} >
-        <Table sx={{ width: 1200 }} aria-label="simple table">
+      <TableContainer>
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>STT</TableCell>
@@ -80,14 +94,14 @@ export default function VehicleConfigList() {
                   hover
                   role="checkbox"
                   tabIndex={-1}
-                  key={row.vehicleConfigId}
+                  key={row.vehicleId}
                 >
                   <TableCell>{index + 1 + rowsPerPage * (page - 1)}</TableCell>
-                  <TableCell>{row.vehicleName}</TableCell>
-                  <TableCell>{row.vehicleType}</TableCell>
+                  <TableCell>{row.vehicleBrand}</TableCell>
+                  <TableCell>{VehicleType[row.vehicleType]}</TableCell>
                   <TableCell>{row.seatAmount}</TableCell>
-                  <TableCell>12312312</TableCell>
-                  <TableCell>Hà Nội</TableCell>
+                  <TableCell>{row.licensePlate}</TableCell>
+                  <TableCell>{cityList.find(x => x.code == row.currentStation)?.codeDescription}</TableCell>
                   <TableCell>
                     <TextField
                       size="small"

@@ -1,23 +1,25 @@
-interface AddVehicleConfigRequest {
-  vehicleType: string;
-  vehicleName: string;
-  seatAmount: number;
-  seatConfig: {
-    seat: "string";
-    coach: "string";
-  }[];
+export interface AddVehicleConfigRequest {
+  vehicleType?: string;
+  vehicleBrand?: string;
+  licensePlate?: string;
+  seatAmount?: number;
+  currentStation?: string;
+  photoUrl?: string;
 }
 
-interface VehicleModel {
-  vehicleConfigId: string;
+export interface VehicleModel {
+  vehicleId: string;
   vehicleType: string;
-  vehicleName: string;
+  vehicleBrand: string;
+  licensePlate: string;
   seatAmount: number;
+  currentStation: string;
+  vehicleStatus: string;
+  photoUrl: string;
 }
 
 export const VehicleType: { [key: string | number]: string } = {
   COACH: "Xe khách",
   CAR: "Xe Con",
-  LIMOUSINE: "Xe Limosine"
-}
-
+  LIMOUSINE: "Xe Limosine",
+};

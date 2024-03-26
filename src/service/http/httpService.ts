@@ -123,3 +123,63 @@ export async function httpPost<T>(
       return response;
     });
 }
+
+export async function httpPostFile<T>(
+  file: File,
+  params?: any,
+  isAuth: boolean = false
+): Promise<HttpResponse<T>> {
+  const url = `${baseUrl}/public/images/upload`;
+  const accessToken = getCookie("token");
+  const body = new FormData();
+  body.append("file", file)
+  const config: AxiosRequestConfig = {
+    baseURL: url,
+    params: params,
+    data: body,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Accept: "*/*",
+    },
+    method: "post",
+  };
+  if (isAuth && config.headers)
+  config.headers.Authorization = `Bearer ${accessToken}`;
+
+  return await axios<T>(config)
+    .then((res) => {
+      const response: HttpResponse<T> = {
+        code: res.status,
+        data: res.data,
+        message: res.statusText,
+      };
+      return response;
+    })
+    .catch((err) => {
+      console.error("🚀 ~ err:", err);
+      let message;
+      switch (err.response?.status) {
+        case HttpStatusEnum.BadRequest.code:
+          message = HttpStatusEnum.BadRequest.message;
+          break;
+        case HttpStatusEnum.Unauthorized.code:
+          message = HttpStatusEnum.Unauthorized.message;
+          break;
+        case HttpStatusEnum.Success.code:
+          message = HttpStatusEnum.Success.message;
+          break;
+        case HttpStatusEnum.InternalServerError.code:
+          message = HttpStatusEnum.InternalServerError.message;
+          break;
+        default:
+          message = HttpStatusEnum.InternalServerError.message;
+          break;
+      }
+      const response: HttpResponse<T> = {
+        code: err.response?.status ?? HttpStatusEnum.InternalServerError.code,
+        data: err.response?.data,
+        message: message,
+      };
+      return response;
+    });
+}

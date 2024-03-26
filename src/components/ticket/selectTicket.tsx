@@ -1,6 +1,5 @@
 "use client";
 import "@/assets/css/style.css";
-import * as React from "react";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import {
   Box,
@@ -20,6 +19,7 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import React from "react";
 const SelectTicket = () => {
   const vehicleList = ["COACH", "CAR", "LIMOUSINE"];
   const searchParams = useSearchParams();
@@ -159,7 +159,7 @@ const SelectTicket = () => {
                     minDate={dayjs(new Date())}
                     name="checkin"
                     format="MM-DD-YYYY"
-                    onChange={(newValue) =>
+                    onChange={(newValue: string | number | Date | dayjs.Dayjs | null | undefined) =>
                       handleSetCheckin(dayjs(newValue).format("MM-DD-YYYY"))
                     }
                   />

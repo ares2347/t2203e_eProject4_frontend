@@ -1,4 +1,5 @@
 import { HttpPaginationResponse, HttpResponse } from "@/model/http/httpEnum";
+import { AddTripConfigRequest, TripModel } from "@/model/trip/TripModel";
 
 export interface ITripService {
     getAllTrip: () => TripModel[];
