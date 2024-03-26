@@ -1,0 +1,57 @@
+/* styles.css */
+
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    /* Xếp theo chiều dọc */
+    align-items: center;
+    /* Căn giữa theo chiều ngang */
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="date"],
+.form-container input[type="password"],
+.form-container textarea {
+    width: calc(100% - 20px);
+    /* Giảm padding của input */
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-container textarea {
+    height: 100px;
+}
+
+.form-container button {
+    width: calc(100% - 40px);
+    /* Giảm padding của button */
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #45a049;
+}
+
+.form-container img {
+    margin-top: 10px;
+    max-width: 100%;
+}
