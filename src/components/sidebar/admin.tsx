@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
+import theme from "@/app/theme";
 
 interface Routing {
     url: string;
@@ -73,7 +74,7 @@ const NavAdmin = () => {
                                         component="a"
                                         href={item.url}
                                     >
-                                        <ListItemText primary={item.label} />
+                                        <ListItemText primary={item.label}/>
                                     </ListItemButton>
                                 </ListItem>
                             ))}
